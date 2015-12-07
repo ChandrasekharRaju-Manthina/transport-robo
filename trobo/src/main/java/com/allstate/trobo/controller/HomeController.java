@@ -17,7 +17,7 @@ public class HomeController {
 
 	@RequestMapping(method = GET)
 	public String home(Model model) {
-		logger.warn("Test message");
+		logger.warn("Test message. Welcome to home!");
 		return "home";
 	}
 
