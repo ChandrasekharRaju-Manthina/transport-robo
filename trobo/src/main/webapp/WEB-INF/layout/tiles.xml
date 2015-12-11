@@ -4,6 +4,7 @@
 "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
 	<definition name="base" template="/WEB-INF/layout/page.jsp">
+		<put-attribute name="header" value="/WEB-INF/layout/header.jsp" />
 		<put-attribute name="menu" value="/WEB-INF/layout/menu.jsp" />
 	</definition>
 	<definition name="home" extends="base">

@@ -12,13 +12,19 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin - Bootstrap Admin Template</title>
+    <title>SB Admin 2 - Bootstrap Admin Theme</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="<c:url value="/resources/css/bootstrap.min.css" />" rel="stylesheet">
+    
+    <!-- MetisMenu CSS -->
+    <link href="<c:url value="/resources/css/metisMenu.min.css" />" rel="stylesheet">
+    
+     <!-- Timeline CSS -->
+    <link href="<c:url value="/resources/css/timeline.css" />" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="<c:url value="/resources/css/sb-admin.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/css/sb-admin-2.css" />" rel="stylesheet">
     
      <!-- DataTables CSS -->
     <link href="<c:url value="/resources/datatables/media/css/dataTables.bootstrap.css" />" rel="stylesheet">
@@ -42,6 +48,12 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="<c:url value="/resources/js/bootstrap.min.js" />"></script>
     
+     <!-- Metis Menu Plugin JavaScript -->
+    <script src="<c:url value="/resources/js/metisMenu.min.js" />"></script>
+    
+     <!-- Custom Theme JavaScript -->
+    <script src="<c:url value="/resources/js/sb-admin-2.js" />"></script>
+    
      <!-- DataTables JavaScript -->
     <script src="<c:url value="/resources/datatables/media/js/jquery.dataTables.min.js" />"></script>
     <script src="<c:url value="/resources/datatables/media/js/dataTables.bootstrap.min.js" />"></script>
@@ -52,13 +64,13 @@
 <body>
 	<div id="wrapper">
 	
-	  	<t:insertAttribute name="menu" />
+		<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+			<t:insertAttribute name="header" />
+		  	<t:insertAttribute name="menu" />
+	  	</nav>
 	  	
 	  	<div id="page-wrapper">
-	  		<div class="container-fluid">
 	  			<t:insertAttribute name="body" />
-	  		</div>
-	  		 <!-- /.container-fluid -->
 	  	</div>
 	  	 <!-- /#page-wrapper -->
 	  	
