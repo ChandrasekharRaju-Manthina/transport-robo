@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.allstate.trobo.exception.ApplicationException;
 
 @Controller
-@RequestMapping({ "/", "home" })
-public class HomeController {
-	
-	final static Logger logger = Logger.getLogger(HomeController.class);
 
-	@RequestMapping(method = GET)
+public class ViewController {
+	
+	final static Logger logger = Logger.getLogger(ViewController.class);
+
+	@RequestMapping({ "/", "home" })
 	public String home(Model model) {
 		logger.warn("Test message. Welcome to home!");
 		return "home";
@@ -24,6 +24,11 @@ public class HomeController {
 	@RequestMapping(value = "exception", method = GET)
 	public String exception() {
 		throw new ApplicationException("Testing exception");
+	}
+	
+	@RequestMapping("addressHome")
+	public String addressHome(Model model) {
+		return "addressHome";
 	}
 
 }

@@ -16,6 +16,9 @@
 	<definition name="profile" extends="base">
 		<put-attribute name="body" value="/WEB-INF/views/profile.jsp" />
 	</definition>
+	<definition name="addressHome" extends="base">
+		<put-attribute name="body" value="/WEB-INF/views/addressHome.jsp" />
+	</definition>
 	<definition name="error" extends="base">
 		<put-attribute name="body" value="/WEB-INF/views/error.jsp" />
 	</definition>

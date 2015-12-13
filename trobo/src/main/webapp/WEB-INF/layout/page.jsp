@@ -55,7 +55,7 @@
     <script src="<c:url value="/resources/js/sb-admin-2.js" />"></script>
     
      <!-- DataTables JavaScript -->
-    <script src="<c:url value="/resources/datatables/media/js/jquery.dataTables.min.js" />"></script>
+    <script src="<c:url value="/resources/datatables/media/js/jquery.dataTables.js" />"></script>
     <script src="<c:url value="/resources/datatables/media/js/dataTables.bootstrap.min.js" />"></script>
    
 
