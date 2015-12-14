@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.allstate.trobo.exception.ApplicationException;
 
 @Controller
-
 public class ViewController {
-	
+
 	final static Logger logger = Logger.getLogger(ViewController.class);
 
 	@RequestMapping({ "/", "home" })
@@ -25,10 +24,19 @@ public class ViewController {
 	public String exception() {
 		throw new ApplicationException("Testing exception");
 	}
-	
-	@RequestMapping("addressHome")
+
+	@RequestMapping("addressPage")
 	public String addressHome(Model model) {
 		return "addressHome";
 	}
 
+	@RequestMapping("driversPage")
+	public String driverHome(Model model) {
+		return "driverHome";
+	}
+
+	@RequestMapping("vehiclesPage")
+	public String vehicleHome(Model model) {
+		return "vehicleHome";
+	}
 }

@@ -4,13 +4,19 @@ function scrollToAnchor(aid){
 }
 
 function resetToAdd(form) {
+	$("#form").attr('method','POST');
+	$("button[type='submit']").html("Add");
+	$("#addLink").hide();
+	$("#form")[0].reset();
 	if(form == "addressForm") {
-		$("#form").attr('method','POST');
     	$("#form").attr('data-success-msg','Address has been created successfully.');
-    	$("button[type='submit']").html("Add");
-    	$("#header").html("Add Address");
-    	$("#addAddressLink").hide();
-    	$("#form")[0].reset();
+    	$("#header").html("Add Address");    	
+	} else if(form == "driverForm") {
+		$("#form").attr('data-success-msg','Driver has been created successfully.');
+    	$("#header").html("Add Driver");
+	} else if(form == "vehicleForm") {
+		$("#form").attr('data-success-msg','Vehicle has been created successfully.');
+    	$("#header").html("Add Vehicle");
 	}
 }
 
@@ -39,19 +45,40 @@ $(function() {
     
     $(document).on("click", "a.update", function(e){
     	e.preventDefault();
-    	var data = $("#data-table").DataTable().row($(this).parents("tr")).data();
-    	$("input[name='addressLine']").val(data.addressLine);
-    	$("input[name='city']").val(data.city);
-    	$("input[name='state']").val(data.state);
-    	$("input[name='zip']").val(data.zip);
-    	$("input[name='country']").val(data.country);
-    	$("input[name='id']").val(data.id);
+    	var formName = $("#form").attr("name");
     	$("#form").attr('method','PUT');
-    	$("#form").attr('data-success-msg','Address has been updated successfully.');
     	$("button[type='submit']").html("Update");
-    	$("#header").html("Update Address");
-    	$("#addAddressLink").show();
-    	scrollToAnchor("addressMenu");
+    	if(formName == "addressForm") {
+	    	var data = $("#data-table").DataTable().row($(this).parents("tr")).data();
+	    	$("input[name='addressLine']").val(data.addressLine);
+	    	$("input[name='city']").val(data.city);
+	    	$("input[name='state']").val(data.state);
+	    	$("input[name='zip']").val(data.zip);
+	    	$("input[name='country']").val(data.country);
+	    	$("input[name='id']").val(data.id);
+	    	$("#form").attr('data-success-msg','Address has been updated successfully.');
+	    	$("#header").html("Update Address");	    	
+    	} else if(formName == "driverForm") {
+    		var data = $("#data-table").DataTable().row($(this).parents("tr")).data();
+    		$("input[name='name']").val(data.name);
+	    	$("input[name='licenseNumber']").val(data.licenseNumber);
+	    	$("input[name='phoneNumber']").val(data.phoneNumber);
+	    	$("input[name='yearsOfExperience']").val(data.yearsOfExperience);
+	    	$("input[name='id']").val(data.id);
+	    	$("#form").attr('data-success-msg','Address has been updated successfully.');
+	    	$("#header").html("Update Driver details");
+    	} else if(formName == "vehicleForm") {
+    		var data = $("#data-table").DataTable().row($(this).parents("tr")).data();
+    		$("input[name='vehicleNumber']").val(data.vehicleNumber);
+	    	$("input[name='seats']").val(data.seats);
+	    	$("input[name='trackingDeviceLink']").val(data.trackingDeviceLink);
+	    	$("input[name='driverId']").val(data.driverId);
+	    	$("input[name='id']").val(data.id);
+	    	$("#form").attr('data-success-msg','Vehicle has been updated successfully.');
+	    	$("#header").html("Update Vehicle details");
+    	}
+    	$("#addLink").show();
+    	scrollToAnchor("addMenu");
     });
     
     $("#form").submit(function (e) {
