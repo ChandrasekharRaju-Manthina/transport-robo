@@ -3,11 +3,11 @@
 <div class="row">
 	<div class="col-lg-12">
 		<h3 class="page-header">
-			<s:message code="driver.header" text="Welcome" />
+			<s:message code="shift.header" text="Welcome" />
 		</h3>
 		<ol class="breadcrumb" id="addLink" style="display: none;">
             <li>
-                <i class="fa fa-male"></i>  <a href="#" name="addMenu" onclick="resetToAdd('driverForm')">Add driver</a>
+                <i class="glyphicon glyphicon-time"></i>  <a href="#" name="addMenu" onclick="resetToAdd('driverForm')">Add shift</a>
             </li>
         </ol>
 	</div>
@@ -17,45 +17,28 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-               <strong id="header">Add Driver</strong>
+               <strong id="header">Add Shift</strong>
             </div>
             <div class="panel-body">
                 
-                	<form role="form" id="form" name="driverForm" method="POST" action="drivers" data-success-msg="Driver has been added successfully.">
+                	<form role="form" id="form" name="shiftForm" method="POST" action="shifts" data-success-msg="Shift has been added successfully.">
                 	 <input type="hidden" name="id">
                 	 <div class="row">
                 		<div class="col-lg-6">
                 			<div class="form-group">
-                                <label>Name</label>
-                                <input class="form-control" name="name" placeholder="Enter name">
+                                <label>Start time</label>
+                                <input class="form-control" name="startTime" type="time" required="required">
                                 <p class="help-block error-msg" id="name-error" style="display: none;"></p>
                             </div>
                 		</div>
                 		<div class="col-lg-6">
                 			<div class="form-group">
-                                <label>License number</label>
-                                <input class="form-control" name="licenseNumber" placeholder="Enter license number">
+                                <label>End time</label>
+                                <input class="form-control" type="time" name="endTime" >
                                 <p class="help-block error-msg" id="licenseNumber-error" style="display: none;"></p>
                             </div>
                 		</div>
-                	</div>
-                	
-                	<div class="row">
-                		<div class="col-lg-6">
-                			<div class="form-group">
-                                <label>Phone Number</label>
-                                <input class="form-control" name="phoneNumber" placeholder="Enter Phone Number">
-                                <p class="help-block error-msg" id="phoneNumber-error" style="display: none;"></p>
-                            </div>
-                		</div>
-                		<div class="col-lg-6">
-                			<div class="form-group">
-                                <label>Years of experience</label>
-                                <input class="form-control" name="yearsOfExperience" type="number" placeholder="Enter years of experience">
-                                <p class="help-block error-msg" id="yearsOfExperience-error" style="display: none;"></p>
-                            </div>
-                		</div>
-                	</div>
+                	</div>         
                 	<div class="row">
                 		<div class="col-lg-12 text-center">
                 			<button type="submit" style="width: 80px;" class="btn btn-primary">Add</button>
@@ -87,16 +70,14 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-               <strong>Drivers details</strong>
+               <strong>Shift details</strong>
             </div>
             <div class="panel-body">
             	<table id="data-table" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 			        <thead>
 			            <tr>
-			                <th>Name</th>
-			                <th>License number</th>
-			                <th>Phone number</th>
-			                <th>Years of experience</th>
+			                <th>Start time</th>
+			                <th>End time</th>
 			                <th>Action</th>
 			            </tr>
 			        </thead>
@@ -116,20 +97,18 @@
 		
 	    $("#data-table").dataTable({
 	    		"columnDefs": [ {
-				    "targets": 4,
+				    "targets": 2,
 				    "render": function ( data, type, full, meta ) {
-					      return '<a title="update" class="update" href="#" data-id="' + data +'"><span class="glyphicon glyphicon-edit update">Edit&nbsp;</span></a>' + '<a title="delete" class="delete" href="#" data-url="drivers" data-success-msg="Driver has been deleted successfully." data-id="' + data +'"><span class="glyphicon glyphicon-remove-sign delete">Delete</span></a>';
+					      return '<a title="update" class="update" href="#" data-id="' + data +'"><span class="glyphicon glyphicon-edit update">Edit&nbsp;</span></a>' + '<a title="delete" class="delete" href="#" data-url="shifts" data-success-msg="Shift has been deleted successfully." data-id="' + data +'"><span class="glyphicon glyphicon-remove-sign delete">Delete</span></a>';
 				    }
 				}],
 	            "ajax": {
-			       "url": "drivers",
+			       "url": "shifts",
 			    },
 			    "sAjaxDataProp":"",
 		        "columns": [
-		            { "data": "name" },
-		            { "data": "licenseNumber" },
-		            { "data": "phoneNumber" },
-		            { "data": "yearsOfExperience" },
+		            { "data": "startTime" },
+		            { "data": "endTime" },
 		            { "data": "id" }
 		        ]
 	    });

@@ -11,37 +11,38 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.allstate.trobo.domain.Vehicle;
-import com.allstate.trobo.service.VehicleService;
+import com.allstate.trobo.domain.Shift;
+import com.allstate.trobo.service.ShiftService;
 
 @RestController
-@RequestMapping("/vehicles")
-public class VehicleController {
+@RequestMapping("/shifts")
+public class ShiftController {
 
-	VehicleService vehicleService;
+	ShiftService shiftService;
 
 	@Autowired
-	public VehicleController(VehicleService vehicleService) {
-		this.vehicleService = vehicleService;
+	public ShiftController(ShiftService shiftService) {
+		this.shiftService = shiftService;
 	}
 
 	@RequestMapping
-	public List<Vehicle> getVehicles() {
-		return vehicleService.getAllVehicles();
+	public List<Shift> getShifts() {
+		return shiftService.getAllShifts();
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public Vehicle addVehicle(@Valid @RequestBody Vehicle vehicle) {
-		return vehicleService.addVehicle(vehicle);
+	public Shift addShift(@Valid @RequestBody Shift shift) {
+		return shiftService.addShift(shift);
 	}
 	
 	@RequestMapping(method = RequestMethod.PUT)
-	public Vehicle updateVehicle(@Valid @RequestBody Vehicle vehicle) {
-		return vehicleService.updateVehicle(vehicle);
+	public Shift updateShift(@Valid @RequestBody Shift shift) {
+		return shiftService.updateShift(shift);
 	}
 	
 	@RequestMapping(value="{id}", method = RequestMethod.DELETE)
-	public void deleteVehicle(@PathVariable Long id) {
-		vehicleService.deleteVehicle(id);
+	public void deleteShift(@PathVariable Long id) {
+		System.out.println(id);
+		shiftService.deleteShift(id);
 	}
 }

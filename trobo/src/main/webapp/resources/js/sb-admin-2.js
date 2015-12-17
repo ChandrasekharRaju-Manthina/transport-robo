@@ -17,6 +17,9 @@ function resetToAdd(form) {
 	} else if(form == "vehicleForm") {
 		$("#form").attr('data-success-msg','Vehicle has been created successfully.');
     	$("#header").html("Add Vehicle");
+	} else if(form == "shiftForm") {
+		$("#form").attr('data-success-msg','Shift has been created successfully.');
+    	$("#header").html("Add Shift");
 	}
 }
 
@@ -72,10 +75,17 @@ $(function() {
     		$("input[name='vehicleNumber']").val(data.vehicleNumber);
 	    	$("input[name='seats']").val(data.seats);
 	    	$("input[name='trackingDeviceLink']").val(data.trackingDeviceLink);
-	    	$("input[name='driverId']").val(data.driverId);
+	    	$("select[name='driverId']").val(data.driverId);
 	    	$("input[name='id']").val(data.id);
 	    	$("#form").attr('data-success-msg','Vehicle has been updated successfully.');
 	    	$("#header").html("Update Vehicle details");
+    	} else if(formName == "shiftForm") {
+    		var data = $("#data-table").DataTable().row($(this).parents("tr")).data();
+    		$("input[name='startTime']").val(data.startTime);
+	    	$("input[name='endTime']").val(data.endTime);
+	    	$("input[name='id']").val(data.id);
+	    	$("#form").attr('data-success-msg','Shift has been updated successfully.');
+	    	$("#header").html("Update Shift details");
     	}
     	$("#addLink").show();
     	scrollToAnchor("addMenu");

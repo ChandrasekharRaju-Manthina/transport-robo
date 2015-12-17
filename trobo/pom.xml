@@ -9,7 +9,28 @@
 	<url>http://maven.apache.org</url>
 	<properties>
 		<springframework.version>4.0.6.RELEASE</springframework.version>
+		<!-- Overwrite ip-bom's jboss-logging version of EAP 6.4 to allow Arquillian 
+			test to work on WildFly 9 -->
+		<version.org.jboss.logging.jboss-logging>3.2.1.Final</version.org.jboss.logging.jboss-logging>
+		<version.org.wildfly>9.0.1.Final</version.org.wildfly>
+		<version.org.wildfly.arquillian.container>1.0.0.Final</version.org.wildfly.arquillian.container>
 	</properties>
+	<dependencyManagement>
+		<dependencies>
+			<!-- Overwrite ip-bom's jboss-logging version of EAP 6.4 to allow Arquillian 
+				test to work on WildFly 9 -->
+			<dependency>
+				<groupId>org.jboss.logging</groupId>
+				<artifactId>jboss-logging</artifactId>
+				<version>${version.org.jboss.logging.jboss-logging}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.wildfly.arquillian</groupId>
+				<artifactId>wildfly-arquillian-container-managed</artifactId>
+				<version>${version.org.wildfly.arquillian.container}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -17,6 +38,19 @@
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- Spring dependencies -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${springframework.version}</version>
+		</dependency>
+		
 		<dependency>
 		    <groupId>com.fasterxml.jackson.core</groupId>
 		    <artifactId>jackson-annotations</artifactId>
@@ -32,17 +66,6 @@
 		    <artifactId>jackson-databind</artifactId>
 		    <version>2.5.1</version>
 		 </dependency>
-		<!-- Spring dependencies -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-			<version>${springframework.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
-			<version>${springframework.version}</version>
-		</dependency>
 
 		<!-- h2 in-memory DB dependency -->
 		<dependency>
@@ -100,6 +123,37 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.optaplanner</groupId>
+			<artifactId>optaplanner-core</artifactId>
+			<version>6.3.0.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.optaplanner</groupId>
+			<artifactId>optaplanner-benchmark</artifactId>
+			<version>6.3.0.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.optaplanner</groupId>
+			<artifactId>optaplanner-examples</artifactId>
+			<version>6.3.0.Final</version>
+		</dependency>
+		
+		<!-- Logging -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>1.7.2</version>
+			<scope>runtime</scope>
+		</dependency>
 
 	</dependencies>
 	<build>
@@ -116,4 +170,4 @@
 		</plugins>
 		<finalName>trobo</finalName>
 	</build>
-</project>
+</project> 

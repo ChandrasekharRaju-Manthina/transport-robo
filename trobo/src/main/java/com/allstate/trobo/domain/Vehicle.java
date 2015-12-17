@@ -23,6 +23,8 @@ public class Vehicle {
 
 	@NotNull
 	private Integer driverId;
+	
+	private String driverName;
 
 	private String priceUnit;
 
@@ -31,12 +33,13 @@ public class Vehicle {
 	}
 
 	public Vehicle(Long id, String vehicleNumber, Integer seats,
-			String trackingDeviceLink, Integer driverId) {
+			String trackingDeviceLink, Integer driverId, String driverName) {
 		this.id = id;
 		this.vehicleNumber = vehicleNumber;
 		this.seats = seats;
 		this.trackingDeviceLink = trackingDeviceLink;
 		this.driverId = driverId;
+		this.driverName = driverName;
 	}
 
 	public Long getId() {
@@ -77,6 +80,14 @@ public class Vehicle {
 
 	public void setDriverId(Integer driverId) {
 		this.driverId = driverId;
+	}
+
+	public String getDriverName() {
+		return driverName;
+	}
+
+	public void setDriverName(String driverName) {
+		this.driverName = driverName;
 	}
 
 	public String getPriceUnit() {

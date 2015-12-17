@@ -7,7 +7,7 @@
 		</h3>
 		<ol class="breadcrumb" id="addLink" style="display: none;">
             <li>
-                <i class="fa fa-dashboard"></i>  <a href="#" name="addMenu" onclick="resetToAdd('addressForm')">Add address</a>
+                <i class="fa fa-home"></i>  <a href="#" name="addMenu" onclick="resetToAdd('addressForm')">Add address</a>
             </li>
         </ol>
 	</div>

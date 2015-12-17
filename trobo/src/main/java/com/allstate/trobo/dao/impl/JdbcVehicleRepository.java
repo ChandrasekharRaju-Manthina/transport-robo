@@ -50,7 +50,7 @@ public class JdbcVehicleRepository implements VehicleRepository {
 	@Override
 	public List<Vehicle> retrieveAll() {
 		return jdbc
-				.query("select id, vehicleNumber, seats, trackingDeviceLink, driverId from Vehicle",
+				.query("select v.id, v.vehicleNumber, v.seats, v.trackingDeviceLink, v.driverId, d.name from Vehicle v, Driver d where v.driverId = d.id ",
 						new VehicleRowMapper());
 	}
 
@@ -58,7 +58,7 @@ public class JdbcVehicleRepository implements VehicleRepository {
 		public Vehicle mapRow(ResultSet rs, int rowNum) throws SQLException {
 			return new Vehicle(rs.getLong("id"), rs.getString("vehicleNumber"),
 					rs.getInt("seats"), rs.getString("trackingDeviceLink"),
-					rs.getInt("driverId"));
+					rs.getInt("driverId"),rs.getString("name"));
 		}
 	}
 

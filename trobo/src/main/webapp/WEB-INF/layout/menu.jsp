@@ -18,13 +18,19 @@
 	                            <a href="<c:url value="/home" />"><i class="fa fa-fw fa-dashboard"></i> Home</a>
 	                        </li>
 	                        <li>
-	                            <a href="<c:url value="/addressPage" />"><i class="fa fa-fw fa-dashboard"></i> Address</a>
+	                            <a href="<c:url value="/addressPage" />"><i class="fa fa-fw fa-home"></i> Address</a>
 	                        </li>
 	                        <li>
-	                            <a href="<c:url value="/vehiclesPage" />"><i class="fa fa-fw fa-dashboard"></i> Vehicles</a>
+	                            <a href="<c:url value="/vehiclesPage" />"><i class="fa fa-fw  fa-truck"></i> Vehicles</a>
 	                        </li>
 	                        <li>
-	                            <a href="<c:url value="/driversPage" />"><i class="fa fa-fw fa-dashboard"></i> Drivers</a>
+	                            <a href="<c:url value="/driversPage" />"><i class="fa fa-fw fa-male"></i> Drivers</a>
+	                        </li>
+	                        <li>
+	                            <a href="<c:url value="/shiftPage" />"><i class="glyphicon glyphicon-time"></i> Shift</a>
+	                        </li>
+	                          <li>
+	                            <a href="<c:url value="/tripSheetPage" />"><i class="fa fa-fw fa-list-alt"></i> Trip sheet</a>
 	                        </li>
                         <% } else if (request.isUserInRole("manager")) { %>
 	                        <li>
