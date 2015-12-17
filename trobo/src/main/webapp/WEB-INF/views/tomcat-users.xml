@@ -34,6 +34,7 @@
   <user username="tomcat" password="tomcat" roles="tomcat"/>
   <user username="both" password="tomcat" roles="tomcat,role1"/>
   <user username="role1" password="tomcat" roles="role1"/>
+  <user username="admin" password="admin" roles="admin"/>
   <user username="employee1" password="employee1" roles="employee"/>
   <user username="employee2" password="employee2" roles="employee"/>
   <user username="employee3" password="employee3" roles="employee"/>
@@ -57,7 +58,7 @@
   <user username="employee21" password="employee21" roles="employee"/>
   <user username="employee22" password="employee22" roles="employee"/>
   <user username="manager" password="manager" roles="manager,employee"/>
-  <user username="admin" password="admin" roles="admin"/>
+  
   
 
 </tomcat-users>

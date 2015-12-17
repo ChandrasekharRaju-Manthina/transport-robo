@@ -126,6 +126,9 @@
 </div>
 <!-- /.row -->
 <%} %>
+<% 
+	Boolean employeeRole = request.isUserInRole("employee"); 
+%> 
 <script>
 // This example displays an address form, using the autocomplete feature
 // of the Google Places API to help users fill in the information.
@@ -200,7 +203,9 @@ function geolocate() {
 <script>
 	$(document).ready(function() {
 		loadAddresses();
-		loadAddressForUser();
+		if (<%=employeeRole%>) { 
+			loadAddressForUser();
+		}
 	});
 	
 	function loadAddresses() {
