@@ -25,20 +25,20 @@ public class JdbcAddressRepository implements AddressRepository {
 	@Override
 	public Address save(Address address) {
 		jdbc.update(
-				"insert into Address (address_line, city, state, zip, country)"
-						+ " values (?, ?, ?, ?, ?)", address.getAddressLine(),
+				"insert into Address (address_line, city, state, zip, country, latitude, longitude)"
+						+ " values (?, ?, ?, ?, ?, ?, ?)", address.getAddressLine(),
 				address.getCity(), address.getState(), address.getZip(),
-				address.getCountry());
+				address.getCountry(),address.getLatitude(), address.getLongitude());
 		return address;
 	}
 
 	@Override
 	public Address update(Address address) {
 		jdbc.update(
-				"update Address set address_line=?, city=?, state=?, zip=?, country=? where id=?",
+				"update Address set address_line=?, city=?, state=?, zip=?, country=?, latitude=?, longitude=? where id=?",
 				address.getAddressLine(), address.getCity(),
 				address.getState(), address.getZip(), address.getCountry(),
-				address.getId());
+				address.getLatitude(), address.getLongitude(), address.getId());
 		return address;
 	}
 
@@ -50,7 +50,7 @@ public class JdbcAddressRepository implements AddressRepository {
 	@Override
 	public List<Address> retrieveAll() {
 		return jdbc
-				.query("select id, address_line, city, state, zip, country from Address",
+				.query("select id, address_line, city, state, zip, country, latitude, longitude from Address",
 						new AddressRowMapper());
 	}
 
@@ -58,7 +58,8 @@ public class JdbcAddressRepository implements AddressRepository {
 		public Address mapRow(ResultSet rs, int rowNum) throws SQLException {
 			return new Address(rs.getLong("id"), rs.getString("address_line"),
 					rs.getString("city"), rs.getString("state"),
-					rs.getString("zip"), rs.getString("country"));
+					rs.getString("zip"), rs.getString("country"),
+					rs.getDouble("latitude"), rs.getDouble("longitude"));
 		}
 	}
 

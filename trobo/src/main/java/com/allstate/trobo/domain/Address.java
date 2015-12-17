@@ -45,6 +45,18 @@ public class Address {
 		this.country = country;
 	}
 
+	public Address(Long id, String addressLine1, String city, String state,
+			String zip, String country, double latitude, double longitude) {
+		this.id = id;
+		this.addressLine = addressLine1;
+		this.city = city;
+		this.state = state;
+		this.zip = zip;
+		this.country = country;
+		this.latitude = latitude;
+		this.longitude = longitude;
+	}
+	
 	public Long getId() {
 		return id;
 	}

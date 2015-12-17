@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.allstate.trobo.dao.AddressRepository;
 import com.allstate.trobo.domain.Address;
+import com.allstate.trobo.helper.GoogleMapsHelper;
 import com.allstate.trobo.service.AddressService;
 
 @Service
@@ -21,6 +22,8 @@ public class AddressServiceImpl implements AddressService {
 	
 	@Override
 	public Address updateAddress(Address address) {
+		GoogleMapsHelper mapHelper = new GoogleMapsHelper();
+		mapHelper.findLatAndLng(address);
 		return addressRepository.update(address);
 	}
 
