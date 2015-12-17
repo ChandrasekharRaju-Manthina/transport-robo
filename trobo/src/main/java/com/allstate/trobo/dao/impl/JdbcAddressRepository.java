@@ -62,4 +62,12 @@ public class JdbcAddressRepository implements AddressRepository {
 		}
 	}
 
+	@Override
+	public Address retrieveAddressForEmployee(Long empId) {
+		
+		Object[] parameters = {empId};
+		return jdbc
+				.queryForObject("select id, address_line, city, state, zip, country, latitude, longitude from Address A,Employee E where E.addressId = A.id and E.id = ?",
+						parameters,new AddressRowMapper());
+	}
 }

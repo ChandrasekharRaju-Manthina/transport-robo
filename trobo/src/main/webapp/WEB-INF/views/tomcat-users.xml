@@ -34,8 +34,30 @@
   <user username="tomcat" password="tomcat" roles="tomcat"/>
   <user username="both" password="tomcat" roles="tomcat,role1"/>
   <user username="role1" password="tomcat" roles="role1"/>
-  <user username="employee" password="employee" roles="employee"/>
-  <user username="manager" password="manager" roles="manager"/>
+  <user username="employee1" password="employee1" roles="employee"/>
+  <user username="employee2" password="employee2" roles="employee"/>
+  <user username="employee3" password="employee3" roles="employee"/>
+  <user username="employee4" password="employee4" roles="employee"/>
+  <user username="employee5" password="employee5" roles="employee"/>
+  <user username="employee6" password="employee6" roles="employee"/>
+  <user username="employee7" password="employee7" roles="employee"/>
+  <user username="employee8" password="employee8" roles="employee"/>
+  <user username="employee9" password="employee9" roles="employee"/>
+  <user username="employee10" password="employee10" roles="employee"/>
+  <user username="employee11" password="employee11" roles="employee"/>
+  <user username="employee12" password="employee12" roles="employee"/>
+  <user username="employee13" password="employee13" roles="employee"/>
+  <user username="employee14" password="employee14" roles="employee"/>
+  <user username="employee15" password="employee15" roles="employee"/>
+  <user username="employee16" password="employee16" roles="employee"/>
+  <user username="employee17" password="employee17" roles="employee"/>
+  <user username="employee18" password="employee18" roles="employee"/>
+  <user username="employee19" password="employee19" roles="employee"/>
+  <user username="employee20" password="employee20" roles="employee"/>
+  <user username="employee21" password="employee21" roles="employee"/>
+  <user username="employee22" password="employee22" roles="employee"/>
+  <user username="manager" password="manager" roles="manager,employee"/>
   <user username="admin" password="admin" roles="admin"/>
+  
 
 </tomcat-users>

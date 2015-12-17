@@ -30,6 +30,11 @@ public class AddressController {
 		return addressService.getAllAddresses();
 	}
 
+	@RequestMapping(method = RequestMethod.GET, value="user/{empId}")
+	public Address getAddressForUser(@PathVariable Long empId) {
+		return addressService.getAddressForEmployee(empId);
+	}
+	
 	@RequestMapping(method = RequestMethod.POST)
 	public Address addAddress(@Valid @RequestBody Address address) {
 		return addressService.addAddress(address);

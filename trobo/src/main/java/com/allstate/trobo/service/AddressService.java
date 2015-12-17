@@ -12,4 +12,7 @@ public interface AddressService {
 	public  void deleteAddress(Long id);
 	
 	public Address updateAddress(Address address);
+	
+	public Address getAddressForEmployee(Long empId);
+
 }

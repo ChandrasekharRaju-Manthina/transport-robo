@@ -5,8 +5,9 @@ create table Address (
 	state varchar(30) not null,
 	zip varchar(30) not null,
 	country varchar(30) not null,
-	longitude NUMERIC, 
-	latitude NUMERIC
+	longitude double, 
+	latitude double,
+	status varchar(30)
 );
 
 create table Driver (
@@ -163,13 +164,13 @@ insert into TransportRequest (startDate, endDate, employeeId, shiftId, requestTy
 insert into TransportRequest (startDate, endDate, employeeId, shiftId, requestType, status) values ('2015-12-10', '2015-12-15', '49', '1', 'T','A');
 
 
-insert into Address (address_line, city, state, zip, country, latitude, longitude) values ('Innovative multiplex', 'Bangalore', 'Karnataka', '560037', 'Ïndia',12.95073,77.70005);
-insert into Address (address_line, city, state, zip, country, latitude, longitude) values ('Goplan-Mall', 'Bangalore', 'Karnataka', '560037','India',12.91434,77.59964);
-insert into Address (address_line, city, state, zip, country, latitude, longitude) values ('CENTRAL-MALL-BELLANDUR', 'Bangalore', 'Karnataka', '560037', 'Ïndia',12.91650,77.59280);
-insert into Address (address_line, city, state, zip, country, latitude, longitude) values ('ISKCON-TEMPLE', 'Bangalore', 'Karnataka', '560037', 'Ïndia',12.90625,77.55505);
-insert into Address (address_line, city, state, zip, country, latitude, longitude) values ('Kempegowda-station', 'Bangalore', 'Karnataka', '560037', 'Ïndia',12.97766,77.57302);
-insert into Address (address_line, city, state, zip, country, latitude, longitude) values ('Mantri-mall', 'Bangalore', 'Karnataka', '560037', 'Ïndia',12.99070,77.57199);
-insert into Address (address_line, city, state, zip, country, latitude, longitude) values ('BULSKAMP', 'Bangalore', 'Karnataka', '560037', 'Ïndia',12.92569,77.61801);
+insert into Address (address_line, city, state, zip, country, latitude, longitude) values ('Innovative multiplex', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.95073','77.70005');
+insert into Address (address_line, city, state, zip, country, latitude, longitude) values ('Goplan-Mall', 'Bangalore', 'Karnataka', '560037','India','12.91434','77.59964');
+insert into Address (address_line, city, state, zip, country, latitude, longitude) values ('CENTRAL-MALL-BELLANDUR', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.91650','77.59280');
+insert into Address (address_line, city, state, zip, country, latitude, longitude) values ('ISKCON-TEMPLE', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.90625','77.55505');
+insert into Address (address_line, city, state, zip, country, latitude, longitude) values ('Kempegowda-station', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.97766','77.57302');
+insert into Address (address_line, city, state, zip, country, latitude, longitude) values ('Mantri-mall', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.99070','77.57199');
+insert into Address (address_line, city, state, zip, country, latitude, longitude) values ('BULSKAMP', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.92569','77.61801');
 insert into Address (address_line, city, state, zip, country) values ('Dommuluru', 'Bangalore', 'Karnataka', '560037', 'Ïndia');
 insert into Address (address_line, city, state, zip, country) values ('Yeswanthpur', 'Bangalore', 'Karnataka', '560037', 'Ïndia');
 insert into Address (address_line, city, state, zip, country) values ('Shivaji Nagar', 'Bangalore', 'Karnataka', '560037', 'Ïndia');

@@ -39,4 +39,8 @@ public class AddressServiceImpl implements AddressService {
 		return addressRepository.retrieveAll();
 	}
 
+	@Override
+	public Address getAddressForEmployee(Long empId) {
+		return addressRepository.retrieveAddressForEmployee(empId);
+	}
 }

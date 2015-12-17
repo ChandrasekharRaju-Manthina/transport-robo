@@ -31,8 +31,8 @@ public class TripSheetServiceImpl implements TripSheetService {
 		Address address = new Address();
 		address.setId(0L);
 		address.setAddressLine("Allstate");
-		address.setLatitude(new BigDecimal(12.92539));
-		address.setLongitude(new BigDecimal(77.68664));
+		address.setLatitude(12.92539);
+		address.setLongitude(77.68664);
 		
 		PickupPoint pickUpPoint = new PickupPoint();
 		pickUpPoint.setAddress(address);
