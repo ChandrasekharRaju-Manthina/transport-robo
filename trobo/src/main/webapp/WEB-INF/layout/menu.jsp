@@ -42,12 +42,18 @@
 	                        <li>
 	                            <a href="<c:url value="#" />"><i class="fa fa-fw fa-dashboard"></i> My profile</a>
 	                        </li>
+	                        <li>
+	                            <a href="<c:url value="/addressPage" />"><i class="fa fa-fw fa-home"></i> Address</a>
+	                        </li>
                           <% } else if (request.isUserInRole("employee")) { %>
 	                        <li>
 	                            <a href="<c:url value="/home" />"><i class="fa fa-fw fa-dashboard"></i> Home</a>
 	                        </li>
 	                        <li>
 	                            <a href="<c:url value="#" />"><i class="fa fa-fw fa-dashboard"></i> My profile</a>
+	                        </li>
+	                        <li>
+	                            <a href="<c:url value="/addressPage" />"><i class="fa fa-fw fa-home"></i> Address</a>
 	                        </li>
                         <% } %>
                     </ul>

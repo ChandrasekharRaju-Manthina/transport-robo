@@ -91,6 +91,25 @@ $(function() {
     	scrollToAnchor("addMenu");
     });
     
+    $(document).on("click", "a.approve", function(e){
+    	var $this = $(this);
+    	e.preventDefault();
+    	$.ajax({
+            type: "PUT",
+            url: $(this).attr("data-url") + "/" + $(this).attr("data-id"),
+            success: function(data)
+            {
+            	$("#data-table").DataTable().row($this.parents("tr")).remove().draw();
+            	$("#successMsgTxt").text($this.attr("data-success-msg"));
+            	$("#successMsg").show();
+            	$("#successMsg").hide().fadeIn("slow").delay(3000).hide(1);
+            },
+            error: function(request,status,errorThrown) {
+            	alert("Error");
+            }
+        });
+    });
+    
     $("#form").submit(function (e) {
         e.preventDefault();
         $(".error-msg").hide();

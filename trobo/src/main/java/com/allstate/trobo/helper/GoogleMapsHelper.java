@@ -10,9 +10,11 @@ import org.joda.time.ReadableInstant;
 
 import com.allstate.trobo.domain.Address;
 import com.google.maps.DirectionsApi;
+import com.google.maps.DistanceMatrixApi;
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
 import com.google.maps.model.DirectionsRoute;
+import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.GeocodingResult;
 
 public class GoogleMapsHelper {
@@ -70,5 +72,27 @@ public class GoogleMapsHelper {
 			e.printStackTrace();
 			return null;
 		} 		
+	}
+	
+	public DistanceMatrix findDistanceMatrix(Address[] origins, Address[] destinations) {
+		
+		String[] originsArray = new String[origins.length];
+		String[] destinationsArray = new String[destinations.length];
+		DistanceMatrix matrix = null;
+		for(int i =0;i<origins.length;i++) {
+			originsArray[i] = origins[i].getLatitude()+","+origins[i].getLongitude();
+		}
+		for(int i =0;i<destinations.length;i++) {
+			destinationsArray[i] = destinations[i].getLatitude()+","+destinations[i].getLongitude();
+		}
+		try {
+			matrix =
+			        DistanceMatrixApi.getDistanceMatrix(context, originsArray, destinationsArray).await();
+			return matrix;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return matrix;
+		}
 	}
 }

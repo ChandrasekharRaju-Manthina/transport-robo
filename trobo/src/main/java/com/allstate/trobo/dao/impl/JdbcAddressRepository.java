@@ -25,8 +25,8 @@ public class JdbcAddressRepository implements AddressRepository {
 	@Override
 	public Address save(Address address) {
 		jdbc.update(
-				"insert into Address (address_line, city, state, zip, country, latitude, longitude)"
-						+ " values (?, ?, ?, ?, ?, ?, ?)", address.getAddressLine(),
+				"insert into Address (address_line, city, state, zip, country, latitude, longitude, status)"
+						+ " values (?, ?, ?, ?, ?, ?, ?, 'Pending')", address.getAddressLine(),
 				address.getCity(), address.getState(), address.getZip(),
 				address.getCountry(),address.getLatitude(), address.getLongitude());
 		return address;
@@ -35,13 +35,20 @@ public class JdbcAddressRepository implements AddressRepository {
 	@Override
 	public Address update(Address address) {
 		jdbc.update(
-				"update Address set address_line=?, city=?, state=?, zip=?, country=?, latitude=?, longitude=? where id=?",
+				"update Address set address_line=?, city=?, state=?, zip=?, country=?, latitude=?, longitude=?, status='Pending' where id=?",
 				address.getAddressLine(), address.getCity(),
 				address.getState(), address.getZip(), address.getCountry(),
 				address.getLatitude(), address.getLongitude(), address.getId());
 		return address;
 	}
 
+	@Override
+	public int updateStatus(Long addressId) {
+		int result = jdbc.update(
+				"update Address set status='Approved' where id=?", addressId);
+		return result;
+	}
+	
 	@Override
 	public void delete(Long id) {
 		jdbc.update("delete from Address where id=?", id);
@@ -50,7 +57,7 @@ public class JdbcAddressRepository implements AddressRepository {
 	@Override
 	public List<Address> retrieveAll() {
 		return jdbc
-				.query("select id, address_line, city, state, zip, country, latitude, longitude from Address",
+				.query("select id, address_line, city, state, zip, country, latitude, longitude, status from Address",
 						new AddressRowMapper());
 	}
 
@@ -59,7 +66,7 @@ public class JdbcAddressRepository implements AddressRepository {
 			return new Address(rs.getLong("id"), rs.getString("address_line"),
 					rs.getString("city"), rs.getString("state"),
 					rs.getString("zip"), rs.getString("country"),
-					rs.getDouble("latitude"), rs.getDouble("longitude"));
+					rs.getDouble("latitude"), rs.getDouble("longitude"), rs.getString("status"));
 		}
 	}
 
@@ -68,7 +75,24 @@ public class JdbcAddressRepository implements AddressRepository {
 		
 		Object[] parameters = {empId};
 		return jdbc
-				.queryForObject("select id, address_line, city, state, zip, country, latitude, longitude from Address A,Employee E where E.addressId = A.id and E.id = ?",
+				.queryForObject("select A.id, address_line, city, state, zip, country, latitude, longitude, A.status from Address A,Employee E where E.addressId = A.id and E.id = ?",
 						parameters,new AddressRowMapper());
+	}
+
+	@Override
+	public Address update(Long empId, Address address) {
+		jdbc.update(
+				"insert into Address (address_line, city, state, zip, country, latitude, longitude, status)"
+						+ " values (?, ?, ?, ?, ?, ?, ?, 'Pending')", address.getAddressLine(),
+				address.getCity(), address.getState(), address.getZip(),
+				address.getCountry(),address.getLatitude(), address.getLongitude());
+		
+		Object[] parameters = {address.getLatitude(), address.getLongitude()};
+		Address newAddress = jdbc.queryForObject("select id from Address where latitude=? and longitude=?",parameters,
+						new AddressRowMapper());
+		
+		jdbc.update(
+				"update Employee set addressId = ? where id = ?", newAddress.getId());
+		return newAddress;
 	}
 }

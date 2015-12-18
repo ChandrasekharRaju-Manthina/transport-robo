@@ -30,6 +30,8 @@ public class Address {
 	private double longitude;
 
 	private double latitude;
+	
+	private String status;
 
 	public Address() {
 
@@ -46,7 +48,7 @@ public class Address {
 	}
 
 	public Address(Long id, String addressLine1, String city, String state,
-			String zip, String country, double latitude, double longitude) {
+			String zip, String country, double latitude, double longitude, String status) {
 		this.id = id;
 		this.addressLine = addressLine1;
 		this.city = city;
@@ -55,6 +57,7 @@ public class Address {
 		this.country = country;
 		this.latitude = latitude;
 		this.longitude = longitude;
+		this.status = status;
 	}
 	
 	public Long getId() {
@@ -111,6 +114,14 @@ public class Address {
 
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public double getLatitude() {

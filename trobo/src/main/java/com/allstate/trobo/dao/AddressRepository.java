@@ -16,4 +16,8 @@ public interface AddressRepository {
 	
 	Address retrieveAddressForEmployee(Long empId);
 
+	int updateStatus(Long addressId);
+
+	Address update(Long empId, Address address);
+
 }

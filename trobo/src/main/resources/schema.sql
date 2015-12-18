@@ -164,17 +164,17 @@ insert into TransportRequest (startDate, endDate, employeeId, shiftId, requestTy
 insert into TransportRequest (startDate, endDate, employeeId, shiftId, requestType, status) values ('2015-12-10', '2015-12-15', '49', '1', 'T','A');
 
 
-insert into Address (address_line, city, state, zip, country, latitude, longitude) values ('Innovative multiplex', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.95073','77.70005');
-insert into Address (address_line, city, state, zip, country, latitude, longitude) values ('Goplan-Mall', 'Bangalore', 'Karnataka', '560037','India','12.91434','77.59964');
-insert into Address (address_line, city, state, zip, country, latitude, longitude) values ('CENTRAL-MALL-BELLANDUR', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.91650','77.59280');
-insert into Address (address_line, city, state, zip, country, latitude, longitude) values ('ISKCON-TEMPLE', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.90625','77.55505');
-insert into Address (address_line, city, state, zip, country, latitude, longitude) values ('Kempegowda-station', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.97766','77.57302');
-insert into Address (address_line, city, state, zip, country, latitude, longitude) values ('Mantri-mall', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.99070','77.57199');
-insert into Address (address_line, city, state, zip, country, latitude, longitude) values ('BULSKAMP', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.92569','77.61801');
-insert into Address (address_line, city, state, zip, country) values ('Dommuluru', 'Bangalore', 'Karnataka', '560037', 'Ïndia');
-insert into Address (address_line, city, state, zip, country) values ('Yeswanthpur', 'Bangalore', 'Karnataka', '560037', 'Ïndia');
-insert into Address (address_line, city, state, zip, country) values ('Shivaji Nagar', 'Bangalore', 'Karnataka', '560037', 'Ïndia');
-insert into Address (address_line, city, state, zip, country) values ('Richmond road', 'Bangalore', 'Karnataka', '560037', 'Ïndia');
+insert into Address (address_line, city, state, zip, country, latitude, longitude, status) values ('Innovative multiplex', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.95073','77.70005','Pending');
+insert into Address (address_line, city, state, zip, country, latitude, longitude, status) values ('Goplan-Mall', 'Bangalore', 'Karnataka', '560037','India','12.91434','77.59964','Pending');
+insert into Address (address_line, city, state, zip, country, latitude, longitude, status) values ('CENTRAL-MALL-BELLANDUR', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.91650','77.59280','Pending');
+insert into Address (address_line, city, state, zip, country, latitude, longitude, status) values ('ISKCON-TEMPLE', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.90625','77.55505','Pending');
+insert into Address (address_line, city, state, zip, country, latitude, longitude, status) values ('Kempegowda-station', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.97766','77.57302','Pending');
+insert into Address (address_line, city, state, zip, country, latitude, longitude, status) values ('Mantri-mall', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.99070','77.57199','Pending');
+insert into Address (address_line, city, state, zip, country, latitude, longitude, status) values ('BULSKAMP', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.92569','77.61801','Pending');
+insert into Address (address_line, city, state, zip, country, status) values ('Dommuluru', 'Bangalore', 'Karnataka', '560037', 'Ïndia','Pending');
+insert into Address (address_line, city, state, zip, country, status) values ('Yeswanthpur', 'Bangalore', 'Karnataka', '560037', 'Ïndia','Pending');
+insert into Address (address_line, city, state, zip, country, status) values ('Shivaji Nagar', 'Bangalore', 'Karnataka', '560037', 'Ïndia','Pending');
+insert into Address (address_line, city, state, zip, country, status) values ('Richmond road', 'Bangalore', 'Karnataka', '560037', 'Ïndia','Pending');
 
 insert into Driver (name, licenseNumber, phoneNumber, yearsOfExperience) values ('Chandu', 'ABCDEFGHIJKL', '1234567890', '5');
 insert into Driver (name, licenseNumber, phoneNumber, yearsOfExperience) values ('Anil', 'ABCDEFGHIJKL', '1234567890', '5');

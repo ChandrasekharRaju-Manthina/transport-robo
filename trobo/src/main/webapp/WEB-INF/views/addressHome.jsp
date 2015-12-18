@@ -25,6 +25,7 @@
                 	 <input type="hidden" id ="id" name="id">
                 	 <input type="hidden" id ="latitude" name="latitude">
                 	 <input type="hidden" id ="longitude" name="longitude">
+                	 
                 	 <div class="row">
                 	 	<div class="col-lg-12">
                 			<div class="form-group">
@@ -84,7 +85,13 @@
     <!-- /.col-lg-12 -->
 </div>
 <!-- /.row -->
-
+<div class="row" id="approveMsg" style="display: none;">
+    <div class="col-lg-12">           
+		<div class="alert alert-success">
+    		<p class="fa fa-check text-success" id="approveMsgTxt"></p> 
+    	</div>
+	</div>
+</div>
 <div class="row" id="successMsg" style="display: none;">
 	<div class="col-lg-12">           
 		<div class="alert alert-success">
@@ -111,6 +118,7 @@
 			                <th>Country</th>
 			                <th>Latitude</th>
 			                <th>Longitude</th>
+			                <th>Status</th>
 			                <th>Action</th>
 			            </tr>
 			        </thead>
@@ -127,7 +135,8 @@
 <!-- /.row -->
 <%} %>
 <% 
-	Boolean employeeRole = request.isUserInRole("employee"); 
+	Boolean employeeRole = request.isUserInRole("employee");
+	Boolean adminRole = request.isUserInRole("admin");
 %> 
 <script>
 // This example displays an address form, using the autocomplete feature
@@ -202,7 +211,9 @@ function geolocate() {
         async defer></script>
 <script>
 	$(document).ready(function() {
-		loadAddresses();
+		if (<%=adminRole%>) { 
+			loadAddresses();
+		}
 		if (<%=employeeRole%>) { 
 			loadAddressForUser();
 		}
@@ -213,7 +224,7 @@ function geolocate() {
     		"columnDefs": [ {
 			    "targets": 7,
 			    "render": function ( data, type, full, meta ) {
-				      return '<a title="update" class="update" href="#" data-id="' + data +'"><span class="glyphicon glyphicon-edit update">Edit&nbsp;</span></a>' + '<a title="delete" class="delete" href="#" data-url="addresses" data-success-msg="Address has been deleted successfully." data-id="' + data +'"><span class="glyphicon glyphicon-remove-sign delete">Delete</span></a>';
+				      return '<a title="update" class="update" href="#" data-id="' + data +'"><span class="glyphicon glyphicon-edit update">Edit&nbsp;</span></a>' + '<a title="delete" class="delete" href="#" data-url="addresses" data-success-msg="Address has been deleted successfully." data-id="' + data +'"><span class="glyphicon glyphicon-remove-sign delete">Delete&nbsp;</span></a>'+'<a title="approve" class="approve" href="#" data-url="addresses/approveStatus" data-success-msg="Address has been approved successfully." data-id="' + data +'"><span class="glyphicon glyphicon-edit approve">Approve</span></a>';
 			    }
 			}],
             "ajax": {
@@ -228,6 +239,7 @@ function geolocate() {
 	            { "data": "country" },
 	            { "data": "latitude" },
 	            { "data": "longitude" },
+	            { "data": "status" },
 	            { "data": "id" }
 	        ]
    		});
@@ -253,6 +265,9 @@ function geolocate() {
                 document.getElementById('postal_code').value = response.zip;
                 document.getElementById('country').value = response.country;
                 $("button[type='submit']").html("Update");
+                $("#form").attr('method','PUT');
+                $("#form").attr('data-success-msg','Address has been updated successfully.');
+                $("#header").html("Update Address");	
             }
         });
 	}

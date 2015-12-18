@@ -15,4 +15,8 @@ public interface AddressService {
 	
 	public Address getAddressForEmployee(Long empId);
 
+	public int updateStatus(Long addressId);
+
+	public Address updateAddressForEmployee(Long empId, Address address);
+
 }

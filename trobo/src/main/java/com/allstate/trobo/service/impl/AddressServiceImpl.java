@@ -46,4 +46,16 @@ public class AddressServiceImpl implements AddressService {
 	public Address getAddressForEmployee(Long empId) {
 		return addressRepository.retrieveAddressForEmployee(empId);
 	}
+
+	@Override
+	public int updateStatus(Long addressId) {
+		return addressRepository.updateStatus(addressId);
+	}
+
+	@Override
+	public Address updateAddressForEmployee(Long empId, Address address) {
+		GoogleMapsHelper mapHelper = new GoogleMapsHelper();
+		mapHelper.findLatAndLng(address);
+		return addressRepository.update(empId, address);
+	}
 }
