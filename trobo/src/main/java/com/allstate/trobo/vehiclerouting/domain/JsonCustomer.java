@@ -16,20 +16,27 @@
 
 package com.allstate.trobo.vehiclerouting.domain;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.allstate.trobo.domain.Employee;
 
 @XmlRootElement
 public class JsonCustomer {
 
+	protected Long id;
     protected String locationName;
     protected double latitude;
     protected double longitude;
     protected int demand;
+    protected List<Employee> employees;
 
     public JsonCustomer() {
     }
 
-    public JsonCustomer(String locationName, double latitude, double longitude, int demand) {
+    public JsonCustomer(Long id, String locationName, double latitude, double longitude, int demand) {
+    	this.id = id;
         this.locationName = locationName;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -67,4 +74,20 @@ public class JsonCustomer {
     public void setDemand(int demand) {
         this.demand = demand;
     }
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public List<Employee> getEmployees() {
+		return employees;
+	}
+
+	public void setEmployees(List<Employee> employees) {
+		this.employees = employees;
+	}
 }

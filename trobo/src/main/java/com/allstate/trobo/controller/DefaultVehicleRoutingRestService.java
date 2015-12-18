@@ -58,7 +58,7 @@ public class DefaultVehicleRoutingRestService  {
         List<JsonCustomer> jsonCustomerList = new ArrayList<JsonCustomer>(solution.getCustomerList().size());
         for (Customer customer : solution.getCustomerList()) {
             Location customerLocation = customer.getLocation();
-            jsonCustomerList.add(new JsonCustomer(customerLocation.getName(),
+            jsonCustomerList.add(new JsonCustomer(customerLocation.getId(), customerLocation.getName(),
                     customerLocation.getLatitude(), customerLocation.getLongitude(), customer.getDemand()));
         }
         jsonSolution.setCustomerList(jsonCustomerList);
@@ -80,7 +80,7 @@ public class DefaultVehicleRoutingRestService  {
             while (customer != null) {
                 Location customerLocation = customer.getLocation();
                 demandTotal += customer.getDemand();
-                jsonVehicleCustomerList.add(new JsonCustomer(customerLocation.getName(),
+                jsonVehicleCustomerList.add(new JsonCustomer(customerLocation.getId(), customerLocation.getName(),
                         customerLocation.getLatitude(), customerLocation.getLongitude(), customer.getDemand()));
                 customer = customer.getNextCustomer();
             }

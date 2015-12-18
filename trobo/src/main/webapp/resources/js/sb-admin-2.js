@@ -1,3 +1,4 @@
+var intervalTimer, clearIntervalTimer;
 function scrollToAnchor(aid){
     var aTag = $("a[name='"+ aid +"']");
     $('html,body').animate({scrollTop: aTag.offset().top},'slow');
@@ -22,6 +23,24 @@ function resetToAdd(form) {
     	$("#header").html("Add Shift");
 	}
 }
+terminateSolution = function() {	
+	clearInterval(intervalTimer);
+	clearInterval(clearIntervalTimer);
+	$("#loadIcon").hide();
+}
+updateSolution = function() {
+	clearInterval(intervalTimer);
+    $.ajax({
+      type: $("#tripSheetForm").attr("method"),
+      url: "tripSheet",
+      dataType : "json",
+      contentType: "application/json;charset=utf-8",
+      data: JSON.stringify($("#tripSheetForm").serializeObject()),
+      success: function(solution) {
+    	  console.log(JSON.stringify(solution));
+      }, error : function(jqXHR, textStatus, errorThrown) {ajaxError(jqXHR, textStatus, errorThrown)}
+    });
+  };
 
 $(function() {
 
@@ -89,6 +108,51 @@ $(function() {
     	}
     	$("#addLink").show();
     	scrollToAnchor("addMenu");
+    });
+    
+    $(document).on("click", "a.approve", function(e){
+    	var $this = $(this);
+    	e.preventDefault();
+    	$.ajax({
+            type: "PUT",
+            url: $(this).attr("data-url") + "/" + $(this).attr("data-id"),
+            success: function(data)
+            {
+            	$("#data-table").DataTable().row($this.parents("tr")).remove().draw();
+            	$("#successMsgTxt").text($this.attr("data-success-msg"));
+            	$("#successMsg").show();
+            	$("#successMsg").hide().fadeIn("slow").delay(3000).hide(1);
+            },
+            error: function(request,status,errorThrown) {
+            	alert("Error");
+            }
+        });
+    });
+    
+    $("#tripSheetForm").submit(function (e) {
+        e.preventDefault();
+        console.log(JSON.stringify($("#tripSheetForm").serializeObject()));
+        $.ajax({
+            type: $("#tripSheetForm").attr("method"),
+            url: $("#tripSheetForm").attr("action"),
+            dataType: "json",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify($("#tripSheetForm").serializeObject()),
+            success: function(data)
+            {
+            	console.log(data);
+            	$("#loadIcon").show();
+            	intervalTimer = setInterval(function () {
+                    updateSolution()
+                }, 120000);
+//            	clearIntervalTimer = setInterval(function () {
+//                    terminateSolution()
+//                }, 120000);
+            },
+            error: function(request,status,errorThrown) {
+              alert(errorThrown);
+            }
+        });
     });
     
     $("#form").submit(function (e) {
