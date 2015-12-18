@@ -13,5 +13,11 @@ public interface AddressRepository {
 	public void delete(Long id);
 
 	Address update(Address address);
+	
+	Address retrieveAddressForEmployee(Long empId);
+
+	int updateStatus(Long addressId);
+
+	Address update(Long empId, Address address);
 
 }

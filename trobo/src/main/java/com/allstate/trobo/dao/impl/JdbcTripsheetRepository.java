@@ -59,8 +59,8 @@ public class JdbcTripsheetRepository implements TripSheetRepository {
 			Address address = new Address();
 			address.setId(rs.getLong("id"));
 			address.setAddressLine(rs.getString("address_line"));
-			address.setLongitude(rs.getBigDecimal("longitude"));
-			address.setLatitude(rs.getBigDecimal("latitude"));
+			address.setLongitude(rs.getDouble("longitude"));
+			address.setLatitude(rs.getDouble("latitude"));
 			pickUpPoint.setAddress(address);
 			pickUpPoint.setNumberOfEmployees(rs.getInt("empCount"));
 			return pickUpPoint;

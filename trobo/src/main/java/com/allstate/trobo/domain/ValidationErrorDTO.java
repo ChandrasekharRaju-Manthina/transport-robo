@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ValidationErrorDTO {
 
-	private List<FieldErrorDTO> fieldErrors = new ArrayList<>();
+	private List<FieldErrorDTO> fieldErrors = new ArrayList<FieldErrorDTO>();
 
 	public ValidationErrorDTO() {
 

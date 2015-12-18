@@ -30,6 +30,16 @@ public class AddressController {
 		return addressService.getAllAddresses();
 	}
 
+	@RequestMapping(method = RequestMethod.GET, value="user/{empId}")
+	public Address getAddressForUser(@PathVariable Long empId) {
+		return addressService.getAddressForEmployee(empId);
+	}
+	
+	@RequestMapping(method = RequestMethod.PUT, value="user/{empId}")
+	public Address updateAddressForUser(@PathVariable Long empId, @Valid @RequestBody Address address) {
+		return addressService.updateAddressForEmployee(empId,address);
+	}
+	
 	@RequestMapping(method = RequestMethod.POST)
 	public Address addAddress(@Valid @RequestBody Address address) {
 		return addressService.addAddress(address);
@@ -38,6 +48,11 @@ public class AddressController {
 	@RequestMapping(method = RequestMethod.PUT)
 	public Address updateAddress(@Valid @RequestBody Address address) {
 		return addressService.updateAddress(address);
+	}
+	
+	@RequestMapping(method = RequestMethod.PUT, value="approveStatus/{addressId}")
+	public int updateStatus(@PathVariable Long addressId) {
+		return addressService.updateStatus(addressId);
 	}
 	
 	@RequestMapping(value="{id}", method = RequestMethod.DELETE)

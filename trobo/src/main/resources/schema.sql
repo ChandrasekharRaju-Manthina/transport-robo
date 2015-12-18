@@ -7,6 +7,8 @@ create table Address (
 	country varchar(30) not null,
 	longitude NUMERIC, 
 	latitude NUMERIC,
+	longitude double, 
+	latitude double,
 	status varchar(30)
 );
 
