@@ -66,7 +66,7 @@ public class JdbcAddressRepository implements AddressRepository {
 			return new Address(rs.getLong("id"), rs.getString("address_line"),
 					rs.getString("city"), rs.getString("state"),
 					rs.getString("zip"), rs.getString("country"),
-					rs.getDouble("latitude"), rs.getDouble("longitude"), rs.getString("status"));
+					rs.getBigDecimal("latitude"), rs.getBigDecimal("longitude"), rs.getString("status"));
 		}
 	}
 

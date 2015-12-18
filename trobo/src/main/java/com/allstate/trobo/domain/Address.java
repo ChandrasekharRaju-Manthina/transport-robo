@@ -1,5 +1,7 @@
 package com.allstate.trobo.domain;
 
+import java.math.BigDecimal;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -27,9 +29,9 @@ public class Address {
 	@Size(min = 2, max = 30)
 	private String country;
 	
-	private double longitude;
+	private BigDecimal longitude;
 
-	private double latitude;
+	private BigDecimal latitude;
 	
 	private String status;
 
@@ -48,7 +50,7 @@ public class Address {
 	}
 
 	public Address(Long id, String addressLine1, String city, String state,
-			String zip, String country, double latitude, double longitude, String status) {
+			String zip, String country, BigDecimal latitude, BigDecimal longitude, String status) {
 		this.id = id;
 		this.addressLine = addressLine1;
 		this.city = city;
@@ -108,11 +110,11 @@ public class Address {
 		this.country = country;
 	}
 
-	public double getLongitude() {
+	public BigDecimal getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(double longitude) {
+	public void setLongitude(BigDecimal longitude) {
 		this.longitude = longitude;
 	}
 
@@ -124,11 +126,11 @@ public class Address {
 		this.status = status;
 	}
 
-	public double getLatitude() {
+	public BigDecimal getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(double latitude) {
+	public void setLatitude(BigDecimal latitude) {
 		this.latitude = latitude;
 	}
 

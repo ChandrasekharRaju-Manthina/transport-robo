@@ -151,8 +151,8 @@ public class VehicleRoutingImporter extends AbstractTxtSolutionImporter {
         	 for(PickupPoint pickUpPoint: tripSheet.getPickUpPoints()) {
 				Location location = new RoadLocation();
 				location.setId(pickUpPoint.getAddress().getId());
-				location.setLatitude(pickUpPoint.getAddress().getLatitude());
-				location.setLongitude(pickUpPoint.getAddress().getLongitude());
+				location.setLatitude(pickUpPoint.getAddress().getLatitude().doubleValue());
+				location.setLongitude(pickUpPoint.getAddress().getLongitude().doubleValue());
 				location.setName(pickUpPoint.getAddress().getAddressLine());
 				customerLocationList.add(location);
 				locationMap.put(location.getId(), location);

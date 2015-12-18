@@ -1,5 +1,6 @@
 package com.allstate.trobo.helper;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -41,8 +42,8 @@ public class GoogleMapsHelper {
 		
 		try {
 			GeocodingResult[] results = GeocodingApi.newRequest(context).address(aAddress.getAddressLine() +", "+ aAddress.getCity() +", "+ aAddress.getZip()).await();
-			aAddress.setLatitude(results[0].geometry.location.lat);
-			aAddress.setLongitude(results[0].geometry.location.lng);
+			aAddress.setLatitude(new BigDecimal(results[0].geometry.location.lat));
+			aAddress.setLongitude(new BigDecimal(results[0].geometry.location.lng));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
