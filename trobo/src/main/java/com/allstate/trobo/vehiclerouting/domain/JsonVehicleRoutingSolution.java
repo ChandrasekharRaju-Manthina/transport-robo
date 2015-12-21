@@ -16,13 +16,18 @@
 
 package com.allstate.trobo.vehiclerouting.domain;
 
+import java.util.Date;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class JsonVehicleRoutingSolution {
 
     protected String name;
+    protected Date tripDate;
+    protected String tripType;
+    protected Long shiftId;
 
     protected List<JsonCustomer> customerList;
     protected List<JsonVehicleRoute> vehicleRouteList;
@@ -69,5 +74,29 @@ public class JsonVehicleRoutingSolution {
     public void setDistance(String distance) {
         this.distance = distance;
     }
+
+	public Date getTripDate() {
+		return tripDate;
+	}
+
+	public void setTripDate(Date tripDate) {
+		this.tripDate = tripDate;
+	}
+
+	public String getTripType() {
+		return tripType;
+	}
+
+	public void setTripType(String tripType) {
+		this.tripType = tripType;
+	}
+
+	public Long getShiftId() {
+		return shiftId;
+	}
+
+	public void setShiftId(Long shiftId) {
+		this.shiftId = shiftId;
+	}
 
 }

@@ -8,19 +8,26 @@
 		<web-resource-collection>
 			<web-resource-name>Wildcard means whole app requires authentication</web-resource-name>
 			<url-pattern>/*</url-pattern>
-			<http-method>GET</http-method>
-			<http-method>POST</http-method>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>admin</role-name>
 			<role-name>manager</role-name>
 			<role-name>employee</role-name>
 		</auth-constraint>
-<!--
-		<user-data-constraint>
-			 transport-guarantee can be CONFIDENTIAL, INTEGRAL, or NONE 
-			<transport-guarantee>NONE</transport-guarantee>
-		</user-data-constraint> -->
+	</security-constraint>
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Admin pages</web-resource-name>
+			<url-pattern>/driversPage</url-pattern>
+			<url-pattern>/shiftPage</url-pattern>
+			<url-pattern>/vehiclesPage</url-pattern>
+			<url-pattern>/addressPage</url-pattern>
+			<url-pattern>/tripSheetPage</url-pattern>
+			<url-pattern>/viewTripSheet</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>admin</role-name>
+		</auth-constraint>
 	</security-constraint>
 	<login-config>
 		<auth-method>BASIC</auth-method>

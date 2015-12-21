@@ -1,4 +1,4 @@
-var intervalTimer, clearIntervalTimer;
+var intervalTimer, clearIntervalTimer, tripSheetData;
 function scrollToAnchor(aid){
     var aTag = $("a[name='"+ aid +"']");
     $('html,body').animate({scrollTop: aTag.offset().top},'slow');
@@ -30,14 +30,57 @@ terminateSolution = function() {
 }
 updateSolution = function() {
 	clearInterval(intervalTimer);
+	$("#tablesDiv").html("");
+	var vehicles = []; 
+    $("#vehicles :selected").each(function(i, selected){ 
+    	var vehicle = {};
+    	vehicle.id = $(selected).attr("data-id");
+    	vehicle.vehicleNumber = $(selected).attr("data-vehicle-number");
+    	vehicle.seats = $(selected).val();
+    	vehicles.push(vehicle);
+    });
+    
+    var formData = $("#tripSheetForm").serializeObject();
+    formData.vehicles = vehicles;
     $.ajax({
       type: $("#tripSheetForm").attr("method"),
       url: "tripSheet",
       dataType : "json",
       contentType: "application/json;charset=utf-8",
-      data: JSON.stringify($("#tripSheetForm").serializeObject()),
+      data: JSON.stringify(formData),
       success: function(solution) {
+    	  tripSheetData = solution;
     	  console.log(JSON.stringify(solution));
+    	  $("#loadIcon").hide();
+    	  $.each(solution.vehicleRouteList, function( index, vehicleRoute ) {
+    		  
+    		  var employees = [];
+    		  
+    		  $.each(vehicleRoute.customerList, function( index, customer ) {
+    			  $.each(customer.employees, function( index, employee ) {
+    				  employee.location = customer.locationName;
+    				  employee.time = customer.time;    					  
+    				  employees.push(employee);
+        		  });
+    		  });
+    		  
+    		  var panelStart = '<div class="row"><div class="col-lg-12"><div class="panel panel-default"><div class="panel-heading">'+
+		              '<strong>Vehicle number: ' + vehicleRoute.vehicleNumber + '</strong></div><div class="panel-body"><div class="table-responsive">'; 
+			  var panelEnd = '</div></div></div>';
+			  $("#tablesDiv").append(panelStart + '<table id="data-table' + index + '" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%"></table>' + panelEnd);
+			  $("#data-table" + index).DataTable({
+	    	        data: employees,
+	    	        sDom: "t",
+	    	        columns: [
+	    	            { title: "Id", "data": "id", "width": "10%" },
+	    	            { title: "Name", "data": "name", "width": "30%" },
+	    	            { title: "Sex", "data": "sex", "width": "10%" },
+	    	            { title: "Location", "data": "location", "width": "35%" },
+	    	            { title: "Time", "data": "time", "width": "15%" }
+	    	        ]
+	    	    });
+    		});
+    	  $("#tripSheetData").show();
       }, error : function(jqXHR, textStatus, errorThrown) {ajaxError(jqXHR, textStatus, errorThrown)}
     });
   };
@@ -132,19 +175,40 @@ $(function() {
     $("#tripSheetForm").submit(function (e) {
         e.preventDefault();
         console.log(JSON.stringify($("#tripSheetForm").serializeObject()));
+        
+        var vehicles = []; 
+        $("#vehicles :selected").each(function(i, selected){ 
+        	var vehicle = {};
+        	vehicle.id = $(selected).attr("data-id");
+        	vehicle.vehicleNumber = $(selected).attr("data-vehicle-number");
+        	vehicle.seats = $(selected).val();
+        	vehicles.push(vehicle);
+        });
+        
+        var formData = $("#tripSheetForm").serializeObject();
+        formData.vehicles = vehicles;
+        $("#loadIcon").show();
+        $("#errMsg").hide();
         $.ajax({
             type: $("#tripSheetForm").attr("method"),
             url: $("#tripSheetForm").attr("action"),
             dataType: "json",
             contentType: "application/json;charset=utf-8",
-            data: JSON.stringify($("#tripSheetForm").serializeObject()),
+            data: JSON.stringify(formData),
             success: function(data)
             {
             	console.log(data);
-            	$("#loadIcon").show();
-            	intervalTimer = setInterval(function () {
-                    updateSolution()
-                }, 120000);
+            	if(data.success == false) {
+            		console.log("validation errors.");
+            		$("#tablesDiv").html("");
+            		$("#loadIcon").hide();
+            		$("#errMsgMsgTxt").text(data.status);
+            		$("#errMsg").show();
+            	} else {
+	            	intervalTimer = setInterval(function () {
+	                    updateSolution()
+	                }, 30000);
+	            }
 //            	clearIntervalTimer = setInterval(function () {
 //                    terminateSolution()
 //                }, 120000);
@@ -153,6 +217,171 @@ $(function() {
               alert(errorThrown);
             }
         });
+    });
+    
+    
+    
+    $("#viewCabForm").submit(function (e) {
+    	e.preventDefault();
+    	$.ajax({
+            type: 'POST',
+            url: 'tripSheet/findCab',
+            dataType: "json",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify($("#viewCabForm").serializeObject()),
+            success: function(data)
+            {
+            	console.log(data);  
+            	if(data.status == "Not found") {
+            		$("#vehicleDetails").hide();
+            		$("#message").show();
+            	} else {
+	            	$("#vehicleNumber").text(data.vehicleNumber);
+	            	$("#driverName").text(data.driver.name);
+	            	$("#driverNumber").text(data.driver.phoneNumber);
+	            	$("#track").text(data.trackingDeviceLink);
+	            	$("#vehicleDetails").show();
+	            	$("#message").hide();
+            	}
+            },
+            error: function(request,status,errorThrown) {
+              alert(errorThrown);
+            }
+        });
+    });
+    
+    
+    
+    $("#countEmployees").click(function (e) {
+    	var $myForm = $("#tripSheetForm");
+    	$("#vehicles").hide();
+    	if (!$myForm[0].checkValidity()) {
+		  // If the form is invalid, submit it. The form won't actually submit;
+		  // this will just cause the browser to display the native HTML5 error messages.
+		  $myForm.find(":submit").click();
+		}
+    	$("#vehicles").show();
+    	$.ajax({
+            type: 'POST',
+            url: 'tripSheet/count',
+            dataType: "json",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify($("#tripSheetForm").serializeObject()),
+            success: function(data)
+            {
+            	 $("#totalEmployees").text(data);
+            },
+            error: function(request,status,errorThrown) {
+              alert(errorThrown);
+            }
+        });
+    	
+    });
+    
+    $("#saveTripSheet").click(function (e) {
+    	console.log(JSON.stringify(tripSheetData))
+    	$.ajax({
+            type: 'POST',
+            url: 'tripSheet/save',
+            dataType: "json",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify(tripSheetData),
+            success: function(data)
+            {
+            	console.log(data);          	
+            	$("#tripSheetData").hide();
+            	$("#tripSheetForm")[0].reset();
+            	$("#totalSeats").text(0);
+            	$("#totalEmployees").text(0); 
+            	$("#successMsg").show(); 
+            	$("#successMsg").hide().fadeIn("slow").delay(3000).hide(1);
+            },
+            error: function(request,status,errorThrown) {
+              alert(errorThrown);
+            }
+        });
+    });
+    
+    $("#tripDate, #shiftId, #drop").change(function(){
+    	$("#totalEmployees").text(0);       
+    });
+    
+    $("#vehicles").change(function(){
+    	var totalSeats = 0;
+        $("#vehicles :selected").each(function(i, selected){
+        	totalSeats = totalSeats + parseInt($(selected).val());
+        });
+        $("#totalSeats").text(totalSeats);        
+    });
+    
+    $("#viewTripSheetForm").submit(function (e) {
+    	e.preventDefault();
+    	$("#tablesDiv").html("");
+    	$.ajax({
+            type: 'POST',
+            url: 'tripSheet/get',
+            dataType: "json",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify($("#viewTripSheetForm").serializeObject()),
+            success: function(solution)
+            {
+            	console.log(solution);            	
+            	if (typeof solution.vehicleRouteList !== 'undefined' && solution.vehicleRouteList.length > 0) {
+            		$.each(solution.vehicleRouteList, function( index, vehicleRoute ) {
+                		  
+                		  var employees = [];
+                		  
+                		  $.each(vehicleRoute.customerList, function( index, customer ) {
+                			  $.each(customer.employees, function( index, employee ) {
+                				  employee.location = customer.locationName;
+                				  employee.time = customer.time;    					  
+                				  employees.push(employee);
+                    		  });
+                		  });
+                		  
+                		  var panelStart = '<div class="row"><div class="col-lg-12"><div class="panel panel-default"><div class="panel-heading">'+
+		                          '<strong>Vehicle number: ' + vehicleRoute.vehicleNumber + '</strong></div><div class="panel-body"><div class="table-responsive">'; 
+		        		  var panelEnd = '</div></div></div>';
+		        		  $("#tablesDiv").append(panelStart + '<table id="data-table' + index + '" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%"></table>' + panelEnd);
+		    	   	      $("#data-table" + index).DataTable({
+            	    	        data: employees,
+            	    	        sDom: "t",
+            	    	        columns: [
+            	    	            { title: "Id", "data": "id", "width": "10%" },
+				    	            { title: "Name", "data": "name", "width": "100px;" },
+				    	            { title: "Gender", "data": "sex", "width": "10%" },
+				    	            { title: "Location", "data": "location", "width": "35%" },
+				    	            { title: "Time", "data": "time", "width": "15%" }
+            	    	        ]
+            	    	    });
+                		});
+                	  $("#tripSheetData").show();
+                	  $("#message").hide(); 
+            	} else {
+            		$("#tripSheetData").hide();
+            		$("#message").show();            		
+            	}           	
+            	
+            },
+            error: function(request,status,errorThrown) {
+              alert(errorThrown);
+            }
+        });
+    });
+    
+    $("#exportTripSheet").click(function (e) {    
+    	var date = new Date($("#tripSheetDate").val()).getTime();
+    	var shiftId = $("#shiftId").val();
+    	var isDrop = $("#drop").val();
+    	console.log('http://localhost:8080/trobo/tripSheet/export?date='+ 
+    			date + '&id=' + shiftId + '&isDrop=' + isDrop, '_blank');
+    	window.open('http://localhost:8080/trobo/tripSheet/export?date='+ 
+    			date + '&id=' + shiftId + '&isDrop=' + isDrop, '_blank');
+    	
+//    	$("#tripSheetDate").val(date.getDate() + '-' + (date.getMonth() + 1) + '-' +  date.getFullYear());
+//    	var date = new Date($("#tripSheetDate").val());
+//    	$("#tripSheetDate").val(date.getDate() + '-' + (date.getMonth() + 1) + '-' +  date.getFullYear());
+//    	$("#tripSheetDate").val("");
     });
     
     $("#form").submit(function (e) {

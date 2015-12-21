@@ -28,6 +28,9 @@
     
      <!-- DataTables CSS -->
     <link href="<c:url value="/resources/datatables/media/css/dataTables.bootstrap.css" />" rel="stylesheet">
+    
+    <!-- DataTables CSS -->
+    <link href="<c:url value="/resources/css/bootstrap-tour.min.css" />" rel="stylesheet">
 
     <!-- DataTables Responsive CSS 
     <link href="<c:url value="/resources/datatables-responsive/css/dataTables.responsive.css" />" rel="stylesheet"> -->
@@ -57,7 +60,7 @@
      <!-- DataTables JavaScript -->
     <script src="<c:url value="/resources/datatables/media/js/jquery.dataTables.js" />"></script>
     <script src="<c:url value="/resources/datatables/media/js/dataTables.bootstrap.min.js" />"></script>
-   
+    <script src="<c:url value="/resources/js/bootstrap-tour.min.js" />"></script>
 
 </head>
 
@@ -75,9 +78,6 @@
 	  	 <!-- /#page-wrapper -->
 	  	
 	</div>	
-	 <!-- /#wrapper -->
-	 
-	 
-    
+	 <!-- /#wrapper -->    
 </body>
 </html>

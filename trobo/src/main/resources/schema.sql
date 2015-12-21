@@ -7,8 +7,6 @@ create table Address (
 	country varchar(30) not null,
 	longitude NUMERIC, 
 	latitude NUMERIC,
-	longitude double, 
-	latitude double,
 	status varchar(30)
 );
 
@@ -45,7 +43,6 @@ create table TransportRequest (
 	status varchar(1) not null
 );
 
---add sex column
 create table Employee (
 	id identity,
 	name varchar(50) not null,
@@ -55,61 +52,79 @@ create table Employee (
 	sex varchar(1) not null
 );
 
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 1', 1, 1, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 2', 1, 1, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 3', 1, 1, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 4', 1, 1, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 5', 1, 1, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 6', 1, 1, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 7', 1, 1, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 8', 1, 1, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 9', 1, 1, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 9-1', 1, 1, 'A', 'M');
+create table TripRoute (
+	routeId varchar(50) not null,
+	tripDate date not null,
+	tripType varchar(5) not null,
+	shiftId NUMERIC not null,
+	vehicleId NUMERIC not null,
+	tripDistance NUMERIC,
+	paid varchar(1)
+);
 
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 10', 1, 2, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 11', 1, 2, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 12', 1, 2, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 13', 1, 2, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 14', 1, 2, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 15', 1, 2, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 16', 1, 2, 'A', 'M');
+create table TripRouteEmployee (
+	id identity,
+	routeId varchar(50) not null,
+	empId NUMERIC not null,
+	vehicleId NUMERIC not null,
+	tripTime varchar(10) not null,
+);
 
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 17', 1, 3, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 18', 1, 3, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 19', 1, 3, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 1', 1, 1, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 2', 1, 1, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 3', 1, 1, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 4', 1, 1, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 5', 1, 1, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 6', 1, 1, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 7', 1, 1, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 8', 1, 1, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 9', 1, 1, 'A', 'M');
+--insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 9-1', 1, 1, 'A', 'M');
 
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 20', 1, 4, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 21', 1, 4, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 22', 1, 4, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 23', 1, 4, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 24', 1, 4, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 25', 1, 4, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 26', 1, 5, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 10', 1, 2, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 11', 1, 2, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 12', 1, 2, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 13', 1, 2, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 14', 1, 2, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 15', 1, 2, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 16', 1, 2, 'A', 'M');
 
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 27', 1, 5, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 28', 1, 5, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 29', 1, 5, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 30', 1, 5, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 31', 1, 5, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 32', 1, 5, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 17', 1, 3, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 18', 1, 3, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 19', 1, 3, 'A', 'M');
 
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 33', 1, 6, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 34', 1, 6, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 35', 1, 6, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 36', 1, 6, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 37', 1, 6, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 38', 1, 6, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 39', 1, 6, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 20', 1, 4, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 21', 1, 4, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 22', 1, 4, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 23', 1, 4, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 24', 1, 4, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 25', 1, 4, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 26', 1, 5, 'A', 'M');
 
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 40', 1, 7, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 41', 1, 7, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 42', 1, 7, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 43', 1, 7, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 44', 1, 7, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 45', 1, 7, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 46', 1, 7, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 47', 1, 7, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Siva 48', 1, 7, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 27', 1, 5, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 28', 1, 5, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 29', 1, 5, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 30', 1, 5, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 31', 1, 5, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 32', 1, 5, 'A', 'M');
+
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 33', 1, 6, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 34', 1, 6, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 35', 1, 6, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 36', 1, 6, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 37', 1, 6, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 38', 1, 6, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 39', 1, 6, 'A', 'M');
+
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 40', 1, 7, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 41', 1, 7, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 42', 1, 7, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 43', 1, 7, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 44', 1, 7, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 45', 1, 7, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 46', 1, 7, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 47', 1, 7, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee David Johnson 48', 1, 7, 'A', 'M');
 
 insert into TransportRequest (startDate, endDate, employeeId, shiftId, requestType, status) values ('2015-12-16', '2015-12-30', '1', '1', 'T','A');
 insert into TransportRequest (startDate, endDate, employeeId, shiftId, requestType, status) values ('2015-12-16', '2015-12-30', '2', '1', 'T','A');

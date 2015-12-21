@@ -212,15 +212,13 @@ public class VehicleRoutingImporter extends AbstractTxtSolutionImporter {
              solution.setDepotList(depotList);
              
              
-             vehicleListSize = tripSheet.getVehicleCapcities().length;
+             vehicleListSize = tripSheet.getVehicles().size();
              
              List<Vehicle> vehicleList = new ArrayList<Vehicle>(vehicleListSize);
-             long id = 0;
              for (int i = 0; i < vehicleListSize; i++) {
                  Vehicle vehicle = new Vehicle();
-                 vehicle.setId(id);
-                 vehicle.setCapacity(tripSheet.getVehicleCapcities()[i]);
-                 id++;
+                 vehicle.setId(tripSheet.getVehicles().get(i).getId());
+                 vehicle.setCapacity(tripSheet.getVehicles().get(i).getSeats());
                  vehicle.setDepot(depotList.get(0));
                  vehicleList.add(vehicle);
              }

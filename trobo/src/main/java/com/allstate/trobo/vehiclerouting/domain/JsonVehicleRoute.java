@@ -22,17 +22,28 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class JsonVehicleRoute {
 
+	private Long id;
     protected String depotLocationName;
     protected double depotLatitude;
     protected double depotLongitude;
+    protected String time;
 
     protected String hexColor;
     protected int capacity;
     protected int demandTotal;
+    private String vehicleNumber;
 
     protected List<JsonCustomer> customerList;
 
-    public String getDepotLocationName() {
+    public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getDepotLocationName() {
         return depotLocationName;
     }
 
@@ -87,5 +98,21 @@ public class JsonVehicleRoute {
     public void setCustomerList(List<JsonCustomer> customerList) {
         this.customerList = customerList;
     }
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
+	public String getVehicleNumber() {
+		return vehicleNumber;
+	}
+
+	public void setVehicleNumber(String vehicleNumber) {
+		this.vehicleNumber = vehicleNumber;
+	}
 
 }

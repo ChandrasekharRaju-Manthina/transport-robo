@@ -5,7 +5,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class Vehicle {
+public class Vehicle extends BaseDTO {
 
 	private Long id;
 
@@ -23,10 +23,12 @@ public class Vehicle {
 
 	@NotNull
 	private Integer driverId;
-	
+
 	private String driverName;
 
 	private String priceUnit;
+
+	Driver driver;
 
 	public Vehicle() {
 
@@ -96,6 +98,14 @@ public class Vehicle {
 
 	public void setPriceUnit(String priceUnit) {
 		this.priceUnit = priceUnit;
+	}
+
+	public Driver getDriver() {
+		return driver;
+	}
+
+	public void setDriver(Driver driver) {
+		this.driver = driver;
 	}
 
 }

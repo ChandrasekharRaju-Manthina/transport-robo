@@ -6,11 +6,13 @@ import com.allstate.trobo.domain.Shift;
 
 public interface ShiftRepository {
 
-	public Shift save(Shift shift);
+	Shift save(Shift shift);
 
-	public List<Shift> retrieveAll();
+	List<Shift> retrieveAll();
 
-	public void delete(Long id);
+	void delete(Long id);
+
+	Shift get(Long id);
 
 	Shift update(Shift shift);
 

@@ -1,16 +1,13 @@
 package com.allstate.trobo.helper;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.ReadableInstant;
 
 import com.allstate.trobo.domain.Address;
 import com.google.maps.DirectionsApi;
+import com.google.maps.DirectionsApiRequest;
 import com.google.maps.DistanceMatrixApi;
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
@@ -24,14 +21,14 @@ public class GoogleMapsHelper {
 	
 	public GoogleMapsHelper() {
 		
-		String apiKey = Constants.SERVER_API_KEY;
+		String apiKey = "AIzaSyBO3vhXOqMBquP4h11rDb1l7sqKi-zyXZc";
 		context = new GeoApiContext();
 		if (apiKey != null && !apiKey.equalsIgnoreCase("")) {
 		      context.setApiKey(apiKey)
-		      		.setQueryRateLimit(3)
-		      		.setConnectTimeout(1, TimeUnit.SECONDS)
-		      		.setReadTimeout(1, TimeUnit.SECONDS)
-		        	.setWriteTimeout(1, TimeUnit.SECONDS);
+		      		.setQueryRateLimit(10)
+		      		.setConnectTimeout(10, TimeUnit.SECONDS)
+		      		.setReadTimeout(10, TimeUnit.SECONDS)
+		        	.setWriteTimeout(10, TimeUnit.SECONDS);
 		}else {
 			throw new IllegalArgumentException("No credentials found! Set the API_KEY or CLIENT_ID and "
 			          + "CLIENT_SECRET environment variables to run tests requiring authentication.");
@@ -50,7 +47,7 @@ public class GoogleMapsHelper {
 		}
 	}
 	
-	public DirectionsRoute findOptimizedRoute(Address[] wayPoints, DateTime arrivalTime) {
+	public DirectionsRoute findOptimizedRoute(Address[] wayPoints, DateTime time, boolean flag) {
 		
 		//ReadableInstant arrivalTime = new DateTime(2015, 1, 1, 19, 0, DateTimeZone.UTC);
 		int size = wayPoints.length;
@@ -59,13 +56,19 @@ public class GoogleMapsHelper {
 			wayPointsString[i-1] = wayPoints[i].getLatitude()+","+wayPoints[i].getLongitude();
 		}
 		try {
-			DirectionsRoute[] result = DirectionsApi.newRequest(context)
+			DirectionsApiRequest request = DirectionsApi.newRequest(context)
 			        .origin(wayPoints[0].getLatitude()+","+wayPoints[0].getLongitude())
 			        .destination(wayPoints[size-1].getLatitude()+","+wayPoints[size-1].getLongitude())
 			        .optimizeWaypoints(true)
-			        .waypoints(wayPointsString)
-			        .arrivalTime(arrivalTime)
-			        .await();
+			        .waypoints(wayPointsString);
+			if(flag) {
+				//use it for pick up
+				request.arrivalTime(time);
+			} else {
+				//use it for drop
+				request.departureTime(time);
+			}
+			DirectionsRoute[] result = request.await();
 		
 			return result[0];
 		} catch (Exception e) {

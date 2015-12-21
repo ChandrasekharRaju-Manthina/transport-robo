@@ -31,6 +31,12 @@
 	<definition name="tripSheetHome" extends="base">
 		<put-attribute name="body" value="/WEB-INF/views/tripSheetHome.jsp" />
 	</definition>
+	<definition name="viewTripSheet" extends="base">
+		<put-attribute name="body" value="/WEB-INF/views/viewTripSheet.jsp" />
+	</definition>
+	<definition name="viewCabhome" extends="base">
+		<put-attribute name="body" value="/WEB-INF/views/viewCab.jsp" />
+	</definition>
 	<definition name="error" extends="base">
 		<put-attribute name="body" value="/WEB-INF/views/error.jsp" />
 	</definition>

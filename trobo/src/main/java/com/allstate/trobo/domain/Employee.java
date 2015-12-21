@@ -10,7 +10,7 @@ public class Employee {
 	private String name;
 
 	@NotNull
-	private String mangerId;
+	private Long mangerId;
 
 	private Long addressId;
 
@@ -18,12 +18,16 @@ public class Employee {
 	private String status;
 	
 	private String sex;
+	
+	private String location;
+	
+	private String time;
 
 	public Employee() {
 
 	}
 
-	public Employee(Long id, String name, String mangerId, Long addressId,
+	public Employee(Long id, String name, Long mangerId, Long addressId,
 			String status, String sex) {
 		this.id = id;
 		this.name = name;
@@ -49,11 +53,11 @@ public class Employee {
 		this.name = name;
 	}
 
-	public String getMangerId() {
+	public Long getMangerId() {
 		return mangerId;
 	}
 
-	public void setMangerId(String mangerId) {
+	public void setMangerId(Long mangerId) {
 		this.mangerId = mangerId;
 	}
 
@@ -79,6 +83,22 @@ public class Employee {
 
 	public void setSex(String sex) {
 		this.sex = sex;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
 	}
 
 }

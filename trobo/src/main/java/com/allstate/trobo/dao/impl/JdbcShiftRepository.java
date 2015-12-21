@@ -54,4 +54,16 @@ public class JdbcShiftRepository implements ShiftRepository {
 					rs.getString("endTime"));
 		}
 	}
+
+	@Override
+	public Shift get(Long id) {
+		List<Shift> shifts = jdbc.query(
+				"select id, startTime, endTime from Shift where id=?", new Object[] {id},
+				new ShiftRowMapper());
+		Shift shift = null;
+		if (shifts != null) {
+			shift = shifts.get(0);
+		}
+		return shift;
+	}
 }

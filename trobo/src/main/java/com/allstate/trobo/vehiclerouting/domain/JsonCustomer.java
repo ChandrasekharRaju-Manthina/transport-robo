@@ -31,6 +31,8 @@ public class JsonCustomer {
     protected double longitude;
     protected int demand;
     protected List<Employee> employees;
+    private String time;
+    private String location;
 
     public JsonCustomer() {
     }
@@ -90,4 +92,21 @@ public class JsonCustomer {
 	public void setEmployees(List<Employee> employees) {
 		this.employees = employees;
 	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
 }

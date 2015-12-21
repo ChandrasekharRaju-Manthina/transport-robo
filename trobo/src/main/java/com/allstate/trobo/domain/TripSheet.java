@@ -14,6 +14,12 @@ public class TripSheet {
 	private boolean isDrop;
 
 	private List<PickupPoint> pickUpPoints;
+	
+	private List<Vehicle> vehicles;
+	
+	private Shift shift;
+	
+	private String dateString;
 
 	public Integer[] getVehicleCapcities() {
 		return vehicleCapcities;
@@ -53,6 +59,30 @@ public class TripSheet {
 
 	public void setPickUpPoints(List<PickupPoint> pickUpPoints) {
 		this.pickUpPoints = pickUpPoints;
+	}
+
+	public List<Vehicle> getVehicles() {
+		return vehicles;
+	}
+
+	public void setVehicles(List<Vehicle> vehicles) {
+		this.vehicles = vehicles;
+	}
+
+	public Shift getShift() {
+		return shift;
+	}
+
+	public void setShift(Shift shift) {
+		this.shift = shift;
+	}
+
+	public String getDateString() {
+		return dateString;
+	}
+
+	public void setDateString(String dateString) {
+		this.dateString = dateString;
 	}
 
 }
