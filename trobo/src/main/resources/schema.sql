@@ -78,7 +78,7 @@ insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 
 insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 6', 1, 1, 'A', 'M');
 insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 7', 1, 1, 'A', 'M');
 insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 8', 1, 1, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 9', 1, 1, 'A', 'F');
+--insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 9', 1, 8, 'A', 'F');
 --insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 9-1', 1, 1, 'A', 'M');
 
 insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 10', 1, 2, 'A', 'M');
@@ -180,17 +180,18 @@ insert into TransportRequest (startDate, endDate, employeeId, shiftId, requestTy
 insert into TransportRequest (startDate, endDate, employeeId, shiftId, requestType, status) values ('2015-12-16', '2015-12-30', '45', '1', 'T','A');
 insert into TransportRequest (startDate, endDate, employeeId, shiftId, requestType, status) values ('2015-12-16', '2015-12-30', '46', '1', 'T','A');
 insert into TransportRequest (startDate, endDate, employeeId, shiftId, requestType, status) values ('2015-12-16', '2015-12-30', '47', '1', 'T','A');
-insert into TransportRequest (startDate, endDate, employeeId, shiftId, requestType, status) values ('2015-12-16', '2015-12-30', '48', '1', 'T','A');
+--insert into TransportRequest (startDate, endDate, employeeId, shiftId, requestType, status) values ('2015-12-16', '2015-12-30', '48', '1', 'T','A');
 --insert into TransportRequest (startDate, endDate, employeeId, shiftId, requestType, status) values ('2015-12-10', '2015-12-15', '49', '1', 'T','A');
 
 
 insert into Address (address_line, city, state, zip, country, latitude, longitude, status) values ('Innovative multiplex', 'Bangalore', 'Karnataka', '560037', 'Ïndia', '12.952236', '77.6974433','Pending');
 insert into Address (address_line, city, state, zip, country, latitude, longitude, status) values ('Gopalan Innovation Mall', 'Bangalore', 'Karnataka', '560037','India','12.9145344','77.5972563','Pending');
 insert into Address (address_line, city, state, zip, country, latitude, longitude, status) values ('CENTRAL-MALL-BELLANDUR', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.9261483','77.6730996','Pending');
-insert into Address (address_line, city, state, zip, country, latitude, longitude, status) values ('ISKCON-TEMPLE', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.99404','77.5488983','Pending');
-insert into Address (address_line, city, state, zip, country, latitude, longitude, status) values ('Kempegowda-station', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.9768605','77.5701179','Pending');
+insert into Address (address_line, city, state, zip, country, latitude, longitude, status) values ('KSRTC, Tumkur', 'Bangalore', 'Karnataka', '560037', 'Ïndia','13.34111','77.0997923','Pending');
+insert into Address (address_line, city, state, zip, country, latitude, longitude, status) values ('Manayata Tech Park', 'Bangalore', 'Karnataka', '560037', 'Ïndia','13.0479464','77.6124347','Pending');
 insert into Address (address_line, city, state, zip, country, latitude, longitude, status) values ('Inorbit Mall', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.979128','77.7264047','Pending');
 insert into Address (address_line, city, state, zip, country, latitude, longitude, status) values ('Vidhana Soudha', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.981084','77.5864703','Pending');
+insert into Address (address_line, city, state, zip, country, latitude, longitude, status) values ('KR Puram Railway Station', 'Bangalore', 'Karnataka', '560016', 'Ïndia','12.9931942','77.6787089','Pending');
 insert into Address (address_line, city, state, zip, country, status) values ('Dommuluru', 'Bangalore', 'Karnataka', '560037', 'Ïndia','Pending');
 insert into Address (address_line, city, state, zip, country, status) values ('Yeswanthpur', 'Bangalore', 'Karnataka', '560037', 'Ïndia','Pending');
 insert into Address (address_line, city, state, zip, country, status) values ('Shivaji Nagar', 'Bangalore', 'Karnataka', '560037', 'Ïndia','Pending');
@@ -217,11 +218,11 @@ insert into Vehicle (vehicleNumber, seats, trackingDeviceLink, driverId) values 
 insert into Vehicle (vehicleNumber, seats, trackingDeviceLink, driverId) values ('AP 1230', '7', 'TEST LINK', '5');
 insert into Vehicle (vehicleNumber, seats, trackingDeviceLink, driverId) values ('AP 1233', '6', 'TEST LINK', '5');
 insert into Vehicle (vehicleNumber, seats, trackingDeviceLink, driverId) values ('AP 1235', '9', 'TEST LINK', '5');
-insert into Vehicle (vehicleNumber, seats, trackingDeviceLink, driverId) values ('AP 1236', '6', 'TEST LINK', '5');
-insert into Vehicle (vehicleNumber, seats, trackingDeviceLink, driverId) values ('AP 1237', '6', 'TEST LINK', '5');
-insert into Vehicle (vehicleNumber, seats, trackingDeviceLink, driverId) values ('AP 1238', '6', 'TEST LINK', '5');
-insert into Vehicle (vehicleNumber, seats, trackingDeviceLink, driverId) values ('AP 1239', '6', 'TEST LINK', '5');
-insert into Vehicle (vehicleNumber, seats, trackingDeviceLink, driverId) values ('AP 1255', '6', 'TEST LINK', '5');
+insert into Vehicle (vehicleNumber, seats, trackingDeviceLink, driverId) values ('AP 1236', '7', 'TEST LINK', '5');
+insert into Vehicle (vehicleNumber, seats, trackingDeviceLink, driverId) values ('AP 1237', '8', 'TEST LINK', '5');
+insert into Vehicle (vehicleNumber, seats, trackingDeviceLink, driverId) values ('AP 1238', '9', 'TEST LINK', '5');
+insert into Vehicle (vehicleNumber, seats, trackingDeviceLink, driverId) values ('AP 1239', '5', 'TEST LINK', '5');
+insert into Vehicle (vehicleNumber, seats, trackingDeviceLink, driverId) values ('AP 1255', '4', 'TEST LINK', '5');
 
 insert into Shift (startTime, endTime) values ('09:30', '18:00');
 insert into Shift (startTime, endTime) values ('08:00', '16:30');

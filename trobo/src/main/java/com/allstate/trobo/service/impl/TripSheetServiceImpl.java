@@ -185,7 +185,7 @@ public class TripSheetServiceImpl implements TripSheetService {
 			if(tripSheet.isDrop()) {
 				pickUpPoints.add(0,officeAddress);
 			} else {
-				pickUpPoints.add(pickUpPoints.size()-1,officeAddress);
+				pickUpPoints.add(1,officeAddress);
 			}
 			
 			GoogleMapsHelper helper = new GoogleMapsHelper();
@@ -201,7 +201,7 @@ public class TripSheetServiceImpl implements TripSheetService {
 					date = sdf.parse(tripSheet.getShift().getStartTime());
 				}
 			} catch (ParseException e) {
-				
+				e.printStackTrace();
 			}
 			Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
 			calendar.setTime(date);   // assigns calendar to given date 
@@ -225,14 +225,14 @@ public class TripSheetServiceImpl implements TripSheetService {
 				calendar.add(Calendar.SECOND, (int) -totalTimeInSeconds);
 				
 				int count = 0;
-				for(int i = vehicleRoute.getCustomerList().size() -1; i>=0; i--) {
+				for (int i = 0; i < vehicleRoute.getCustomerList().size(); i++) {
 					JsonCustomer customer = vehicleRoute.getCustomerList().get(i);					
 					customer.setTime(sdf.format(calendar.getTime()));
 					long duration = legs[count++].duration.inSeconds;
 					calendar.add(Calendar.SECOND, (int) duration);
 				}
 			} else {			
-				for (int i = 0; i < vehicleRoute.getCustomerList().size(); i++) {
+				for(int i = vehicleRoute.getCustomerList().size() -1; i>=0; i--) {
 					long duration = legs[i].duration.inSeconds;
 					JsonCustomer customer = vehicleRoute.getCustomerList().get(i);
 					calendar.add(Calendar.SECOND, (int) duration);

@@ -52,14 +52,14 @@ public class GoogleMapsHelper {
 		//ReadableInstant arrivalTime = new DateTime(2015, 1, 1, 19, 0, DateTimeZone.UTC);
 		int size = wayPoints.length;
 		String[] wayPointsString = new String[size-2];
-		for(int i=1;i<size-1;i++) {
-			wayPointsString[i-1] = wayPoints[i].getLatitude()+","+wayPoints[i].getLongitude();
+		for(int i=2;i<size;i++) {
+			wayPointsString[i-2] = wayPoints[i].getLatitude()+","+wayPoints[i].getLongitude();
 		}
 		try {
 			DirectionsApiRequest request = DirectionsApi.newRequest(context)
 			        .origin(wayPoints[0].getLatitude()+","+wayPoints[0].getLongitude())
-			        .destination(wayPoints[size-1].getLatitude()+","+wayPoints[size-1].getLongitude())
-			        .optimizeWaypoints(true)
+			        .destination(wayPoints[1].getLatitude()+","+wayPoints[1].getLongitude())
+//			        .optimizeWaypoints(true)
 			        .waypoints(wayPointsString);
 			if(flag) {
 				//use it for pick up
