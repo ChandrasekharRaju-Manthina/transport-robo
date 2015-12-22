@@ -28,6 +28,11 @@ public class JdbcTripRouteRepository implements TripRouteRepository {
 	@Override
 	public List<TripRoute> save(List<TripRoute> tripRoutes) {
 		for (TripRoute route : tripRoutes) {
+			
+			if(route.getEmployees() == null || route.getEmployees().isEmpty()) {
+				continue;
+			}
+			
 			jdbc.update(
 					"insert into TripRoute (routeId, tripDate, tripType, shiftId,"
 							+ "vehicleId, tripDistance, paid)"

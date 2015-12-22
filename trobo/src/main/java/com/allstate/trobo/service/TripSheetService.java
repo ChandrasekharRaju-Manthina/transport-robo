@@ -11,7 +11,7 @@ import com.allstate.trobo.domain.Vehicle;
 import com.allstate.trobo.vehiclerouting.domain.JsonVehicleRoutingSolution;
 
 public interface TripSheetService {
-	VehicleRoutingSolution retrieveOrPrepareTripSheetData(TripSheet tripSheet);
+	VehicleRoutingSolution retrieveOrPrepareTripSheetData(TripSheet tripSheet, boolean create);
 
 	boolean solveRoute(TripSheet tripSheet);
 
@@ -29,4 +29,6 @@ public interface TripSheetService {
 	Vehicle findCab(TripSheet tripSheet, Long empId);
 	
 	List<PickupPoint> getPickupPointDetails(TripSheet tripSheet);
+
+	boolean isTripSheetExist(TripSheet tripSheet);
 }

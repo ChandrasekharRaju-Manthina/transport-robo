@@ -81,7 +81,9 @@ updateSolution = function() {
 	    	    });
     		});
     	  $("#tripSheetData").show();
-      }, error : function(jqXHR, textStatus, errorThrown) {ajaxError(jqXHR, textStatus, errorThrown)}
+      }, error : function(jqXHR, textStatus, errorThrown) {
+    	  alert(errorThrown);
+      }
     });
   };
 
@@ -175,6 +177,8 @@ $(function() {
     $("#tripSheetForm").submit(function (e) {
         e.preventDefault();
         console.log(JSON.stringify($("#tripSheetForm").serializeObject()));
+        
+        
         
         var vehicles = []; 
         $("#vehicles :selected").each(function(i, selected){ 
@@ -348,7 +352,7 @@ $(function() {
             	    	        sDom: "t",
             	    	        columns: [
             	    	            { title: "Id", "data": "id", "width": "10%" },
-				    	            { title: "Name", "data": "name", "width": "100px;" },
+				    	            { title: "Name", "data": "name", "width": "35%" },
 				    	            { title: "Gender", "data": "sex", "width": "10%" },
 				    	            { title: "Location", "data": "location", "width": "35%" },
 				    	            { title: "Time", "data": "time", "width": "15%" }

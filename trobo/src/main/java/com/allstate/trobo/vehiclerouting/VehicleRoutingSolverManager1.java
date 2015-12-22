@@ -17,7 +17,6 @@
 package com.allstate.trobo.vehiclerouting;
 
 import java.io.Serializable;
-import java.net.URL;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
@@ -82,6 +81,13 @@ public class VehicleRoutingSolverManager1 implements Serializable {
         }
         executor.shutdown();
     }
+    
+	public synchronized VehicleRoutingSolution createSolution(String sessionId,
+			TripSheet tripSheet) {
+		VehicleRoutingSolution solution = (VehicleRoutingSolution) new VehicleRoutingImporter(true).readSolution(tripSheet);
+		sessionSolutionMap.put(sessionId, solution);
+		return solution;
+	}
 
     public synchronized VehicleRoutingSolution retrieveOrCreateSolution(String sessionId, TripSheet tripSheet) {
         VehicleRoutingSolution solution = sessionSolutionMap.get(sessionId);

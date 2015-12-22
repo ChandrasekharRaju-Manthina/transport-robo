@@ -78,7 +78,7 @@ insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 
 insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 6', 1, 1, 'A', 'M');
 insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 7', 1, 1, 'A', 'M');
 insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 8', 1, 1, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 9', 1, 1, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 9', 1, 1, 'A', 'F');
 --insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 9-1', 1, 1, 'A', 'M');
 
 insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 10', 1, 2, 'A', 'M');
@@ -89,9 +89,9 @@ insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 
 insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 15', 1, 2, 'A', 'M');
 insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 16', 1, 2, 'A', 'M');
 
-insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 17', 1, 3, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 18', 1, 3, 'A', 'M');
-insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 19', 1, 3, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 17', 1, 3, 'A', 'F');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 18', 1, 3, 'A', 'F');
+insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 19', 1, 3, 'A', 'F');
 
 insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 20', 1, 4, 'A', 'M');
 insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 21', 1, 4, 'A', 'M');
@@ -125,6 +125,7 @@ insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 
 insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 46', 1, 7, 'A', 'M');
 insert into Employee (name, mangerId, addressId, status, sex) values ('Employee 47', 1, 7, 'A', 'M');
 insert into Employee (name, mangerId, addressId, status, sex) values ('Employee David Johnson 48', 1, 7, 'A', 'M');
+insert into Employee (name, mangerId, addressId, status, sex) values ('ESCORT', 1, 12, 'A', 'M');
 
 insert into TransportRequest (startDate, endDate, employeeId, shiftId, requestType, status) values ('2015-12-16', '2015-12-30', '1', '1', 'T','A');
 insert into TransportRequest (startDate, endDate, employeeId, shiftId, requestType, status) values ('2015-12-16', '2015-12-30', '2', '1', 'T','A');
@@ -180,20 +181,23 @@ insert into TransportRequest (startDate, endDate, employeeId, shiftId, requestTy
 insert into TransportRequest (startDate, endDate, employeeId, shiftId, requestType, status) values ('2015-12-16', '2015-12-30', '46', '1', 'T','A');
 insert into TransportRequest (startDate, endDate, employeeId, shiftId, requestType, status) values ('2015-12-16', '2015-12-30', '47', '1', 'T','A');
 insert into TransportRequest (startDate, endDate, employeeId, shiftId, requestType, status) values ('2015-12-16', '2015-12-30', '48', '1', 'T','A');
-insert into TransportRequest (startDate, endDate, employeeId, shiftId, requestType, status) values ('2015-12-10', '2015-12-15', '49', '1', 'T','A');
+--insert into TransportRequest (startDate, endDate, employeeId, shiftId, requestType, status) values ('2015-12-10', '2015-12-15', '49', '1', 'T','A');
 
 
-insert into Address (address_line, city, state, zip, country, latitude, longitude, status) values ('Innovative multiplex', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.95073','77.70005','Pending');
-insert into Address (address_line, city, state, zip, country, latitude, longitude, status) values ('Goplan-Mall', 'Bangalore', 'Karnataka', '560037','India','12.91434','77.59964','Pending');
-insert into Address (address_line, city, state, zip, country, latitude, longitude, status) values ('CENTRAL-MALL-BELLANDUR', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.91650','77.59280','Pending');
-insert into Address (address_line, city, state, zip, country, latitude, longitude, status) values ('ISKCON-TEMPLE', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.90625','77.55505','Pending');
-insert into Address (address_line, city, state, zip, country, latitude, longitude, status) values ('Kempegowda-station', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.97766','77.57302','Pending');
-insert into Address (address_line, city, state, zip, country, latitude, longitude, status) values ('Mantri-mall', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.99070','77.57199','Pending');
-insert into Address (address_line, city, state, zip, country, latitude, longitude, status) values ('BULSKAMP', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.92569','77.61801','Pending');
+insert into Address (address_line, city, state, zip, country, latitude, longitude, status) values ('Innovative multiplex', 'Bangalore', 'Karnataka', '560037', 'Ïndia', '12.952236', '77.6974433','Pending');
+insert into Address (address_line, city, state, zip, country, latitude, longitude, status) values ('Gopalan Innovation Mall', 'Bangalore', 'Karnataka', '560037','India','12.9145344','77.5972563','Pending');
+insert into Address (address_line, city, state, zip, country, latitude, longitude, status) values ('CENTRAL-MALL-BELLANDUR', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.9261483','77.6730996','Pending');
+insert into Address (address_line, city, state, zip, country, latitude, longitude, status) values ('ISKCON-TEMPLE', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.99404','77.5488983','Pending');
+insert into Address (address_line, city, state, zip, country, latitude, longitude, status) values ('Kempegowda-station', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.9768605','77.5701179','Pending');
+insert into Address (address_line, city, state, zip, country, latitude, longitude, status) values ('Inorbit Mall', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.979128','77.7264047','Pending');
+insert into Address (address_line, city, state, zip, country, latitude, longitude, status) values ('Vidhana Soudha', 'Bangalore', 'Karnataka', '560037', 'Ïndia','12.981084','77.5864703','Pending');
 insert into Address (address_line, city, state, zip, country, status) values ('Dommuluru', 'Bangalore', 'Karnataka', '560037', 'Ïndia','Pending');
 insert into Address (address_line, city, state, zip, country, status) values ('Yeswanthpur', 'Bangalore', 'Karnataka', '560037', 'Ïndia','Pending');
 insert into Address (address_line, city, state, zip, country, status) values ('Shivaji Nagar', 'Bangalore', 'Karnataka', '560037', 'Ïndia','Pending');
 insert into Address (address_line, city, state, zip, country, status) values ('Richmond road', 'Bangalore', 'Karnataka', '560037', 'Ïndia','Pending');
+insert into Address (address_line, city, state, zip, country, status) values ('Escort', 'Bangalore', 'Karnataka', '560037', 'Ïndia','Pending');
+--insert into Address (address_line, city, state, zip, country, latitude, longitude, status) values ('Manayata Tech Park', 'Bangalore', 'Karnataka', '560016', 'Ïndia','12.9531159','77.6969939','Pending');
+
 
 insert into Driver (name, licenseNumber, phoneNumber, yearsOfExperience) values ('Chandu', 'ABCDEFGHIJKL', '1234567890', '5');
 insert into Driver (name, licenseNumber, phoneNumber, yearsOfExperience) values ('Anil', 'ABCDEFGHIJKL', '1234567890', '5');

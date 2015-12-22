@@ -2,6 +2,8 @@ package com.allstate.trobo.service.impl;
 
 import java.awt.Color;
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -88,7 +90,7 @@ public class TripSheetServiceImpl implements TripSheetService {
 	}
 
 	public VehicleRoutingSolution retrieveOrPrepareTripSheetData(
-			TripSheet tripSheet) {
+			TripSheet tripSheet, boolean create) {
 
 		List<PickupPoint> pickUpPoints = getPickupPointDetails(tripSheet);
 		Shift shift = shiftRepository.get(tripSheet.getShiftId());
@@ -105,10 +107,17 @@ public class TripSheetServiceImpl implements TripSheetService {
 		pickUpPoints.add(0, pickUpPoint);
 		tripSheet.setPickUpPoints(pickUpPoints);
 		tripSheet.setShift(shift);
-		VehicleRoutingSolution solution = solverManager
-				.retrieveOrCreateSolution(tripSheet.getDate().toString()
-						+ tripSheet.getShiftId() + tripSheet.isDrop(),
-						tripSheet);
+		VehicleRoutingSolution solution;
+		if(create) {
+			solution = solverManager.createSolution(tripSheet.getDate().toString()
+							+ tripSheet.getShiftId() + tripSheet.isDrop(),
+							tripSheet);
+		} else {
+			solution = solverManager
+					.retrieveOrCreateSolution(tripSheet.getDate().toString()
+							+ tripSheet.getShiftId() + tripSheet.isDrop(),
+							tripSheet);
+		}
 		return solution;
 	}
 	
@@ -140,15 +149,38 @@ public class TripSheetServiceImpl implements TripSheetService {
 				//TODO: need to fix this
 				customer.setEmployees(map.get(customer.getId()));
 				Address address = new Address();
-				address.setLatitude(new BigDecimal(customer.getLatitude()));
-				address.setLongitude(new BigDecimal(customer.getLongitude()));
+				address.setLatitude(new BigDecimal(customer.getLatitude()).round(new MathContext(14, RoundingMode.HALF_UP)));
+				address.setLongitude(new BigDecimal(customer.getLongitude()).round(new MathContext(14, RoundingMode.HALF_UP)));
 				customer.setTime("??:??");
 				pickUpPoints.add(address);
 			}
 			
+			if(pickUpPoints.size() == 0) {
+				continue;
+			}
+			
+			//add escort
+			JsonCustomer lastAddress = vehicleRoute.getCustomerList().get(0);
+			List<Employee> employees = lastAddress.getEmployees();
+			boolean isFemaleEmp = true;
+			for(Employee emp: employees) {
+				if(("M").equalsIgnoreCase(emp.getSex())) {
+					isFemaleEmp = false;
+				}
+			}
+			
+			if(isFemaleEmp && vehicleRoute.getCapacity() > vehicleRoute.getDemandTotal()) {
+				Employee emp = new Employee();
+				emp.setId(49L);
+				emp.setName("ESCORT");
+				emp.setSex("M");
+				emp.setAddressId(lastAddress.getId());
+				employees.add(emp);
+			}				
+			
 			Address officeAddress = new Address();
-			officeAddress.setLatitude(new BigDecimal(12.92539));
-			officeAddress.setLongitude(new BigDecimal(77.68664));
+			officeAddress.setLatitude(new BigDecimal("12.92539"));
+			officeAddress.setLongitude(new BigDecimal("77.68664"));
 			
 			if(tripSheet.isDrop()) {
 				pickUpPoints.add(0,officeAddress);
@@ -173,7 +205,7 @@ public class TripSheetServiceImpl implements TripSheetService {
 			}
 			Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
 			calendar.setTime(date);   // assigns calendar to given date 
-			int hour = calendar.get(Calendar.HOUR);
+			int hour = calendar.get(Calendar.HOUR_OF_DAY);
 			int minute = calendar.get(Calendar.MINUTE);
 			
 			Calendar calendar1 = GregorianCalendar.getInstance();
@@ -184,11 +216,6 @@ public class TripSheetServiceImpl implements TripSheetService {
 			DirectionsRoute route = helper.findOptimizedRoute(pickUpPoints.toArray(wayPoints), time, !tripSheet.isDrop());
 			
 			DirectionsLeg[] legs = route.legs;
-//			if(tripSheet.isDrop()) {
-//				vehicleRoute.setTime(tripSheet.getShift().getEndTime());
-//			} else {
-//				vehicleRoute.setTime(tripSheet.getShift().getStartTime());;
-//			}
 			
 			if(!tripSheet.isDrop()) {
 				long totalTimeInSeconds = 0;
@@ -212,13 +239,6 @@ public class TripSheetServiceImpl implements TripSheetService {
 					customer.setTime(sdf.format(calendar.getTime()));
 				}
 			}
-			
-//			for (int i = 0; i < legs.length; i++) {
-//				long duration = legs[i].duration.inSeconds;
-//				
-//			}
-//			
-//			System.out.println(route);
 		}
 		
 		
@@ -229,6 +249,19 @@ public class TripSheetServiceImpl implements TripSheetService {
 	public void saveTripSheet(JsonVehicleRoutingSolution tripSheet) {
 		List<TripRoute> tripRoutes = TripSheetDataMapper.mapTripSheetToRoute(tripSheet);
 		tripRouteRepository.save(tripRoutes);	
+	}
+	
+	@Override
+	public boolean isTripSheetExist(TripSheet tripSheet) {
+		List<TripRoute> tripRoutes = tripRouteRepository.get(tripSheet.getDate()
+				+ ""
+				+ tripSheet.getShiftId()
+				+ (tripSheet.isDrop() ? "D" : "P"));
+		if(tripRoutes == null || tripRoutes.size() ==0) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 	
 	@Override

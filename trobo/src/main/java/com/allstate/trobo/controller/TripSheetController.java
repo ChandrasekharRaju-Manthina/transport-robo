@@ -35,10 +35,9 @@ public class TripSheetController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public JsonVehicleRoutingSolution genrateTripSheetData(@RequestBody TripSheet tripSheet) {
+	public JsonVehicleRoutingSolution genrateTripSheetData(@RequestBody TripSheet tripSheet) {		
+		VehicleRoutingSolution solution = tripSheetService.retrieveOrPrepareTripSheetData(tripSheet, false);
 		tripSheetService.terminateEarly(tripSheet);
-		VehicleRoutingSolution solution = tripSheetService.retrieveOrPrepareTripSheetData(tripSheet);
-		
 		return tripSheetService.generateTripSheet(tripSheet, solution);
 	}
 
@@ -51,14 +50,29 @@ public class TripSheetController {
 			capacity = capacity + vehicle.getSeats();
 		}
 		
+		if(numberOfEmployees == 0) {
+			baseDTO.setSuccess(false);
+			baseDTO.setStatus("There are no employee requests for the given date.");
+			return baseDTO;
+		}
+		
 		if(numberOfEmployees>capacity) {
 			baseDTO.setSuccess(false);
 			baseDTO.setStatus("Vehicle seats or capacity is not enough to generate tripsheet.");
-		} else {
-			tripSheetService.retrieveOrPrepareTripSheetData(tripSheet);
-			boolean isSuccess = tripSheetService.solveRoute(tripSheet);
-			baseDTO.setSuccess(isSuccess);
+			return baseDTO;
+		} 
+		
+		boolean isTripSheetExist = tripSheetService.isTripSheetExist(tripSheet);
+		if(isTripSheetExist) {
+			baseDTO.setSuccess(false);
+			baseDTO.setStatus("Tripsheet already exist for the given date and shift.");
+			return baseDTO;
 		}
+				
+		tripSheetService.retrieveOrPrepareTripSheetData(tripSheet, true);
+		boolean isSuccess = tripSheetService.solveRoute(tripSheet);
+		baseDTO.setSuccess(isSuccess);
+
 		return baseDTO;
 	}
 	
