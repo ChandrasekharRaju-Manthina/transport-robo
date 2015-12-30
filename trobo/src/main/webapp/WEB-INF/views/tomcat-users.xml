@@ -40,5 +40,5 @@
   <user username="Employee 1" password="employee" roles="employee"/>
   <user username="Employee 2" password="manager" roles="manager"/>
   <user username="Employee 3" password="admin" roles="admin"/>
-
+  <user username="Employee 4" password="admin" roles="admin"/>
 </tomcat-users>

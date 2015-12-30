@@ -13,4 +13,6 @@ public interface TransportReqService {
 
 	public TransportReq updateTransportReq(TransportReq transportReq);
 
+	List<TransportReq> getTransportReqs(Long id);
+
 }

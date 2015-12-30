@@ -2,6 +2,7 @@ package com.allstate.trobo.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,17 +13,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.allstate.trobo.domain.Address;
+import com.allstate.trobo.domain.Employee;
 import com.allstate.trobo.service.AddressService;
+import com.allstate.trobo.service.EmployeeService;
 
 @RestController
 @RequestMapping("/addresses")
 public class AddressController {
 
 	AddressService addressService;
+	
+	EmployeeService employeeService;
 
 	@Autowired
-	public AddressController(AddressService addressService) {
+	public AddressController(AddressService addressService, EmployeeService employeeService) {
 		this.addressService = addressService;
+		this.employeeService = employeeService;
 	}
 
 	@RequestMapping
@@ -50,6 +56,15 @@ public class AddressController {
 		return addressService.updateAddress(address);
 	}
 	
+	@RequestMapping(value="employee", method = RequestMethod.POST)
+	public Employee updateEmpAddress(@RequestBody Employee employee, HttpServletRequest request) {
+		Employee sessionEmpData = (Employee) request.getSession().getAttribute("loggedInUser");
+		employee.setId(sessionEmpData.getId());
+		employee = employeeService.updateAddress(employee);
+		sessionEmpData.setAddressId(employee.getAddressId());
+		return employee;
+	}
+	
 	@RequestMapping(method = RequestMethod.PUT, value="approveStatus/{addressId}")
 	public int updateStatus(@PathVariable Long addressId) {
 		return addressService.updateStatus(addressId);
@@ -57,7 +72,6 @@ public class AddressController {
 	
 	@RequestMapping(value="{id}", method = RequestMethod.DELETE)
 	public void deleteAddress(@PathVariable Long id) {
-		System.out.println(id);
 		addressService.deleteAddress(id);
 	}
 }

@@ -13,8 +13,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 import org.joda.time.DateTime;
 import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
@@ -98,8 +100,8 @@ public class TripSheetServiceImpl implements TripSheetService {
 		Address address = new Address();
 		address.setId(0L);
 		address.setAddressLine("Allstate");
-		address.setLatitude(new BigDecimal(12.92539));
-		address.setLongitude(new BigDecimal(77.68664));
+		address.setLatitude(new BigDecimal(12.9254186));
+		address.setLongitude(new BigDecimal(77.6861396));
 
 		PickupPoint pickUpPoint = new PickupPoint();
 		pickUpPoint.setAddress(address);
@@ -131,10 +133,11 @@ public class TripSheetServiceImpl implements TripSheetService {
 			jsonSol.setTripType("P");
 		}
 		
-		Map<Long, List<Employee>> map = new HashMap<Long, List<Employee>>();
+		Map<Long, Queue<Employee>> map = new HashMap<Long, Queue<Employee>>();
 		for(PickupPoint pickUpPoint: tripSheet.getPickUpPoints()) {
 			List<Employee> employees = tripSheetRepository.getEmployeeDetails(tripSheet, pickUpPoint.getAddress());
-			map.put(pickUpPoint.getAddress().getId(), employees);
+			Queue<Employee> queue = new LinkedList<Employee>(employees);
+			map.put(pickUpPoint.getAddress().getId(), queue);
 		}
 		
 		Map<Long, com.allstate.trobo.domain.Vehicle> vehicles = new HashMap<Long, com.allstate.trobo.domain.Vehicle>();
@@ -146,8 +149,12 @@ public class TripSheetServiceImpl implements TripSheetService {
 			List<Address> pickUpPoints =   new ArrayList<Address>();			
 			vehicleRoute.setVehicleNumber(vehicles.get(vehicleRoute.getId()).getVehicleNumber());
 			for(JsonCustomer customer:vehicleRoute.getCustomerList()) {
-				//TODO: need to fix this
-				customer.setEmployees(map.get(customer.getId()));
+				Employee employee = map.get(customer.getId()).poll();
+				
+				List<Employee> employees= new ArrayList<Employee>();
+				employees.add(employee);
+				
+				customer.setEmployees(employees);
 				Address address = new Address();
 				address.setLatitude(new BigDecimal(customer.getLatitude()).round(new MathContext(14, RoundingMode.HALF_UP)));
 				address.setLongitude(new BigDecimal(customer.getLongitude()).round(new MathContext(14, RoundingMode.HALF_UP)));

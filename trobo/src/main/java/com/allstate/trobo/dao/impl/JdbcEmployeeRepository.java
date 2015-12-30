@@ -34,6 +34,14 @@ public class JdbcEmployeeRepository implements EmployeeRepository {
 			return null;
 		}
 	}
+	
+	@Override
+	public Employee updateAddress(Employee employee) {
+		jdbc.update(
+				"update Employee set addressId=? where id=?",
+				employee.getAddressId(), employee.getId());
+		return employee;
+	}
 
 	private static class EmployeeRowMapper implements RowMapper<Employee> {
 		public Employee mapRow(ResultSet rs, int rowNum) throws SQLException {

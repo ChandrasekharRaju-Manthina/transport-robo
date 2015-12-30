@@ -17,7 +17,10 @@
 package com.allstate.trobo.vehiclerouting;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -42,9 +45,12 @@ import org.optaplanner.examples.vehiclerouting.domain.timewindowed.TimeWindowedV
 import org.optaplanner.examples.vehiclerouting.persistence.VehicleRoutingDao;
 import org.optaplanner.examples.vehiclerouting.persistence.VehicleRoutingFileIO;
 
+import com.allstate.trobo.domain.Address;
 import com.allstate.trobo.domain.PickupPoint;
 import com.allstate.trobo.domain.TripSheet;
 import com.allstate.trobo.exception.ApplicationException;
+import com.allstate.trobo.helper.GoogleMapsHelper;
+import com.google.maps.model.DistanceMatrix;
 
 public class VehicleRoutingImporter extends AbstractTxtSolutionImporter {
 
@@ -118,7 +124,8 @@ public class VehicleRoutingImporter extends AbstractTxtSolutionImporter {
             } else if (unit == 'N') {
               dist = dist * 0.8684;
               }
-            return (dist);
+            BigDecimal bd = new BigDecimal(dist + "").round(new MathContext(7, RoundingMode.HALF_UP));
+            return bd.doubleValue();
           }
 
           /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
@@ -158,22 +165,36 @@ public class VehicleRoutingImporter extends AbstractTxtSolutionImporter {
 				locationMap.put(location.getId(), location);
 			}
         	 
+        	 Address[] addresses = new Address[customerListSize];
+        	 for(int i = 0; i < customerListSize; i++) {
+        		 Address address = new Address();
+        		 address.setLatitude(new BigDecimal(customerLocationList.get(i).getLatitude()+""));
+        		 address.setLongitude(new BigDecimal(customerLocationList.get(i).getLongitude()+""));
+        		 addresses[i] = address;        		 
+        	 }
+        	 GoogleMapsHelper helper = new GoogleMapsHelper();
+        	 DistanceMatrix matrix = helper.findDistanceMatrix(addresses, addresses);
+        	 System.out.println(matrix);
+        	 
         	 for (int i = 0; i < customerListSize; i++) {
                  RoadLocation location = (RoadLocation) customerLocationList.get(i);
                  Map<RoadLocation, Double> travelDistanceMap = new LinkedHashMap<RoadLocation, Double>(customerListSize);
                 
                  for (int j = 0; j < customerListSize; j++) {
-                     double travelDistance = distance(customerLocationList.get(i).getLatitude(), 
-                    		 customerLocationList.get(i).getLongitude(), 
-                    		 customerLocationList.get(j).getLatitude(), customerLocationList.get(j).getLongitude(), 'K');
-                     System.out.print(travelDistance + "-");
+                    
+                     
                      if (i == j) {
-                         if (travelDistance != 0.0 && !(customerLocationList.get(i).getLatitude() ==customerLocationList.get(j).getLatitude()
-                        		 && customerLocationList.get(i).getLongitude() == customerLocationList.get(j).getLongitude())) {
-                             throw new IllegalStateException("The travelDistance (" + travelDistance
-                                     + ") should be zero.");
-                         }
+//                         if (travelDistance != 0.0 && !(customerLocationList.get(i).getLatitude() ==customerLocationList.get(j).getLatitude()
+//                        		 && customerLocationList.get(i).getLongitude() == customerLocationList.get(j).getLongitude())) {
+//                             throw new IllegalStateException("The travelDistance (" + travelDistance
+//                                     + ") should be zero.");
+//                         }
                      } else {
+//                    	 double travelDistance = distance(customerLocationList.get(i).getLatitude(), 
+//                        		 customerLocationList.get(i).getLongitude(), 
+//                        		 customerLocationList.get(j).getLatitude(), customerLocationList.get(j).getLongitude(), 'K');
+                    	 double travelDistance = (double) matrix.rows[i].elements[j].distance.inMeters  / 1000;
+                    	 System.out.print(travelDistance + "-");
                          RoadLocation otherLocation = (RoadLocation) customerLocationList.get(j);
                          travelDistanceMap.put(otherLocation, travelDistance);
                      }
@@ -183,23 +204,20 @@ public class VehicleRoutingImporter extends AbstractTxtSolutionImporter {
         	 
         	 solution.setLocationList(customerLocationList);
         	 
-        	 List<Customer> customerList = new ArrayList<Customer>(customerListSize);
+        	 List<Customer> customerList = new ArrayList<Customer>();
         	 for (int i = 0; i < customerListSize; i++) {
-                 Customer customer = new Customer();
-                 customer.setId(tripSheet.getPickUpPoints().get(i).getAddress().getId());
-                 Location location = locationMap.get(tripSheet.getPickUpPoints().get(i).getAddress().getId());
-                 if (location == null) {
-                     throw new IllegalArgumentException("The customer with id (" + tripSheet.getPickUpPoints().get(i).getAddress().getId()
-                             + ") has no location (" + location + ").");
-                 }
-                 customer.setLocation(location);
-                 int demand = tripSheet.getPickUpPoints().get(i).getNumberOfEmployees();
-                 customer.setDemand(demand);
-                 // Notice that we leave the PlanningVariable properties on null
-                 // Do not add a customer that has no demand
-                 if (demand != 0) {
+        		 for(int j=0;j < tripSheet.getPickUpPoints().get(i).getNumberOfEmployees();j++) {
+        			 Customer customer = new Customer();
+                     customer.setId(Long.parseLong(tripSheet.getPickUpPoints().get(i).getAddress().getId() + "" + j));
+                     Location location = locationMap.get(tripSheet.getPickUpPoints().get(i).getAddress().getId());
+                     if (location == null) {
+                         throw new IllegalArgumentException("The customer with id (" + tripSheet.getPickUpPoints().get(i).getAddress().getId()
+                                 + ") has no location (" + location + ").");
+                     }
+                     customer.setLocation(location);
+                     customer.setDemand(1);
                      customerList.add(customer);
-                 }
+        		 }
              }
              solution.setCustomerList(customerList);
              

@@ -36,7 +36,7 @@ import com.allstate.trobo.domain.TripSheet;
 
 public class VehicleRoutingSolverManager1 implements Serializable {
 
-    private static final String SOLVER_CONFIG = "org/optaplanner/examples/vehiclerouting/solver/vehicleRoutingSolverConfig.xml";
+    private static final String SOLVER_CONFIG = "org/optaplanner/webexamples/vehiclerouting/vehicleRoutingSolverConfig.xml";
 
     private SolverFactory solverFactory;
     // TODO After upgrading to JEE 7, replace ExecutorService by ManagedExecutorService:

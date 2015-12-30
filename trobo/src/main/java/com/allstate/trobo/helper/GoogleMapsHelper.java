@@ -9,11 +9,13 @@ import com.allstate.trobo.domain.Address;
 import com.google.maps.DirectionsApi;
 import com.google.maps.DirectionsApiRequest;
 import com.google.maps.DistanceMatrixApi;
+import com.google.maps.DistanceMatrixApiRequest;
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
 import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.GeocodingResult;
+import com.google.maps.model.LatLng;
 
 public class GoogleMapsHelper {
 
@@ -21,7 +23,7 @@ public class GoogleMapsHelper {
 	
 	public GoogleMapsHelper() {
 		
-		String apiKey = "AIzaSyBO3vhXOqMBquP4h11rDb1l7sqKi-zyXZc";
+		String apiKey = "AIzaSyAN_o9-sp9SfjgaUN4WCdJNibKXx9225Q4";
 		context = new GeoApiContext();
 		if (apiKey != null && !apiKey.equalsIgnoreCase("")) {
 		      context.setApiKey(apiKey)
@@ -90,8 +92,20 @@ public class GoogleMapsHelper {
 			destinationsArray[i] = destinations[i].getLatitude()+","+destinations[i].getLongitude();
 		}
 		try {
-			matrix =
-			        DistanceMatrixApi.getDistanceMatrix(context, originsArray, destinationsArray).await();
+			DistanceMatrixApiRequest request = new DistanceMatrixApiRequest(context);
+			LatLng[] latLngs = new LatLng[origins.length];
+			for(int i =0;i<origins.length;i++) {
+				LatLng latLng = new LatLng(origins[i].getLatitude().doubleValue(), origins[i].getLongitude().doubleValue());
+//				originsArray[i] = origins[i].getLatitude()+","+origins[i].getLongitude();
+				latLngs[i] = latLng;
+			}			
+			
+			request.origins(latLngs);
+			request.destinations(latLngs);
+			matrix = request.await();
+			
+//			matrix =
+//			        DistanceMatrixApi.getDistanceMatrix(context, originsArray, destinationsArray).await();
 			return matrix;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

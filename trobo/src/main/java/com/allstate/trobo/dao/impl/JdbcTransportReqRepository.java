@@ -11,7 +11,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.allstate.trobo.dao.TransportReqRepository;
-import com.allstate.trobo.domain.Shift;
 import com.allstate.trobo.domain.TransportReq;
 
 @Repository
@@ -27,7 +26,7 @@ public class JdbcTransportReqRepository implements TransportReqRepository {
 	public List<TransportReq> retrieveAll() {
 		return jdbc
 				.query("select id, startDate, endDate, employeeId, shiftId, requestType, status  from TransportRequest where startDate<=? and "
-						+ "endDate>=?", new Object[] {new Date(), new Date()},
+						+ "endDate>=? and status='A'", new Object[] {new Date(), new Date()},
 						new ShiftRowMapper());
 	}
 
@@ -40,23 +39,36 @@ public class JdbcTransportReqRepository implements TransportReqRepository {
 					rs.getString("status"));
 		}
 	}
+	
+	@Override
+	public List<TransportReq> retrieve(Long id) {
+		return jdbc
+				.query("select id, startDate, endDate, employeeId, shiftId, requestType, status  from TransportRequest where status='A' and employeeId=?", new Object[] {id},
+						new ShiftRowMapper());
+	}
 
 	@Override
 	public TransportReq save(TransportReq transportReq) {
-		// TODO Auto-generated method stub
-		return null;
+		jdbc.update(
+				"insert into TransportRequest (startDate, endDate, employeeId, shiftId, requestType, status)"
+						+ " values (?, ?, ?, ?, ?, ?)", transportReq.getStartDate(),
+						transportReq.getEndDate(), transportReq.getEmployeeId(),
+						transportReq.getShiftId(), transportReq.getRequestType(), transportReq.getStatus());
+		return transportReq;
 	}
 
 	@Override
 	public void delete(Long id) {
-		// TODO Auto-generated method stub
-
+		jdbc.update("update TransportRequest set status='D' where id=?", id);
 	}
 
 	@Override
 	public TransportReq update(TransportReq transportReq) {
-		// TODO Auto-generated method stub
-		return null;
+		jdbc.update(
+				"update TransportRequest set startDate=?, endDate=?, shiftId=?, requestType=? where id=?",
+				transportReq.getStartDate(), transportReq.getEndDate(), transportReq.getShiftId(),
+				transportReq.getRequestType(), transportReq.getId());
+		return transportReq;
 	}
 
 }

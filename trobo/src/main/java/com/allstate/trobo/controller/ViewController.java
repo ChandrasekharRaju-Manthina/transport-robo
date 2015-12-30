@@ -14,11 +14,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.allstate.trobo.domain.Address;
 import com.allstate.trobo.domain.Driver;
 import com.allstate.trobo.domain.Employee;
 import com.allstate.trobo.domain.Shift;
 import com.allstate.trobo.domain.Vehicle;
 import com.allstate.trobo.exception.ApplicationException;
+import com.allstate.trobo.service.AddressService;
 import com.allstate.trobo.service.DriverService;
 import com.allstate.trobo.service.EmployeeService;
 import com.allstate.trobo.service.ShiftService;
@@ -36,14 +38,18 @@ public class ViewController {
 	VehicleService vehicleService;
 	
 	EmployeeService employeeService;
+	
+	AddressService addressService;
 
 	@Autowired
 	public ViewController(DriverService driverService,
-			ShiftService shiftService, VehicleService vehicleService, EmployeeService employeeService) {
+			ShiftService shiftService, VehicleService vehicleService,
+			EmployeeService employeeService, AddressService addressService) {
 		this.driverService = driverService;
 		this.shiftService = shiftService;
 		this.vehicleService = vehicleService;
 		this.employeeService = employeeService;
+		this.addressService = addressService;
 	}
 
 	@RequestMapping({ "/", "home" })
@@ -119,4 +125,22 @@ public class ViewController {
 	    request.logout();
 		return "home";
 	}
+	
+	@RequestMapping("transportReqPage")
+	public String transportReqHome(Model model) {
+		List<Shift> shifts = shiftService.getAllShifts();
+		model.addAttribute("shifts", shifts);
+		return "transportReqHome";
+	}
+	
+	@RequestMapping("updateAddressPage")
+	public String updateAddressHome(Model model, HttpServletRequest request) {
+		List<Address> addresses = addressService.getAllAddresses();
+		model.addAttribute("addresses", addresses);
+		
+		Employee employee = (Employee) request.getSession().getAttribute("loggedInUser");
+		model.addAttribute("addressId", employee.getAddressId());
+		return "updateAddressHome";
+	}
+	
 }

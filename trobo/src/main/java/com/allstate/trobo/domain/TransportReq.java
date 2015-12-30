@@ -15,18 +15,15 @@ public class TransportReq {
 	@NotNull
 	private Date endDate;
 
-	@NotNull
+	
 	private Long employeeId;
 
 	@NotNull
 	private Long shiftId;
 
 	@NotNull
-	@Size(min = 5, max = 25)
 	private String requestType;
 
-	@NotNull
-	@Size(min = 5, max = 12)
 	private String status;
 
 	public TransportReq() {

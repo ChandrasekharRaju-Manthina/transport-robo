@@ -41,6 +41,9 @@
 	                            </ul>
 	                            <!-- /.nav-second-level -->
 	                        </li>
+	                        <li>
+	                            <a id="address-tour" href="<c:url value="/updateAddressPage" />"><i class="fa fa-fw fa-home"></i> Update Address</a>
+	                        </li>
 	                        <li id="viewcab-tour">
 	                            <a href="<c:url value="/viewCabPage" />"><i class="glyphicon glyphicon-map-marker"></i> View Cab</a>
 	                        </li>
@@ -48,14 +51,14 @@
 	                            <a href="#"><i class="fa fa-fw fa-car"></i> Transport request<span class="fa arrow"></span></a>
 	                            <ul class="nav nav-second-level">
 	                                <li>
-	                                    <a href="#">Transport request</a>
+	                                    <a href="<c:url value="/transportReqPage" />">Transport request</a>
 	                                </li>
-	                                <li>
+	                               <!--  <li>
 	                                    <a href="#">Adhoc request</a>
 	                                </li>
 	                                <li>
 	                                    <a href="#">Cancel request</a>
-	                                </li>
+	                                </li>  -->
 	                            </ul>
 	                            <!-- /.nav-second-level -->
 	                        </li>
@@ -75,8 +78,8 @@
 	                        <li>
 	                            <a id="approval-tour" href="<c:url value="#" />"><i class="fa fa-fw fa-check-square-o"></i> My Approvals</a>
 	                        </li>
-	                        <li>
-	                            <a id="address-tour" href="<c:url value="/addressPage" />"><i class="fa fa-fw fa-home"></i> Address</a>
+	                       <li>
+	                            <a id="address-tour" href="<c:url value="/updateAddressPage" />"><i class="fa fa-fw fa-home"></i> Update Address</a>
 	                        </li>
 	                        <li>
 	                            <a id="viewcab-tour" href="<c:url value="/viewCabPage" />"><i class="glyphicon glyphicon-map-marker"></i> View Cab</a>
@@ -85,14 +88,14 @@
 	                            <a href="#"><i class="fa fa-fw fa-car"></i> Transport request<span class="fa arrow"></span></a>
 	                            <ul class="nav nav-second-level">
 	                                <li>
-	                                    <a href="#">Transport request</a>
+	                                    <a href="<c:url value="/transportReqPage" />">Transport request</a>
 	                                </li>
-	                                <li>
+	                               <!--  <li>
 	                                    <a href="#">Adhoc request</a>
 	                                </li>
 	                                <li>
 	                                    <a href="#">Cancel request</a>
-	                                </li>
+	                                </li>  -->
 	                            </ul>
 	                            <!-- /.nav-second-level -->
 	                        </li>
@@ -104,7 +107,7 @@
 	                            <a id="home-tour" href="<c:url value="/home" />"><i class="fa fa-fw fa-dashboard"></i> Home</a>
 	                        </li>
 	                        <li>
-	                            <a id="address-tour" href="<c:url value="/addressPage" />"><i class="fa fa-fw fa-home"></i> Address</a>
+	                            <a id="address-tour" href="<c:url value="/updateAddressPage" />"><i class="fa fa-fw fa-home"></i> Update Address</a>
 	                        </li>
 	                        <li>
 	                            <a id="viewcab-tour" href="<c:url value="/viewCabPage" />"><i class="glyphicon glyphicon-map-marker"></i> View Cab</a>
@@ -113,14 +116,14 @@
 	                            <a href="#"><i class="fa fa-fw fa-car"></i> Transport request<span class="fa arrow"></span></a>
 	                            <ul class="nav nav-second-level">
 	                                <li>
-	                                    <a href="#">Transport request</a>
+	                                    <a href="<c:url value="/transportReqPage" />">Transport request</a>
 	                                </li>
-	                                <li>
+	                               <!--  <li>
 	                                    <a href="#">Adhoc request</a>
 	                                </li>
 	                                <li>
 	                                    <a href="#">Cancel request</a>
-	                                </li>
+	                                </li>  -->
 	                            </ul>
 	                            <!-- /.nav-second-level -->
 	                        </li>

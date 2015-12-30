@@ -21,5 +21,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public Employee findEmpByName(String empName) {
 		return employeeRepository.findEmpByName(empName);
 	}
+	
+	@Override
+	public Employee updateAddress(Employee employee) {
+		return employeeRepository.updateAddress(employee);
+	}
 
 }

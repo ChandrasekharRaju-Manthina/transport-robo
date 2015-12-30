@@ -14,4 +14,6 @@ public interface TransportReqRepository {
 
 	TransportReq update(TransportReq trasnportReq);
 
+	List<TransportReq> retrieve(Long id);
+
 }

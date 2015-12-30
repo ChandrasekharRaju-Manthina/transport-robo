@@ -94,6 +94,17 @@
 </div>
 <!-- /.row -->
 
+<div class="row" id="errMsg" style="display: none;">
+	<div class="col-lg-12">           
+		<div class="alert alert-danger">
+     		<p id="errMsgMsgTxt">
+     			Tripsheet data has been saved successfully. You can retrieve it from View trip sheet data option.
+     		</p> 
+     		
+		</div>
+	</div>
+</div>
+
 <div id="tripSheetData" style="display: none;">
 <div class="row">
     <div class="col-lg-12" id="tablesDiv">
@@ -120,19 +131,11 @@
 	</div>
 </div>
 
-<div class="row" id="errMsg" style="display: none;">
-	<div class="col-lg-12">           
-		<div class="alert alert-danger">
-     		<p id="errMsgMsgTxt">
-     			Tripsheet data has been saved successfully. You can retrieve it from View trip sheet data option.
-     		</p> 
-     		
-		</div>
-	</div>
-</div>
+
 <script>
 	$(function(){
 	    var dtToday = new Date();
+	    dtToday.setDate(dtToday.getDate() + 1);
 	
 	    var month = dtToday.getMonth() + 1;
 	    var day = dtToday.getDate();

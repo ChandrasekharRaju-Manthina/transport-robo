@@ -21,6 +21,9 @@ function resetToAdd(form) {
 	} else if(form == "shiftForm") {
 		$("#form").attr('data-success-msg','Shift has been created successfully.');
     	$("#header").html("Add Shift");
+	} else if(form == "transportReqForm") {
+		$("#form").attr('data-success-msg','Transport request has been submitted successfully.');
+    	$("#header").html("Transport request");
 	}
 }
 terminateSolution = function() {	
@@ -30,6 +33,7 @@ terminateSolution = function() {
 }
 updateSolution = function() {
 	clearInterval(intervalTimer);
+	
 	$("#tablesDiv").html("");
 	var vehicles = []; 
     $("#vehicles :selected").each(function(i, selected){ 
@@ -49,6 +53,18 @@ updateSolution = function() {
       contentType: "application/json;charset=utf-8",
       data: JSON.stringify(formData),
       success: function(solution) {
+    	  
+    	  if(solution.feasible == false) {
+    			console.log("validation errors.");
+    			$("#tablesDiv").html("");
+    			$("#loadIcon").hide();
+    			$("#errMsgMsgTxt").text("Algorithm could not generate the tripsheet.");
+    			$("#errMsg").show();
+    			$("#saveTripSheet").hide();
+    	  } else {
+    		  	$("#saveTripSheet").show();
+    	  }
+    	  
     	  tripSheetData = solution;
     	  console.log(JSON.stringify(solution));
     	  $("#loadIcon").hide();
@@ -65,7 +81,7 @@ updateSolution = function() {
     		  });
     		  
     		  var panelStart = '<div class="row"><div class="col-lg-12"><div class="panel panel-default"><div class="panel-heading">'+
-		              '<strong>Vehicle number: ' + vehicleRoute.vehicleNumber + '</strong></div><div class="panel-body"><div class="table-responsive">'; 
+		              '<strong>Vehicle number: ' + vehicleRoute.vehicleNumber + ',&nbsp;&nbsp;Capacity:' + vehicleRoute.capacity +'</strong></div><div class="panel-body"><div class="table-responsive">'; 
 			  var panelEnd = '</div></div></div>';
 			  $("#tablesDiv").append(panelStart + '<table id="data-table' + index + '" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%"></table>' + panelEnd);
 			  $("#data-table" + index).DataTable({
@@ -169,6 +185,15 @@ $(function() {
 	    	$("input[name='id']").val(data.id);
 	    	$("#form").attr('data-success-msg','Shift has been updated successfully.');
 	    	$("#header").html("Update Shift details");
+    	} else if(formName == "transportReqForm") {
+    		var data = $("#data-table").DataTable().row($(this).parents("tr")).data();
+    		$("select[name='requestType']").val(data.requestType);
+	    	$("select[name='shiftId']").val(data.shiftId);
+	    	$("input[name='startDate']").val(data.startDate);
+	    	$("input[name='endDate']").val(data.endDate);
+	    	$("input[name='id']").val(data.id);
+	    	$("#form").attr('data-success-msg','Transport request has been updated successfully.');
+	    	$("#header").html("Update Transport request details");
     	}
     	$("#addLink").show();
     	scrollToAnchor("addMenu");

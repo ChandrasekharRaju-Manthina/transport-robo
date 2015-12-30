@@ -26,6 +26,7 @@ public class TransportReqServiceImpl implements TransportReqService {
 
 	@Override
 	public TransportReq addTransportReq(TransportReq transportReq) {
+		transportReq.setStatus("A");
 		return transportReqRepository.save(transportReq);
 	}
 
@@ -37,6 +38,11 @@ public class TransportReqServiceImpl implements TransportReqService {
 	@Override
 	public List<TransportReq> getAllTransportReqs() {
 		return transportReqRepository.retrieveAll();
+	}
+	
+	@Override
+	public List<TransportReq> getTransportReqs(Long id) {
+		return transportReqRepository.retrieve(id);
 	}
 
 }

@@ -118,7 +118,6 @@
 			                <th>Country</th>
 			                <th>Latitude</th>
 			                <th>Longitude</th>
-			                <th>Status</th>
 			                <th>Action</th>
 			            </tr>
 			        </thead>
@@ -166,6 +165,9 @@ function initAutocomplete() {
 function fillInAddress() {
   // Get the place details from the autocomplete object.
   var place = autocomplete.getPlace();
+  
+  document.getElementById('latitude').value = autocomplete.getPlace().geometry.location.lat();
+  document.getElementById('longitude').value = autocomplete.getPlace().geometry.location.lng();
 
   for (var component in componentForm) {
     document.getElementById(component).value = '';
@@ -190,8 +192,8 @@ function fillInAddress() {
 function geolocate() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
-      document.getElementById('latitude').value = position.coords.latitude;
-      document.getElementById('longitude').value = position.coords.longitude;
+      //document.getElementById('latitude').value = position.coords.latitude;
+     // document.getElementById('longitude').value = position.coords.longitude;
       var geolocation = {
         lat: position.coords.latitude,
         lng: position.coords.longitude
@@ -224,7 +226,7 @@ function geolocate() {
     		"columnDefs": [ {
 			    "targets": 7,
 			    "render": function ( data, type, full, meta ) {
-				      return '<a title="update" class="update" href="#" data-id="' + data +'"><span class="glyphicon glyphicon-edit update">Edit&nbsp;</span></a>' + '<a title="delete" class="delete" href="#" data-url="addresses" data-success-msg="Address has been deleted successfully." data-id="' + data +'"><span class="glyphicon glyphicon-remove-sign delete">Delete&nbsp;</span></a>'+'<a title="approve" class="approve" href="#" data-url="addresses/approveStatus" data-success-msg="Address has been approved successfully." data-id="' + data +'"><span class="glyphicon glyphicon-edit approve">Approve</span></a>';
+				      return '<a title="update" class="update" href="#" data-id="' + data +'"><span class="glyphicon glyphicon-edit update">Edit&nbsp;</span></a>' + '<a title="delete" class="delete" href="#" data-url="addresses" data-success-msg="Address has been deleted successfully." data-id="' + data +'"><span class="glyphicon glyphicon-remove-sign delete">Delete&nbsp;</span></a>';
 			    }
 			}],
             "ajax": {
@@ -239,7 +241,6 @@ function geolocate() {
 	            { "data": "country" },
 	            { "data": "latitude" },
 	            { "data": "longitude" },
-	            { "data": "status" },
 	            { "data": "id" }
 	        ]
    		});
