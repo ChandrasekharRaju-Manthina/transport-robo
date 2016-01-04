@@ -33,12 +33,24 @@ public class TripSheetController {
 	public TripSheetController(TripSheetService tripSheetService) {
 		this.tripSheetService = tripSheetService;
 	}
+	
+	@RequestMapping(method = RequestMethod.POST, value="getSolution")
+	public JsonVehicleRoutingSolution getTripSheetSolution(@RequestBody TripSheet tripSheet) {		
+		VehicleRoutingSolution solution = tripSheetService.retrieveOrPrepareTripSheetData(tripSheet, false);
+		return tripSheetService.convertToJsonVehicleRoutingSolution(solution);
+	}
 
 	@RequestMapping(method = RequestMethod.POST)
 	public JsonVehicleRoutingSolution genrateTripSheetData(@RequestBody TripSheet tripSheet) {		
 		VehicleRoutingSolution solution = tripSheetService.retrieveOrPrepareTripSheetData(tripSheet, false);
 		tripSheetService.terminateEarly(tripSheet);
 		return tripSheetService.generateTripSheet(tripSheet, solution);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "solution")
+	public JsonVehicleRoutingSolution solution(@RequestBody TripSheet tripSheet) { 
+		VehicleRoutingSolution solution = tripSheetService.retrieveOrPrepareTripSheetData(tripSheet, true);
+		return tripSheetService.convertToJsonVehicleRoutingSolution(solution);
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "solve")

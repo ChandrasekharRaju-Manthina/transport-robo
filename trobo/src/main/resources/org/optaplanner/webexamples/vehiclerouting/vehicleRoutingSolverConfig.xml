@@ -38,7 +38,7 @@
       <lateAcceptanceSize>200</lateAcceptanceSize>
     </acceptor>
     <forager>
-      <acceptedCountLimit>1</acceptedCountLimit>
+      <acceptedCountLimit>1000</acceptedCountLimit>
     </forager>
   </localSearch>
 </solver>

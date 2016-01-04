@@ -27,7 +27,7 @@ public class GoogleMapsHelper {
 		context = new GeoApiContext();
 		if (apiKey != null && !apiKey.equalsIgnoreCase("")) {
 		      context.setApiKey(apiKey)
-		      		.setQueryRateLimit(10)
+		      		.setQueryRateLimit(20)
 		      		.setConnectTimeout(10, TimeUnit.SECONDS)
 		      		.setReadTimeout(10, TimeUnit.SECONDS)
 		        	.setWriteTimeout(10, TimeUnit.SECONDS);

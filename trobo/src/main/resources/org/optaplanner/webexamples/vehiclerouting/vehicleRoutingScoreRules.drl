@@ -59,13 +59,24 @@ rule "distanceToPreviousStandstill"
         scoreHolder.addSoftConstraintMatch(kcontext, - $distanceFromPreviousStandstill);
 end
 
+// ############################################################################
+// Soft constraints
+// ############################################################################
+
+//rule "vehicleSize"
+//    when
+//        $vehicle : Vehicle($capacity : capacity)
+//    then
+//        scoreHolder.addSoftConstraintMatch(kcontext, - $capacity);
+//end
+
 //rule "distanceFromLastCustomerToDepot"
 //    when
 //        $customer : Customer(previousStandstill != null)
 //        not Customer(previousStandstill == $customer)
 //    then
-//        Vehicle vehicle = $customer.getVehicle();
-//        scoreHolder.addSoftConstraintMatch(kcontext, - $customer.getDistanceTo(vehicle));
+//       Vehicle vehicle = $customer.getVehicle();
+//       scoreHolder.addSoftConstraintMatch(kcontext, - $customer.getDistanceTo(vehicle));
 //end
 
 

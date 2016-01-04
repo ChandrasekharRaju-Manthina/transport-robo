@@ -72,6 +72,7 @@
                 			<i id="loadIcon" class="fa fa-spinner fa-spin fa-2x" style="padding-right: 10px;display: none;"></i>
                 			<button type="submit" style="width: 80px;" class="btn btn-primary">Generate</button>
                 			<button type="button" id="countEmployees" style="width: 80px;" class="btn btn-primary">Count</button>
+                			<button type="button" id="map" style="width: 80px;" class="btn btn-primary">Map</button>
                     		<button type="reset" style="width: 80px;" class="btn btn-primary">Reset</button>
                     	</div>
                 	</div>
@@ -94,6 +95,15 @@
 </div>
 <!-- /.row -->
 
+<div class="row">
+	<div class="col-lg-12">
+		<p class="pull-right" style="border: solid thin black; border-radius: 5px; padding: 2px;">Total travel distance of vehicles: <b><span id="scoreValue">Not solved</span></b></p>
+		<div>
+        	<button id="resolveDirectionsButton" class="btn btn-default" type="submit" onclick="resolveDirections()">Directions</button>
+      </div>
+      <div id="map-canvas" style="height: 600px; width: 100%; margin-top: 10px; margin-bottom: 10px;"></div>
+	</div>
+</div>
 <div class="row" id="errMsg" style="display: none;">
 	<div class="col-lg-12">           
 		<div class="alert alert-danger">
@@ -131,7 +141,8 @@
 	</div>
 </div>
 
-
+ <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"
+        async defer></script>
 <script>
 	$(function(){
 	    var dtToday = new Date();

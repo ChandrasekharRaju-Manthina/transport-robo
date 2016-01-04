@@ -289,7 +289,7 @@ public class TripSheetServiceImpl implements TripSheetService {
 		return tripRoutes;
 	}
 	
-	protected JsonVehicleRoutingSolution convertToJsonVehicleRoutingSolution(
+	public JsonVehicleRoutingSolution convertToJsonVehicleRoutingSolution(
 			VehicleRoutingSolution solution) {
 		JsonVehicleRoutingSolution jsonSolution = new JsonVehicleRoutingSolution();
 		jsonSolution.setName(solution.getName());

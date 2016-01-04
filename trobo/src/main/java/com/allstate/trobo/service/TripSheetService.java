@@ -31,4 +31,7 @@ public interface TripSheetService {
 	List<PickupPoint> getPickupPointDetails(TripSheet tripSheet);
 
 	boolean isTripSheetExist(TripSheet tripSheet);
+	
+	JsonVehicleRoutingSolution convertToJsonVehicleRoutingSolution(
+			VehicleRoutingSolution solution);
 }
