@@ -46,6 +46,7 @@ rule "vehicleCapacity"
         )
     then
         scoreHolder.addHardConstraintMatch(kcontext, $capacity - $demandTotal.intValue());
+        //scoreHolder.addSoftConstraintMatch(kcontext, $capacity - $demandTotal.intValue());
 end
 
 // ############################################################################
@@ -58,6 +59,19 @@ rule "distanceToPreviousStandstill"
     then
         scoreHolder.addSoftConstraintMatch(kcontext, - $distanceFromPreviousStandstill);
 end
+
+//rule "vehicleCapacity"
+//    when
+//        $vehicle : Vehicle($capacity : capacity)
+//        $demandTotal : Number(intValue > $capacity) from accumulate(
+//            Customer(
+//                vehicle == $vehicle,
+//                $demand : demand),
+//            sum($demand)
+//        )
+//    then
+//       scoreHolder.addSoftConstraintMatch(kcontext, $capacity - $demandTotal.intValue());
+//end
 
 // ############################################################################
 // Soft constraints

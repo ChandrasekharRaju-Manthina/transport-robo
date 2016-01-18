@@ -1,5 +1,49 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
+<style>
+.controls {
+  margin-top: 10px;
+  border: 1px solid transparent;
+  border-radius: 2px 0 0 2px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  height: 32px;
+  outline: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+#pac-input {
+  background-color: #fff;
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 300;
+  margin-left: 12px;
+  padding: 0 11px 0 13px;
+  text-overflow: ellipsis;
+  width: 300px;
+}
+
+#pac-input:focus {
+  border-color: #4d90fe;
+}
+
+.pac-container {
+  font-family: Roboto;
+}
+
+#type-selector {
+  color: #fff;
+  background-color: #4d90fe;
+  padding: 5px 11px 0px 11px;
+}
+
+#type-selector label {
+  font-family: Roboto;
+  font-size: 13px;
+  font-weight: 300;
+}
+
+    </style>
 <div class="row">
 	<div class="col-lg-12">
 		<h3 class="page-header">
@@ -10,6 +54,13 @@
                 <i class="fa fa-home"></i>  <a href="#" name="addMenu" onclick="resetToAdd('addressForm')">Add address</a>
             </li>
         </ol>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+	  <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+      <div id="map" style="height: 600px; width: 100%; margin-top: 10px; margin-bottom: 10px;"></div>
 	</div>
 </div>
 
@@ -166,12 +217,12 @@ function fillInAddress() {
   // Get the place details from the autocomplete object.
   var place = autocomplete.getPlace();
   
-  document.getElementById('latitude').value = autocomplete.getPlace().geometry.location.lat();
-  document.getElementById('longitude').value = autocomplete.getPlace().geometry.location.lng();
+ // document.getElementById('latitude').value = autocomplete.getPlace().geometry.location.lat();
+  //document.getElementById('longitude').value = autocomplete.getPlace().geometry.location.lng();
 
   for (var component in componentForm) {
-    document.getElementById(component).value = '';
-    document.getElementById(component).disabled = false;
+    //document.getElementById(component).value = '';
+    //document.getElementById(component).disabled = false;
   }
 
   // Get each component of the address from the place details
@@ -180,7 +231,7 @@ function fillInAddress() {
     var addressType = place.address_components[i].types[0];
     if (componentForm[addressType]) {
       var val = place.address_components[i][componentForm[addressType]];
-      document.getElementById(addressType).value = val;
+     // document.getElementById(addressType).value = val;
     }
   }
 }
@@ -208,7 +259,167 @@ function geolocate() {
 }
 // [END region_geolocation]
 
+    </script>`
+    
+ <script>
+	// This example adds a search box to a map, using the Google Place Autocomplete
+	// feature. People can enter geographical searches. The search box will return a
+	// pick list containing a mix of places and predicted search terms.
+	
+	
+	var marker, map, geocoder;
+	
+	function geocodePosition(pos) {
+	  if(!geocoder) {
+		geocoder = new google.maps.Geocoder();
+	  }
+	  geocoder.geocode({
+	    latLng: pos
+	  }, function(responses) {
+	    if (responses && responses.length > 0) {
+	      updateMarkerAddress(responses[0].formatted_address, responses[0].address_components);
+	    } else {
+	      updateMarkerAddress('Cannot determine address at this location.', null);
+	    }
+	  });
+	}
+	
+	function updateMarkerPosition(latLng) {
+	  document.getElementById('latitude').value = latLng.lat();
+  	  document.getElementById('longitude').value = latLng.lng();
+	}
+	
+	var infowindow;
+	function updateMarkerAddress(str, address_components) {
+	document.getElementById('addressLine').value = str;
+	for (var component in componentForm) {
+	    document.getElementById(component).value = '';
+	    document.getElementById(component).disabled = false;
+	    if(address_components) {
+		    for (var i = 0; i < address_components.length; i++)  {
+		    	var addressType = address_components[i].types[0];
+		    	if(addressType === component)  {
+		    		document.getElementById(component).value = address_components[i].long_name;
+		    	}
+		    }
+	    }
+	    
+	}
+	  
+	 // if(address_components) {
+		  //for (var i = 0; i < address_components.length; i++) {
+		    //var addressType = address_components[i].types[0];
+		    //if (componentForm[addressType]) {
+		      //var val = address_components[i][componentForm[addressType]];
+		      //document.getElementById(addressType).value = val;
+		    //}
+		  //}
+		  
+		  //document.getElementById('addressLine').value = address_components[0].long_name + "," + address_components[1].long_name ;
+          //document.getElementById('administrative_area_level_2').value = address_components[2].long_name;
+          //document.getElementById('administrative_area_level_1').value = address_components[3].long_name;
+         // document.getElementById('postal_code').value = address_components[4].long_name;
+          //document.getElementById('country').value = address_components[5].long_name;
+		  
+	 // }
+	  
+	  if(!infowindow) {
+		infowindow = new google.maps.InfoWindow();
+	  }
+	  infowindow.setContent(str);
+	  infowindow.open(map, marker);
+	}
+	function initAutocomplete() {
+	  map = new google.maps.Map(document.getElementById('map'), {
+	    center: {lat: 12.925692673182615, lng: 77.68584288954924},
+	    zoom: 13,
+	    mapTypeId: google.maps.MapTypeId.ROADMAP
+	  });
+	
+	  // Create the search box and link it to the UI element.
+	  var input = document.getElementById('pac-input');
+	  var searchBox = new google.maps.places.SearchBox(input);
+	  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+	
+	  // Bias the SearchBox results towards current map's viewport.
+	  map.addListener('bounds_changed', function() {
+	    searchBox.setBounds(map.getBounds());
+	  });
+	
+	  var markers = [];
+	  // [START region_getplaces]
+	  // Listen for the event fired when the user selects a prediction and retrieve
+	  // more details for that place.
+	  searchBox.addListener('places_changed', function() {
+	    var places = searchBox.getPlaces();
+	
+	    if (places.length == 0) {
+	      return;
+	    }
+	
+	    // Clear out the old markers.
+	    markers.forEach(function(marker) {
+	      marker.setMap(null);
+	    });
+	    markers = [];
+	
+	    // For each place, get the icon, name and location.
+	    var bounds = new google.maps.LatLngBounds();
+	    places.forEach(function(place) {
+	      var icon = {
+	        url: place.icon,
+	        size: new google.maps.Size(71, 71),
+	        origin: new google.maps.Point(0, 0),
+	        anchor: new google.maps.Point(17, 34),
+	        scaledSize: new google.maps.Size(25, 25)
+	      };
+		  
+		  marker = new google.maps.Marker({
+			position: place.geometry.location,
+			title: place.name,
+			map: map,
+			draggable: true
+		  });
+		  
+		  updateMarkerPosition(place.geometry.location);
+		  updateMarkerAddress(place.formatted_address, place.address_components);
+		  
+		   // Add dragging event listeners.
+		  google.maps.event.addListener(marker, 'dragstart', function() {
+			//updateMarkerAddress('Dragging...');
+		  });
+	
+		  google.maps.event.addListener(marker, 'drag', function() {
+			updateMarkerPosition(marker.getPosition());
+		  });
+	
+		  google.maps.event.addListener(marker, 'dragend', function() {
+			geocodePosition(marker.getPosition());
+		  });
+	
+	      // Create a marker for each place.
+	      markers.push(new google.maps.Marker({
+	        map: map,
+	        icon: icon,
+	        title: place.name,
+	        position: place.geometry.location
+	      }));
+	
+	      if (place.geometry.viewport) {
+	        // Only geocodes have viewport.
+	        bounds.union(place.geometry.viewport);
+	      } else {
+	        bounds.extend(place.geometry.location);
+	      }
+	    });
+	    map.fitBounds(bounds);
+	  });
+	  // [END region_getplaces]
+	}
+
+
     </script>
+    
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places&callback=initAutocomplete"
         async defer></script>
 <script>

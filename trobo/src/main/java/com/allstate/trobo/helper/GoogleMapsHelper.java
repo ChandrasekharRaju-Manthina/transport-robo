@@ -8,7 +8,6 @@ import org.joda.time.DateTime;
 import com.allstate.trobo.domain.Address;
 import com.google.maps.DirectionsApi;
 import com.google.maps.DirectionsApiRequest;
-import com.google.maps.DistanceMatrixApi;
 import com.google.maps.DistanceMatrixApiRequest;
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
@@ -93,15 +92,21 @@ public class GoogleMapsHelper {
 		}
 		try {
 			DistanceMatrixApiRequest request = new DistanceMatrixApiRequest(context);
-			LatLng[] latLngs = new LatLng[origins.length];
+			LatLng[] originsLatLngs = new LatLng[origins.length];
 			for(int i =0;i<origins.length;i++) {
 				LatLng latLng = new LatLng(origins[i].getLatitude().doubleValue(), origins[i].getLongitude().doubleValue());
 //				originsArray[i] = origins[i].getLatitude()+","+origins[i].getLongitude();
-				latLngs[i] = latLng;
-			}			
+				originsLatLngs[i] = latLng;
+			}	
 			
-			request.origins(latLngs);
-			request.destinations(latLngs);
+			LatLng[] destinationsLatLngs = new LatLng[destinations.length];
+			for(int i =0;i<destinations.length;i++) {
+				LatLng latLng = new LatLng(destinations[i].getLatitude().doubleValue(), destinations[i].getLongitude().doubleValue());
+				destinationsLatLngs[i] = latLng;
+			}	
+			
+			request.origins(originsLatLngs);
+			request.destinations(destinationsLatLngs);
 			matrix = request.await();
 			
 //			matrix =

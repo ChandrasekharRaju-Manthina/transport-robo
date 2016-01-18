@@ -36,42 +36,33 @@ var directionsTaskQueue;
 var directionsTaskTimer;
 
 resolveDirections = function () {
-    $.ajax({
-	  url: "tripSheet/getSolution",
-      type: "POST",
-      dataType : "json",
-      contentType: "application/json;charset=utf-8",
-      data: JSON.stringify($("#tripSheetForm").serializeObject()),
-      success: function(solution) {
-        if (vehicleRouteLines != undefined) {
-          for (var i = 0; i < vehicleRouteLines.length; i++) {
-            vehicleRouteLines[i].setMap(null);
-          }
-        }
-        if (vehicleRouteDirections != undefined) {
-          for (var i = 0; i < vehicleRouteDirections.length; i++) {
-            vehicleRouteDirections[i].setMap(null);
-          }
-        }
-        vehicleRouteLines = undefined;
-        vehicleRouteDirections = [];
-        directionsTaskQueue = [];
-        $.each(solution.vehicleRouteList, function(index, vehicleRoute) {
-          var depotLocation = new google.maps.LatLng(vehicleRoute.depotLatitude, vehicleRoute.depotLongitude);
-          var previousLocation = depotLocation;
-          $.each(vehicleRoute.customerList, function(index, customer) {
-            var location = new google.maps.LatLng(customer.latitude, customer.longitude);
-            directionsTaskQueue.push([previousLocation, location, vehicleRoute.hexColor]);
-            previousLocation = location;
-          });
-          //directionsTaskQueue.push([previousLocation, depotLocation, vehicleRoute.hexColor]);
-        });
-        $('#scoreValue').text(solution.feasible ? solution.distance : "Not solved");
-        directionsTaskTimer = setInterval(function () {
-          sendDirectionsRequest()
-        }, 1000); // 1 per second to avoid limit set by Google API for freeloaders
-      }, error : function(jqXHR, textStatus, errorThrown) {ajaxError(jqXHR, textStatus, errorThrown)}
+    if (vehicleRouteLines != undefined) {
+      for (var i = 0; i < vehicleRouteLines.length; i++) {
+        vehicleRouteLines[i].setMap(null);
+      }
+    }
+    if (vehicleRouteDirections != undefined) {
+      for (var i = 0; i < vehicleRouteDirections.length; i++) {
+        vehicleRouteDirections[i].setMap(null);
+      }
+    }
+    vehicleRouteLines = undefined;
+    vehicleRouteDirections = [];
+    directionsTaskQueue = [];
+    $.each(tripSheetData.vehicleRouteList, function(index, vehicleRoute) {
+      var depotLocation = new google.maps.LatLng(vehicleRoute.depotLatitude, vehicleRoute.depotLongitude);
+      var previousLocation = depotLocation;
+      $.each(vehicleRoute.customerList, function(index, customer) {
+        var location = new google.maps.LatLng(customer.latitude, customer.longitude);
+        directionsTaskQueue.push([previousLocation, location, vehicleRoute.hexColor]);
+        previousLocation = location;
+      });
+      //directionsTaskQueue.push([previousLocation, depotLocation, vehicleRoute.hexColor]);
     });
+    $('#scoreValue').text(tripSheetData.feasible ? tripSheetData.distance : "Not solved");
+    directionsTaskTimer = setInterval(function () {
+      sendDirectionsRequest()
+    }, 1000); // 1 per second to avoid limit set by Google API for freeloaders
   };
   sendDirectionsRequest = function () {
     var task = directionsTaskQueue.shift();
@@ -150,44 +141,51 @@ resolveDirections = function () {
     }
   }
 
+updateMapSolution1 = function(solution) {
+
+	console.log(JSON.stringify(solution));
+    if (vehicleRouteLines != undefined) {
+      for (var i = 0; i < vehicleRouteLines.length; i++) {
+        vehicleRouteLines[i].setMap(null);
+      }
+    }
+    if (vehicleRouteDirections != undefined) {
+      for (var i = 0; i < vehicleRouteDirections.length; i++) {
+        vehicleRouteDirections[i].setMap(null);
+      }
+    }
+    vehicleRouteLines = [];
+    vehicleRouteDirections = undefined;
+    $.each(solution.vehicleRouteList, function(index, vehicleRoute) {
+      var locations = [new google.maps.LatLng(vehicleRoute.depotLatitude, vehicleRoute.depotLongitude)];
+      $.each(vehicleRoute.customerList, function(index, customer) {
+        locations.push(new google.maps.LatLng(customer.latitude, customer.longitude));
+      });
+      //locations.push(new google.maps.LatLng(vehicleRoute.depotLatitude, vehicleRoute.depotLongitude));
+      var line = new google.maps.Polyline({
+        path: locations,
+        geodesic: true,
+        strokeColor: vehicleRoute.hexColor,
+        strokeOpacity: 0.8,
+        strokeWeight: 4
+      });
+      line.setMap(map);
+      vehicleRouteLines.push(line);
+    });
+    $('#scoreValue').text(solution.feasible ? solution.distance : "Not solved");
+};
+
 updateMapSolution = function() {
+	var formData = $("#tripSheetForm").serializeObject();
+    delete formData['vehicleCapcities'];
     $.ajax({
       url: "tripSheet/getSolution",
       type: "POST",
       dataType : "json",
       contentType: "application/json;charset=utf-8",
-      data: JSON.stringify($("#tripSheetForm").serializeObject()),
+      data: JSON.stringify(formData),
       success: function(solution) {
-    	console.log(JSON.stringify(solution));
-        if (vehicleRouteLines != undefined) {
-          for (var i = 0; i < vehicleRouteLines.length; i++) {
-            vehicleRouteLines[i].setMap(null);
-          }
-        }
-        if (vehicleRouteDirections != undefined) {
-          for (var i = 0; i < vehicleRouteDirections.length; i++) {
-            vehicleRouteDirections[i].setMap(null);
-          }
-        }
-        vehicleRouteLines = [];
-        vehicleRouteDirections = undefined;
-        $.each(solution.vehicleRouteList, function(index, vehicleRoute) {
-          var locations = [new google.maps.LatLng(vehicleRoute.depotLatitude, vehicleRoute.depotLongitude)];
-          $.each(vehicleRoute.customerList, function(index, customer) {
-            locations.push(new google.maps.LatLng(customer.latitude, customer.longitude));
-          });
-          //locations.push(new google.maps.LatLng(vehicleRoute.depotLatitude, vehicleRoute.depotLongitude));
-          var line = new google.maps.Polyline({
-            path: locations,
-            geodesic: true,
-            strokeColor: vehicleRoute.hexColor,
-            strokeOpacity: 0.8,
-            strokeWeight: 4
-          });
-          line.setMap(map);
-          vehicleRouteLines.push(line);
-        });
-        $('#scoreValue').text(solution.feasible ? solution.distance : "Not solved");
+    	  updateMapSolution1(solution);    	  
       }, error : function(jqXHR, textStatus, errorThrown) {ajaxError(jqXHR, textStatus, errorThrown)}
     });
   };
@@ -212,6 +210,7 @@ updateSolution = function() {
     
     var formData = $("#tripSheetForm").serializeObject();
     formData.vehicles = vehicles;
+    delete formData['vehicleCapcities'];
     $.ajax({
       type: $("#tripSheetForm").attr("method"),
       url: "tripSheet",
@@ -219,6 +218,11 @@ updateSolution = function() {
       contentType: "application/json;charset=utf-8",
       data: JSON.stringify(formData),
       success: function(solution) {
+    	  updateMapSolution1(solution); 
+    	  if(solution.isNotAccurate == true) {
+    		  $("#errMsgMsgTxt").text("Some of the routes are not accurate. They are taking more time than the expected to reach.");
+    		  $("#errMsg").show();
+    	  }
     	  
     	  if(solution.feasible == false) {
     			console.log("validation errors.");
@@ -252,7 +256,8 @@ updateSolution = function() {
 			  $("#tablesDiv").append(panelStart + '<table id="data-table' + index + '" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%"></table>' + panelEnd);
 			  $("#data-table" + index).DataTable({
 	    	        data: employees,
-	    	        sDom: "t",
+	    	        bPaginate : false,
+	    	        bSort : false,
 	    	        columns: [
 	    	            { title: "Id", "data": "id", "width": "10%" },
 	    	            { title: "Name", "data": "name", "width": "30%" },
@@ -382,6 +387,7 @@ $(function() {
         
         var formData = $("#tripSheetForm").serializeObject();
         formData.vehicles = vehicles;
+        delete formData['vehicleCapcities'];
         $("#loadIcon").show();
         $("#errMsg").hide();
         $.ajax({
@@ -406,7 +412,7 @@ $(function() {
             		
 	            	intervalTimer = setInterval(function () {
 	                    updateSolution()
-	                }, 30000);
+	                }, 120000);
 	            }
 //            	clearIntervalTimer = setInterval(function () {
 //                    terminateSolution()
@@ -468,7 +474,7 @@ $(function() {
         
         var formData = $("#tripSheetForm").serializeObject();
         formData.vehicles = vehicles;
-        
+        delete formData['vehicleCapcities'];
     	 $.ajax({
     	      url: "tripSheet/solution",
     	      type: "POST",
@@ -477,21 +483,46 @@ $(function() {
               data: JSON.stringify(formData),
     	      success: function(solution) {
     	        var zoomBounds = new google.maps.LatLngBounds ();
+    	        
+    	        var addressCapacity = {};
+    	        $.each(solution.customerList, function(index, customer) {
+    	        	if(addressCapacity[customer.id]) {
+    	        		addressCapacity[customer.id] = addressCapacity[customer.id] + 1;
+    	        	} else {
+    	        		addressCapacity[customer.id] = 1;
+    	        	}
+    	        });
+    	        
     	        $.each(solution.customerList, function(index, customer) {
     	          var latLng = new google.maps.LatLng(customer.latitude, customer.longitude);
     	          zoomBounds.extend(latLng);
     	          var marker = new google.maps.Marker({
     	            position: latLng,
-    	            title: customer.locationName + ": Total Employees: " + customer.demand,
+    	            title: customer.locationName + ": Total Employees: " + addressCapacity[customer.id],
     	            map: map
     	          });
     	          google.maps.event.addListener(marker, 'click', function() {
     	            new google.maps.InfoWindow({
-    	              content: customer.locationName + "</br>Total Employees:  " + customer.demand
+    	              content: customer.locationName + "</br>Total Employees:  " + addressCapacity[customer.id]
     	            }).open(map,marker);
     	          })
     	        });
-    	        map.fitBounds(zoomBounds);
+    	        
+
+  	          var latLng = new google.maps.LatLng(solution.vehicleRouteList[0].depotLatitude, solution.vehicleRouteList[0].depotLongitude);
+  	          zoomBounds.extend(latLng);
+  	          var marker = new google.maps.Marker({
+  	            position: latLng,
+  	            title: solution.vehicleRouteList[0].depotLocationName,
+  	            map: map
+  	          });
+  	          google.maps.event.addListener(marker, 'click', function() {
+  	            new google.maps.InfoWindow({
+  	              content: solution.vehicleRouteList[0].depotLocationName
+  	            }).open(map,marker);
+  	          })
+  	          
+  	          map.fitBounds(zoomBounds);
     	      }, error : function(jqXHR, textStatus, errorThrown) {alert(errorThrown);}
     	    });
     });
@@ -505,12 +536,16 @@ $(function() {
 		  $myForm.find(":submit").click();
 		}
     	$("#vehicles").show();
+    	
+    	var formData = $("#tripSheetForm").serializeObject();
+        delete formData['vehicleCapcities'];
+         
     	$.ajax({
             type: 'POST',
             url: 'tripSheet/count',
             dataType: "json",
             contentType: "application/json;charset=utf-8",
-            data: JSON.stringify($("#tripSheetForm").serializeObject()),
+            data: JSON.stringify(formData),
             success: function(data)
             {
             	 $("#totalEmployees").text(data);
@@ -589,7 +624,8 @@ $(function() {
 		        		  $("#tablesDiv").append(panelStart + '<table id="data-table' + index + '" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%"></table>' + panelEnd);
 		    	   	      $("#data-table" + index).DataTable({
             	    	        data: employees,
-            	    	        sDom: "t",
+            	    	        bPaginate : false,
+            	    	        bSort : false,
             	    	        columns: [
             	    	            { title: "Id", "data": "id", "width": "10%" },
 				    	            { title: "Name", "data": "name", "width": "35%" },

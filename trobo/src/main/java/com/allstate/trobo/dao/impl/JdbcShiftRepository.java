@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import com.allstate.trobo.dao.ShiftRepository;
 import com.allstate.trobo.domain.Shift;
-import com.allstate.trobo.domain.Shift;
 
 @Repository
 public class JdbcShiftRepository implements ShiftRepository {

@@ -49,8 +49,6 @@ import com.allstate.trobo.domain.Address;
 import com.allstate.trobo.domain.PickupPoint;
 import com.allstate.trobo.domain.TripSheet;
 import com.allstate.trobo.exception.ApplicationException;
-import com.allstate.trobo.helper.GoogleMapsHelper;
-import com.google.maps.model.DistanceMatrix;
 
 public class VehicleRoutingImporter extends AbstractTxtSolutionImporter {
 
@@ -81,7 +79,8 @@ public class VehicleRoutingImporter extends AbstractTxtSolutionImporter {
         return new VehicleRoutingInputBuilder();
     }
     
-    public Solution readSolution(TripSheet tripSheet)  {
+    @SuppressWarnings("rawtypes")
+	public Solution readSolution(TripSheet tripSheet)  {
     	VehicleRoutingInputBuilder txtInputBuilder = createTxtInputBuilder();
     	  try {
     		txtInputBuilder.setTripSheet(tripSheet);
@@ -113,7 +112,8 @@ public class VehicleRoutingImporter extends AbstractTxtSolutionImporter {
         private Map<Long, Location> locationMap;
         private List<Depot> depotList;
         
-        private double distance(double lat1, double lon1, double lat2, double lon2, char unit) {
+        @SuppressWarnings("unused")
+		private double distance(double lat1, double lon1, double lat2, double lon2, char unit) {
             double theta = lon1 - lon2;
             double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
             dist = Math.acos(dist);
@@ -143,7 +143,8 @@ public class VehicleRoutingImporter extends AbstractTxtSolutionImporter {
           }
 
         
-        public Solution readSolution() {
+        @SuppressWarnings("rawtypes")
+		public Solution readSolution() {
         	 solution = new VehicleRoutingSolution();
         	 solution.setId(0L);
         	 solution.setName("Trip sheet");
@@ -165,16 +166,18 @@ public class VehicleRoutingImporter extends AbstractTxtSolutionImporter {
 				locationMap.put(location.getId(), location);
 			}
         	 
-        	 Address[] addresses = new Address[customerListSize];
-        	 for(int i = 0; i < customerListSize; i++) {
-        		 Address address = new Address();
-        		 address.setLatitude(new BigDecimal(customerLocationList.get(i).getLatitude()+""));
-        		 address.setLongitude(new BigDecimal(customerLocationList.get(i).getLongitude()+""));
-        		 addresses[i] = address;        		 
-        	 }
-        	 GoogleMapsHelper helper = new GoogleMapsHelper();
-        	 DistanceMatrix matrix = helper.findDistanceMatrix(addresses, addresses);
-        	 System.out.println(matrix);
+//        	 Address[] addresses = new Address[customerListSize];
+//        	 for(int i = 0; i < customerListSize; i++) {
+//        		 Address address = new Address();
+//        		 address.setLatitude(new BigDecimal(customerLocationList.get(i).getLatitude()+""));
+//        		 address.setLongitude(new BigDecimal(customerLocationList.get(i).getLongitude()+""));
+//        		 addresses[i] = address;        		 
+//        	 }
+//        	 GoogleMapsHelper helper = new GoogleMapsHelper();
+//        	 DistanceMatrix matrix = helper.findDistanceMatrix(addresses, addresses);
+//        	 System.out.println(matrix);
+        	 
+        	 Map<Long, Address> distanceMatrix = tripSheet.getDistanceMatrix();
         	 
         	 for (int i = 0; i < customerListSize; i++) {
                  RoadLocation location = (RoadLocation) customerLocationList.get(i);
@@ -193,7 +196,15 @@ public class VehicleRoutingImporter extends AbstractTxtSolutionImporter {
 //                    	 double travelDistance = distance(customerLocationList.get(i).getLatitude(), 
 //                        		 customerLocationList.get(i).getLongitude(), 
 //                        		 customerLocationList.get(j).getLatitude(), customerLocationList.get(j).getLongitude(), 'K');
-                    	 double travelDistance = (double) matrix.rows[i].elements[j].distance.inMeters  / 1000;
+//                    	 double travelDistance = (double) matrix.rows[i].elements[j].distance.inMeters  / 1000;
+                    	 double travelDistance;
+                    	 if(distanceMatrix.get(customerLocationList.get(i).getId()) == null || 
+                    			 distanceMatrix.get(customerLocationList.get(i).getId()).getDistToEachAddrMap().get(customerLocationList.get(j).getId()) == null) {
+                    		travelDistance =  distanceMatrix.get(customerLocationList.get(j).getId()).getDistToEachAddrMap().get(customerLocationList.get(i).getId());
+         				} else {
+         					travelDistance = distanceMatrix.get(customerLocationList.get(i).getId()).getDistToEachAddrMap().get(customerLocationList.get(j).getId());
+         				}
+                    	 
                     	 System.out.print(travelDistance + "-");
                          RoadLocation otherLocation = (RoadLocation) customerLocationList.get(j);
                          travelDistanceMap.put(otherLocation, travelDistance);
@@ -245,7 +256,8 @@ public class VehicleRoutingImporter extends AbstractTxtSolutionImporter {
         	 return solution;
         }
 
-        public Solution readSolution1() throws IOException {
+        @SuppressWarnings("rawtypes")
+		public Solution readSolution1() throws IOException {
             String firstLine = readStringValue();
             if (firstLine.matches("\\s*NAME\\s*:.*")) {
                 solution = new VehicleRoutingSolution();

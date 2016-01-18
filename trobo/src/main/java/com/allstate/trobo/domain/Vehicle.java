@@ -5,7 +5,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class Vehicle extends BaseDTO {
+public class Vehicle extends BaseDTO implements Comparable<Vehicle> {
 
 	private Long id;
 
@@ -106,6 +106,11 @@ public class Vehicle extends BaseDTO {
 
 	public void setDriver(Driver driver) {
 		this.driver = driver;
+	}
+
+	@Override
+	public int compareTo(Vehicle o) {
+		return this.seats - o.getSeats();
 	}
 
 }

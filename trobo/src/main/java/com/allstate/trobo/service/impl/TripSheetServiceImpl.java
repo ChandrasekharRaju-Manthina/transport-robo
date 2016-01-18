@@ -2,23 +2,22 @@ package com.allstate.trobo.service.impl;
 
 import java.awt.Color;
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
-import org.joda.time.DateTime;
 import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
 import org.optaplanner.examples.common.swingui.TangoColorFactory;
 import org.optaplanner.examples.vehiclerouting.domain.Customer;
@@ -28,6 +27,7 @@ import org.optaplanner.examples.vehiclerouting.domain.location.Location;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.allstate.trobo.dao.AddressRepository;
 import com.allstate.trobo.dao.ShiftRepository;
 import com.allstate.trobo.dao.TripRouteRepository;
 import com.allstate.trobo.dao.TripSheetRepository;
@@ -37,15 +37,13 @@ import com.allstate.trobo.domain.PickupPoint;
 import com.allstate.trobo.domain.Shift;
 import com.allstate.trobo.domain.TripRoute;
 import com.allstate.trobo.domain.TripSheet;
-import com.allstate.trobo.helper.GoogleMapsHelper;
 import com.allstate.trobo.helper.TripSheetDataMapper;
 import com.allstate.trobo.service.TripSheetService;
-import com.allstate.trobo.vehiclerouting.VehicleRoutingSolverManager1;
+import com.allstate.trobo.util.AppConstants;
+import com.allstate.trobo.vehiclerouting.VehicleRoutingSolverManager;
 import com.allstate.trobo.vehiclerouting.domain.JsonCustomer;
 import com.allstate.trobo.vehiclerouting.domain.JsonVehicleRoute;
 import com.allstate.trobo.vehiclerouting.domain.JsonVehicleRoutingSolution;
-import com.google.maps.model.DirectionsLeg;
-import com.google.maps.model.DirectionsRoute;
 
 @Service
 public class TripSheetServiceImpl implements TripSheetService {
@@ -57,17 +55,20 @@ public class TripSheetServiceImpl implements TripSheetService {
 	private ShiftRepository shiftRepository;
 	
 	private TripRouteRepository tripRouteRepository;
+	
+	private AddressRepository addressRepository;
 
-	private VehicleRoutingSolverManager1 solverManager = VehicleRoutingSolverManager1
+	private VehicleRoutingSolverManager solverManager = VehicleRoutingSolverManager
 			.getInstance();
 
 	@Autowired
 	public TripSheetServiceImpl(TripSheetRepository tripSheetRepository,
 			ShiftRepository shiftRepository,
-			TripRouteRepository tripRouteRepository) {
+			TripRouteRepository tripRouteRepository, AddressRepository addressRepository) {
 		this.tripSheetRepository = tripSheetRepository;
 		this.shiftRepository = shiftRepository;
 		this.tripRouteRepository = tripRouteRepository;
+		this.addressRepository = addressRepository;
 	}
 
 	public boolean solveRoute(TripSheet tripSheet) {
@@ -100,8 +101,8 @@ public class TripSheetServiceImpl implements TripSheetService {
 		Address address = new Address();
 		address.setId(0L);
 		address.setAddressLine("Allstate");
-		address.setLatitude(new BigDecimal(12.9254186));
-		address.setLongitude(new BigDecimal(77.6861396));
+		address.setLatitude(new BigDecimal(AppConstants.OFFICE_LATITUDE));
+		address.setLongitude(new BigDecimal(AppConstants.OFFICE_LONGITUDE));
 
 		PickupPoint pickUpPoint = new PickupPoint();
 		pickUpPoint.setAddress(address);
@@ -109,6 +110,13 @@ public class TripSheetServiceImpl implements TripSheetService {
 		pickUpPoints.add(0, pickUpPoint);
 		tripSheet.setPickUpPoints(pickUpPoints);
 		tripSheet.setShift(shift);
+		
+		//sort vehicles
+		if(tripSheet.getVehicles() != null) {
+			Collections.sort(tripSheet.getVehicles());
+		}
+		
+		tripSheet.setDistanceMatrix(addressRepository.getAddressDistanceMatrix());
 		VehicleRoutingSolution solution;
 		if(create) {
 			solution = solverManager.createSolution(tripSheet.getDate().toString()
@@ -140,14 +148,120 @@ public class TripSheetServiceImpl implements TripSheetService {
 			map.put(pickUpPoint.getAddress().getId(), queue);
 		}
 		
+		//get and prepare distance matrix map
+//		Address[] addresses = new Address[tripSheet.getPickUpPoints().size()];
+//	   	 for(int i = 0; i < tripSheet.getPickUpPoints().size(); i++) {
+//	   		 Address address = new Address();
+//	   		 address.setLatitude(new BigDecimal(tripSheet.getPickUpPoints().get(i).getAddress().getLatitude()+""));
+//	   		 address.setLongitude(new BigDecimal(tripSheet.getPickUpPoints().get(i).getAddress().getLongitude()+""));
+//	   		 addresses[i] = address;        		 
+//	   	 }
+//	   	
+//	   	 GoogleMapsHelper helper = new GoogleMapsHelper();
+//	   	 DistanceMatrix matrix = helper.findDistanceMatrix(addresses, addresses);
+//	   	 Map<Long, Map<Long, DistanceMatrixElement>> distanceMatrix = new HashMap<Long, Map<Long, DistanceMatrixElement>>();
+//	   	 for(int i = 0; i < tripSheet.getPickUpPoints().size(); i++) {
+//	   		Map<Long, DistanceMatrixElement> addrDistMatrix = new HashMap<Long, DistanceMatrixElement>();
+//	   		for(int j = 0; j < tripSheet.getPickUpPoints().size(); j++) {
+//	   			DistanceMatrixElement dme = matrix.rows[i].elements[j];
+//	   			addrDistMatrix.put(tripSheet.getPickUpPoints().get(j).getAddress().getId(), dme);
+//	   		}
+//	   		distanceMatrix.put(tripSheet.getPickUpPoints().get(i).getAddress().getId(), addrDistMatrix);
+//	   	 }
+	   	 
+		
 		Map<Long, com.allstate.trobo.domain.Vehicle> vehicles = new HashMap<Long, com.allstate.trobo.domain.Vehicle>();
 		for(com.allstate.trobo.domain.Vehicle vehicle: tripSheet.getVehicles()) {
 			vehicles.put(vehicle.getId(), vehicle);
 		}
 		
+		
+		Map<Long, Address> distanceMatrix = addressRepository.getAddressDistanceMatrix();
+		
+		Iterator<JsonVehicleRoute> iterator = jsonSol.getVehicleRouteList().iterator();		
+		while(iterator.hasNext()) {
+			JsonVehicleRoute vehicleRoute = iterator.next();
+			if(vehicleRoute.getCustomerList().size() == 0) {
+				continue;
+			}
+			
+//			long timeInSecond = lastCustomerDistance.duration.inSeconds;
+			long totalTime = 0;
+			long customerId = 0L;
+			
+
+			
+			for(int i=0; i< vehicleRoute.getCustomerList().size(); i++) {
+				if(distanceMatrix.get(customerId) == null || distanceMatrix.get(customerId).getTimeToEachAddrMap().get(vehicleRoute.getCustomerList().get(i).getId()) == null) {
+					totalTime = distanceMatrix.get(vehicleRoute.getCustomerList().get(i).getId()).getTimeToEachAddrMap().get(customerId) + totalTime;
+				} else {
+					totalTime = distanceMatrix.get(customerId).getTimeToEachAddrMap().get(vehicleRoute.getCustomerList().get(i).getId()) + totalTime;
+				}
+				
+//				totalTime = distanceMatrix.get(customerId).get(customer.getId()).duration.inSeconds + totalTime;
+				customerId = vehicleRoute.getCustomerList().get(i).getId();
+				
+				//if time is more than 5 minutes then provide seperate cab and use next avilable cab
+				long timeInSecond = distanceMatrix.get(vehicleRoute.getCustomerList().get(i).getId()).getTimeToEachAddrMap().get(0L);
+				if(totalTime - timeInSecond > 300) {
+					List<JsonCustomer> sub = new ArrayList<JsonCustomer>(vehicleRoute.getCustomerList().subList(i, vehicleRoute.getCustomerList().size()));
+					boolean isReRouteSuccess = false;
+					for(JsonVehicleRoute route: jsonSol.getVehicleRouteList()) {
+						if(route.getCustomerList().size() == 0 && route.getCapacity() >= sub.size()) {
+							isReRouteSuccess = true;
+							//remove it from vehicle and add it to new vehicle
+							vehicleRoute.getCustomerList().removeAll(sub);
+							vehicleRoute.setDemandTotal(vehicleRoute.getCustomerList().size());
+							    
+							route.getCustomerList().addAll(sub);
+							route.setDemandTotal(sub.size());
+							break;
+						}
+					}
+					if(!isReRouteSuccess) {
+						jsonSol.setIsNotAccurate(true);
+					}
+					System.out.println(timeInSecond + "-->" + totalTime);
+					break;
+				}
+				
+//				calendar.add(Calendar.SECOND, distanceMatrix.get(vehicleRoute.getCustomerList().get(i).getId()).getTimeToEachAddrMap().get(customerId).intValue());
+//				vehicleRoute.getCustomerList().get(i).setTime(sdf.format(calendar.getTime()));
+			}
+		}
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 		for(JsonVehicleRoute vehicleRoute: jsonSol.getVehicleRouteList()) {
-			List<Address> pickUpPoints =   new ArrayList<Address>();			
+//			List<Address> pickUpPoints =   new ArrayList<Address>();			
 			vehicleRoute.setVehicleNumber(vehicles.get(vehicleRoute.getId()).getVehicleNumber());
+			
+			if(vehicleRoute.getCustomerList().size() == 0) {
+				continue;
+			}
+			
+			long customerId = 0;
+			
+			Date date = null;
+			try {
+				if(tripSheet.isDrop()) {
+					date = sdf.parse(tripSheet.getShift().getEndTime());
+				} else {
+					date = sdf.parse(tripSheet.getShift().getStartTime());
+				}
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			
+			Calendar calendar = GregorianCalendar.getInstance();
+			calendar.setTime(date);
+			
+			//add or minus additional 15 mins
+			if(tripSheet.isDrop()) {
+				calendar.add(Calendar.SECOND, 900);
+			} else {
+				calendar.add(Calendar.SECOND, -900);
+			}
+			
 			for(JsonCustomer customer:vehicleRoute.getCustomerList()) {
 				Employee employee = map.get(customer.getId()).poll();
 				
@@ -155,19 +269,36 @@ public class TripSheetServiceImpl implements TripSheetService {
 				employees.add(employee);
 				
 				customer.setEmployees(employees);
-				Address address = new Address();
-				address.setLatitude(new BigDecimal(customer.getLatitude()).round(new MathContext(14, RoundingMode.HALF_UP)));
-				address.setLongitude(new BigDecimal(customer.getLongitude()).round(new MathContext(14, RoundingMode.HALF_UP)));
-				customer.setTime("??:??");
-				pickUpPoints.add(address);
+				
+				int seconds;
+				if(distanceMatrix.get(customerId) == null || distanceMatrix.get(customerId).getTimeToEachAddrMap().get(customer.getId()) == null) {
+					seconds = distanceMatrix.get(customer.getId()).getTimeToEachAddrMap().get(customerId).intValue();
+				} else {
+					seconds = distanceMatrix.get(customerId).getTimeToEachAddrMap().get(customer.getId()).intValue();
+				}
+				
+				if(tripSheet.isDrop()) {
+					calendar.add(Calendar.SECOND, seconds);
+				} else {
+					calendar.add(Calendar.SECOND, -seconds);
+				}
+				customer.setTime(sdf.format(calendar.getTime()));
+				customerId = customer.getId();
+				
+				
+//				Address address = new Address();
+//				address.setLatitude(new BigDecimal(customer.getLatitude()+ ""));
+//				address.setLongitude(new BigDecimal(customer.getLongitude() + ""));
+//				customer.setTime("??:??");
+//				pickUpPoints.add(address);
 			}
 			
-			if(pickUpPoints.size() == 0) {
-				continue;
-			}
+//			if(pickUpPoints.size() == 0) {
+//				continue;
+//			}
 			
 			//add escort
-			JsonCustomer lastAddress = vehicleRoute.getCustomerList().get(0);
+			JsonCustomer lastAddress = vehicleRoute.getCustomerList().get(vehicleRoute.getCustomerList().size()-1);
 			List<Employee> employees = lastAddress.getEmployees();
 			boolean isFemaleEmp = true;
 			for(Employee emp: employees) {
@@ -185,67 +316,67 @@ public class TripSheetServiceImpl implements TripSheetService {
 				employees.add(emp);
 			}				
 			
-			Address officeAddress = new Address();
-			officeAddress.setLatitude(new BigDecimal("12.92539"));
-			officeAddress.setLongitude(new BigDecimal("77.68664"));
-			
-			if(tripSheet.isDrop()) {
-				pickUpPoints.add(0,officeAddress);
-			} else {
-				pickUpPoints.add(1,officeAddress);
-			}
-			
-			GoogleMapsHelper helper = new GoogleMapsHelper();
-			
-			Address[] wayPoints = new Address[pickUpPoints.size()];
-			
-			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-			Date date = null;
-			try {
-				if(tripSheet.isDrop()) {
-					date = sdf.parse(tripSheet.getShift().getEndTime());
-				} else {
-					date = sdf.parse(tripSheet.getShift().getStartTime());
-				}
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
-			calendar.setTime(date);   // assigns calendar to given date 
-			int hour = calendar.get(Calendar.HOUR_OF_DAY);
-			int minute = calendar.get(Calendar.MINUTE);
-			
-			Calendar calendar1 = GregorianCalendar.getInstance();
-			calendar1.setTime(tripSheet.getDate());
-			
-			DateTime time = new DateTime(calendar1.get(Calendar.YEAR), calendar1.get(Calendar.MONTH)+1, 
-					calendar1.get(Calendar.DAY_OF_MONTH), hour, minute);
-			DirectionsRoute route = helper.findOptimizedRoute(pickUpPoints.toArray(wayPoints), time, !tripSheet.isDrop());
-			
-			DirectionsLeg[] legs = route.legs;
-			
-			if(!tripSheet.isDrop()) {
-				long totalTimeInSeconds = 0;
-				for (int i = 0; i < legs.length; i++) {
-					totalTimeInSeconds = totalTimeInSeconds + legs[i].duration.inSeconds;					
-				}
-				calendar.add(Calendar.SECOND, (int) -totalTimeInSeconds);
-				
-				int count = 0;
-				for (int i = 0; i < vehicleRoute.getCustomerList().size(); i++) {
-					JsonCustomer customer = vehicleRoute.getCustomerList().get(i);					
-					customer.setTime(sdf.format(calendar.getTime()));
-					long duration = legs[count++].duration.inSeconds;
-					calendar.add(Calendar.SECOND, (int) duration);
-				}
-			} else {			
-				for(int i = vehicleRoute.getCustomerList().size() -1; i>=0; i--) {
-					long duration = legs[i].duration.inSeconds;
-					JsonCustomer customer = vehicleRoute.getCustomerList().get(i);
-					calendar.add(Calendar.SECOND, (int) duration);
-					customer.setTime(sdf.format(calendar.getTime()));
-				}
-			}
+//			Address officeAddress = new Address();
+//			officeAddress.setLatitude(new BigDecimal(AppConstants.OFFICE_LATITUDE));
+//			officeAddress.setLongitude(new BigDecimal(AppConstants.OFFICE_LONGITUDE));
+//			
+//			if(tripSheet.isDrop()) {
+//				pickUpPoints.add(0,officeAddress);
+//			} else {
+//				pickUpPoints.add(1,officeAddress);
+//			}
+//			
+//			GoogleMapsHelper helper = new GoogleMapsHelper();
+//			
+//			Address[] wayPoints = new Address[pickUpPoints.size()];
+//			
+//			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+//			Date date = null;
+//			try {
+//				if(tripSheet.isDrop()) {
+//					date = sdf.parse(tripSheet.getShift().getEndTime());
+//				} else {
+//					date = sdf.parse(tripSheet.getShift().getStartTime());
+//				}
+//			} catch (ParseException e) {
+//				e.printStackTrace();
+//			}
+//			Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
+//			calendar.setTime(date);   // assigns calendar to given date 
+//			int hour = calendar.get(Calendar.HOUR_OF_DAY);
+//			int minute = calendar.get(Calendar.MINUTE);
+//			
+//			Calendar calendar1 = GregorianCalendar.getInstance();
+//			calendar1.setTime(tripSheet.getDate());
+//			
+//			DateTime time = new DateTime(calendar1.get(Calendar.YEAR), calendar1.get(Calendar.MONTH)+1, 
+//					calendar1.get(Calendar.DAY_OF_MONTH), hour, minute);
+//			DirectionsRoute route = helper.findOptimizedRoute(pickUpPoints.toArray(wayPoints), time, !tripSheet.isDrop());
+//			
+//			DirectionsLeg[] legs = route.legs;
+//			
+//			if(!tripSheet.isDrop()) {
+//				long totalTimeInSeconds = 0;
+//				for (int i = 0; i < legs.length; i++) {
+//					totalTimeInSeconds = totalTimeInSeconds + legs[i].duration.inSeconds;					
+//				}
+//				calendar.add(Calendar.SECOND, (int) -totalTimeInSeconds);
+//				
+//				int count = 0;
+//				for (int i = 0; i < vehicleRoute.getCustomerList().size(); i++) {
+//					JsonCustomer customer = vehicleRoute.getCustomerList().get(i);					
+//					customer.setTime(sdf.format(calendar.getTime()));
+//					long duration = legs[count++].duration.inSeconds;
+//					calendar.add(Calendar.SECOND, (int) duration);
+//				}
+//			} else {			
+//				for(int i = vehicleRoute.getCustomerList().size() -1; i>=0; i--) {
+//					long duration = legs[i].duration.inSeconds;
+//					JsonCustomer customer = vehicleRoute.getCustomerList().get(i);
+//					calendar.add(Calendar.SECOND, (int) duration);
+//					customer.setTime(sdf.format(calendar.getTime()));
+//				}
+//			}
 		}
 		
 		

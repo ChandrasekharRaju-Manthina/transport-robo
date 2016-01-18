@@ -17,7 +17,6 @@
 package com.allstate.trobo.vehiclerouting;
 
 import java.io.Serializable;
-import java.net.URL;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
@@ -33,10 +32,13 @@ import org.optaplanner.core.api.solver.event.SolverEventListener;
 import org.optaplanner.core.config.solver.termination.TerminationConfig;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 
+import com.allstate.trobo.domain.TripSheet;
+
 public class VehicleRoutingSolverManager implements Serializable {
 
-    private static final String SOLVER_CONFIG = "org/optaplanner/examples/vehiclerouting/solver/vehicleRoutingSolverConfig.xml";
-    private static final String IMPORT_DATASET = "/org/optaplanner/webexamples/vehiclerouting/belgium-road-time-n8-k6.vrp";
+	private static final long serialVersionUID = 1L;
+
+	private static final String SOLVER_CONFIG = "org/optaplanner/webexamples/vehiclerouting/vehicleRoutingSolverConfig.xml";
 
     private SolverFactory solverFactory;
     // TODO After upgrading to JEE 7, replace ExecutorService by ManagedExecutorService:
@@ -81,19 +83,26 @@ public class VehicleRoutingSolverManager implements Serializable {
         }
         executor.shutdown();
     }
+    
+	public synchronized VehicleRoutingSolution createSolution(String sessionId,
+			TripSheet tripSheet) {
+		VehicleRoutingSolution solution = (VehicleRoutingSolution) new VehicleRoutingImporter(true).readSolution(tripSheet);
+		sessionSolutionMap.put(sessionId, solution);
+		return solution;
+	}
 
-    public synchronized VehicleRoutingSolution retrieveOrCreateSolution(String sessionId) {
+    public synchronized VehicleRoutingSolution retrieveOrCreateSolution(String sessionId, TripSheet tripSheet) {
         VehicleRoutingSolution solution = sessionSolutionMap.get(sessionId);
         if (solution == null) {
-            URL unsolvedSolutionURL = getClass().getResource(IMPORT_DATASET);
             solution = (VehicleRoutingSolution) new VehicleRoutingImporter(true)
-                    .readSolution(unsolvedSolutionURL);
+                    .readSolution(tripSheet);
             sessionSolutionMap.put(sessionId, solution);
         }
         return solution;
     }
 
-    public synchronized boolean solve(final String sessionId) {
+    @SuppressWarnings("rawtypes")
+	public synchronized boolean solve(final String sessionId) {
         final Solver solver = solverFactory.buildSolver();
         solver.addEventListener(new SolverEventListener() {
             public void bestSolutionChanged(BestSolutionChangedEvent event) {
@@ -107,7 +116,7 @@ public class VehicleRoutingSolverManager implements Serializable {
             return false;
         }
         sessionSolverMap.put(sessionId, solver);
-        final VehicleRoutingSolution solution = retrieveOrCreateSolution(sessionId);
+        final VehicleRoutingSolution solution = retrieveOrCreateSolution(sessionId, null);
         executor.submit(new Runnable() {
             public void run() {
                 solver.solve(solution);

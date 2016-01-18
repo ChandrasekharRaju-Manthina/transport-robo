@@ -2,6 +2,7 @@ package com.allstate.trobo.domain;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class TripSheet {
 
@@ -20,6 +21,8 @@ public class TripSheet {
 	private Shift shift;
 	
 	private String dateString;
+	
+	private Map<Long, Address> distanceMatrix;
 
 	public Integer[] getVehicleCapcities() {
 		return vehicleCapcities;
@@ -83,6 +86,14 @@ public class TripSheet {
 
 	public void setDateString(String dateString) {
 		this.dateString = dateString;
+	}
+
+	public Map<Long, Address> getDistanceMatrix() {
+		return distanceMatrix;
+	}
+
+	public void setDistanceMatrix(Map<Long, Address> distanceMatrix) {
+		this.distanceMatrix = distanceMatrix;
 	}
 
 }

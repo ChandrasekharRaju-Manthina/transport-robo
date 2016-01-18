@@ -1,6 +1,7 @@
 package com.allstate.trobo.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.allstate.trobo.domain.Address;
 
@@ -19,5 +20,7 @@ public interface AddressRepository {
 	int updateStatus(Long addressId);
 
 	Address update(Long empId, Address address);
+
+	Map<Long, Address> getAddressDistanceMatrix();
 
 }

@@ -34,6 +34,8 @@ public class JsonVehicleRoutingSolution {
 
     protected Boolean feasible;
     protected String distance;
+    
+    protected Boolean isNotAccurate;
 
     public String getName() {
         return name;
@@ -99,4 +101,11 @@ public class JsonVehicleRoutingSolution {
 		this.shiftId = shiftId;
 	}
 
+	public Boolean getIsNotAccurate() {
+		return isNotAccurate;
+	}
+
+	public void setIsNotAccurate(Boolean isNotAccurate) {
+		this.isNotAccurate = isNotAccurate;
+	}
 }

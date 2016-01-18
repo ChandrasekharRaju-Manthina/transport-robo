@@ -2,7 +2,6 @@ package com.allstate.trobo.dao;
 
 import java.util.List;
 
-import com.allstate.trobo.domain.Address;
 import com.allstate.trobo.domain.Driver;
 
 public interface DriverRepository {

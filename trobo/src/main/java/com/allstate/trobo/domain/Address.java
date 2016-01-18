@@ -1,6 +1,7 @@
 package com.allstate.trobo.domain;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -28,12 +29,20 @@ public class Address {
 	@NotNull
 	@Size(min = 2, max = 30)
 	private String country;
-	
+
 	private BigDecimal longitude;
 
 	private BigDecimal latitude;
-	
+
 	private String status;
+
+	private String timeInSeconds;
+
+	private String distanceInKm;
+
+	private Map<Long, Long> timeToEachAddrMap;
+
+	private Map<Long, Double> distToEachAddrMap;
 
 	public Address() {
 
@@ -50,7 +59,9 @@ public class Address {
 	}
 
 	public Address(Long id, String addressLine1, String city, String state,
-			String zip, String country, BigDecimal latitude, BigDecimal longitude, String status) {
+			String zip, String country, BigDecimal latitude,
+			BigDecimal longitude, String status, String timeInSeconds,
+			String distanceInKm) {
 		this.id = id;
 		this.addressLine = addressLine1;
 		this.city = city;
@@ -60,8 +71,10 @@ public class Address {
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.status = status;
+		this.timeInSeconds = timeInSeconds;
+		this.distanceInKm = distanceInKm;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -132,6 +145,38 @@ public class Address {
 
 	public void setLatitude(BigDecimal latitude) {
 		this.latitude = latitude;
+	}
+
+	public String getTimeInSeconds() {
+		return timeInSeconds;
+	}
+
+	public void setTimeInSeconds(String timeInSeconds) {
+		this.timeInSeconds = timeInSeconds;
+	}
+
+	public String getDistanceInKm() {
+		return distanceInKm;
+	}
+
+	public void setDistanceInKm(String distanceInKm) {
+		this.distanceInKm = distanceInKm;
+	}
+
+	public Map<Long, Long> getTimeToEachAddrMap() {
+		return timeToEachAddrMap;
+	}
+
+	public void setTimeToEachAddrMap(Map<Long, Long> timeToEachAddrMap) {
+		this.timeToEachAddrMap = timeToEachAddrMap;
+	}
+
+	public Map<Long, Double> getDistToEachAddrMap() {
+		return distToEachAddrMap;
+	}
+
+	public void setDistToEachAddrMap(Map<Long, Double> distToEachAddrMap) {
+		this.distToEachAddrMap = distToEachAddrMap;
 	}
 
 }

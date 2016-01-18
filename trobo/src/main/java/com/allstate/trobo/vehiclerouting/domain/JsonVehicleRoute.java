@@ -17,6 +17,7 @@
 package com.allstate.trobo.vehiclerouting.domain;
 
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement

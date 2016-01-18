@@ -18,9 +18,10 @@ import org.springframework.web.servlet.view.document.AbstractExcelView;
 import com.allstate.trobo.domain.TripRoute;
 import com.allstate.trobo.domain.TripRouteEmployee;
 
+@SuppressWarnings("deprecation")
 public class ExcelTripSheetReportView extends AbstractExcelView {
 
-	@SuppressWarnings({ "deprecation", "unchecked", "rawtypes" })
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	protected void buildExcelDocument(Map model, HSSFWorkbook workbook,
 			HttpServletRequest request, HttpServletResponse response)

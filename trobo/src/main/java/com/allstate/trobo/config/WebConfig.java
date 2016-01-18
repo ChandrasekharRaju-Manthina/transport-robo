@@ -55,7 +55,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
 
 	    // http
-	    HttpMessageConverter converter = new StringHttpMessageConverter();
+	    @SuppressWarnings("rawtypes")
+		HttpMessageConverter converter = new StringHttpMessageConverter();
 	    converters.add(converter);
 
 	    // string
