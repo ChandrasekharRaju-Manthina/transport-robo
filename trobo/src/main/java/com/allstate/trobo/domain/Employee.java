@@ -8,6 +8,10 @@ public class Employee {
 
 	@NotNull
 	private String name;
+	
+	private String password;
+	
+	private String role;
 
 	@NotNull
 	private Long mangerId;
@@ -22,7 +26,7 @@ public class Employee {
 	private String location;
 	
 	private String time;
-
+	
 	public Employee() {
 
 	}
@@ -101,4 +105,19 @@ public class Employee {
 		this.time = time;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
 }

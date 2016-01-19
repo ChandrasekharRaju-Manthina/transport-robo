@@ -71,6 +71,11 @@ public class ViewController {
 	public String addressHome(Model model) {
 		return "addressHome";
 	}
+	
+	@RequestMapping("employeePage")
+	public String employeeHome(Model model) {
+		return "employeeHome";
+	}
 
 	@RequestMapping("driversPage")
 	public String driverHome(Model model) {

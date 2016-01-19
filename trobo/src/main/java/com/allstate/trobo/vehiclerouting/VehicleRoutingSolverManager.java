@@ -68,7 +68,7 @@ public class VehicleRoutingSolverManager implements Serializable {
         solverFactory = SolverFactory.createFromXmlResource(SOLVER_CONFIG);
         // Always terminate a solver after 2 minutes
         TerminationConfig terminationConfig = new TerminationConfig();
-        terminationConfig.setMinutesSpentLimit(2L);
+        terminationConfig.setMinutesSpentLimit(5L);
         solverFactory.getSolverConfig().setTerminationConfig(terminationConfig);
         executor = Executors.newFixedThreadPool(2); // Only 2 because the other examples have their own Executor
         // TODO these probably don't need to be thread-safe because all access is synchronized

@@ -141,7 +141,33 @@
 	</div>
 </div>
 
- <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"
+<div class="row">
+	<div class="col-lg-12">
+		<!-- Modal -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel">
+			<div class="modal-dialog-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title" id="myModalLabel">Vehicle route</h4>
+					</div>
+					<div class="modal-body">
+						<div id="vehicle-route-map-canvas" style="height: 600px; width: 100%; margin-top: 10px; margin-bottom: 10px;"></div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"
         async defer></script>
 <script>
 	$(function(){

@@ -251,7 +251,8 @@ updateSolution = function() {
     		  });
     		  
     		  var panelStart = '<div class="row"><div class="col-lg-12"><div class="panel panel-default"><div class="panel-heading">'+
-		              '<strong>Vehicle number: ' + vehicleRoute.vehicleNumber + ',&nbsp;&nbsp;Capacity:' + vehicleRoute.capacity +'</strong></div><div class="panel-body"><div class="table-responsive">'; 
+		              '<strong>Vehicle number: ' + vehicleRoute.vehicleNumber + ',&nbsp;&nbsp;Capacity:' + vehicleRoute.capacity +'</strong>&nbsp;&nbsp;&nbsp;<button data-id="' + 
+		              vehicleRoute.id + '" type="button" class="btn btn-primary btn-sm vehicleRouteMap" data-toggle="modal" data-target="#myModal">Route</button></div><div class="panel-body"><div class="table-responsive">'; 
 			  var panelEnd = '</div></div></div>';
 			  $("#tablesDiv").append(panelStart + '<table id="data-table' + index + '" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%"></table>' + panelEnd);
 			  $("#data-table" + index).DataTable({
@@ -277,6 +278,40 @@ updateSolution = function() {
 $(function() {
 
     $('#side-menu').metisMenu();
+    
+  //triggered when modal is about to be shown
+    $('#myModal').on('show.bs.modal', function(e) {
+
+        //get data-id attribute of the clicked element
+        var vehicleId = $(e.relatedTarget).data('id');
+        console.log(vehicleId);
+        
+        var latLng = new google.maps.LatLng(tripSheetData.vehicleRouteList[0].depotLatitude, 
+        		tripSheetData.vehicleRouteList[0].depotLongitude);
+        var vehicleRouteMapCanvas = document.getElementById('vehicle-route-map-canvas');
+        var mapOptions = {
+          center:latLng,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        
+//        var zoomBounds = new google.maps.LatLngBounds ();
+        
+        
+        var vehilceRoutemap = new google.maps.Map(vehicleRouteMapCanvas, mapOptions);
+//          zoomBounds.extend(latLng);
+          var marker = new google.maps.Marker({
+            position: latLng,
+            title: tripSheetData.vehicleRouteList[0].depotLocationName,
+            map: vehilceRoutemap
+          });
+          google.maps.event.addListener(marker, 'click', function() {
+            new google.maps.InfoWindow({
+              content: tripSheetData.vehicleRouteList[0].depotLocationName
+            }).open(vehilceRoutemap,marker);
+          })
+        //populate the textbox
+        //$(e.currentTarget).find('input[name="bookId"]').val(bookId);
+    });
     
     $(document).on("click", "a.delete", function(e){
     	var $this = $(this);
@@ -412,7 +447,7 @@ $(function() {
             		
 	            	intervalTimer = setInterval(function () {
 	                    updateSolution()
-	                }, 120000);
+	                }, 20000);
 	            }
 //            	clearIntervalTimer = setInterval(function () {
 //                    terminateSolution()
@@ -662,6 +697,25 @@ $(function() {
 //    	var date = new Date($("#tripSheetDate").val());
 //    	$("#tripSheetDate").val(date.getDate() + '-' + (date.getMonth() + 1) + '-' +  date.getFullYear());
 //    	$("#tripSheetDate").val("");
+    });
+    
+    $("#employeeForm").submit(function (e) {
+    	e.preventDefault();
+    	 $.ajax({
+             type: $("#employeeForm").attr("method"),
+             url: $("#employeeForm").attr("action"),
+             dataType: "json",
+             contentType: "application/json;charset=utf-8",
+             data: JSON.stringify($("#employeeForm").serializeObject()), // serializes the form's elements.
+             success: function(data)
+             {
+            	// similar behavior as clicking on a link
+            	 window.location.href = "home";
+             },
+             error: function(request,status,errorThrown) {
+                alert("server error");
+             }
+         });
     });
     
     $("#form").submit(function (e) {

@@ -16,6 +16,15 @@
 		</auth-constraint>
 	</security-constraint>
 	<security-constraint>
+	    <web-resource-collection>
+	        <web-resource-name>trobo</web-resource-name>
+	        <url-pattern>/resources/*</url-pattern>
+	        <url-pattern>/employeePage</url-pattern>
+	        <url-pattern>/employees</url-pattern>
+	    </web-resource-collection>
+	    <!-- OMIT auth-constraint -->
+	</security-constraint>
+	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Admin pages</web-resource-name>
 			<url-pattern>/driversPage</url-pattern>

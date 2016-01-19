@@ -6,4 +6,6 @@ public interface EmployeeService {
 	public Employee findEmpByName(String empName);
 
 	Employee updateAddress(Employee employee);
+	
+	public void addEmployee(Employee employee);
 }

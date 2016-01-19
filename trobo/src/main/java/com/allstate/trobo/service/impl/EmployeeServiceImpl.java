@@ -27,4 +27,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeRepository.updateAddress(employee);
 	}
 
+	@Override
+	public void addEmployee(Employee employee) {
+		//TODO: change it
+		employee.setMangerId(1L);
+		employee.setStatus("A");
+		employeeRepository.addEmployee(employee);		
+	}
+
 }

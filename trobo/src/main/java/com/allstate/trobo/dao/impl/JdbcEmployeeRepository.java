@@ -42,7 +42,15 @@ public class JdbcEmployeeRepository implements EmployeeRepository {
 				employee.getAddressId(), employee.getId());
 		return employee;
 	}
-
+	
+	@Override
+	public void addEmployee(Employee employee) {
+		jdbc.update(
+				"insert into Employee (name, password, role, mangerId, status, sex)"
+						+ " values (?, ?, ?, ?, ?, ?)", employee.getName(),
+						employee.getPassword(), employee.getRole(), employee.getMangerId(), employee.getStatus(), employee.getSex());
+	}
+	
 	private static class EmployeeRowMapper implements RowMapper<Employee> {
 		public Employee mapRow(ResultSet rs, int rowNum) throws SQLException {
 			Employee emp = new Employee();
@@ -54,6 +62,6 @@ public class JdbcEmployeeRepository implements EmployeeRepository {
 			emp.setSex(rs.getString("sex"));
 			return emp;
 		}
-	}
+	}	
 
 }

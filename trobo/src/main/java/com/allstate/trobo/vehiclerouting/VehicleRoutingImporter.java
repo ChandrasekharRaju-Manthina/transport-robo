@@ -145,13 +145,13 @@ public class VehicleRoutingImporter extends AbstractTxtSolutionImporter {
         
         @SuppressWarnings("rawtypes")
 		public Solution readSolution() {
-        	 solution = new VehicleRoutingSolution();
+        	 solution = new TimeWindowedVehicleRoutingSolution();
         	 solution.setId(0L);
         	 solution.setName("Trip sheet");
         	 
         	 customerListSize = tripSheet.getPickUpPoints().size();
         	 solution.setDistanceType(DistanceType.ROAD_DISTANCE);
-        	 solution.setDistanceUnitOfMeasurement("km");
+        	 solution.setDistanceUnitOfMeasurement("sec");
         	 
         	 locationMap = new LinkedHashMap<Long, Location>(customerListSize);
         	 List<Location> customerLocationList = new ArrayList<Location>(customerListSize);
@@ -199,10 +199,10 @@ public class VehicleRoutingImporter extends AbstractTxtSolutionImporter {
 //                    	 double travelDistance = (double) matrix.rows[i].elements[j].distance.inMeters  / 1000;
                     	 double travelDistance;
                     	 if(distanceMatrix.get(customerLocationList.get(i).getId()) == null || 
-                    			 distanceMatrix.get(customerLocationList.get(i).getId()).getDistToEachAddrMap().get(customerLocationList.get(j).getId()) == null) {
-                    		travelDistance =  distanceMatrix.get(customerLocationList.get(j).getId()).getDistToEachAddrMap().get(customerLocationList.get(i).getId());
+                    			 distanceMatrix.get(customerLocationList.get(i).getId()).getTimeToEachAddrMap().get(customerLocationList.get(j).getId()) == null) {
+                    		travelDistance =  distanceMatrix.get(customerLocationList.get(j).getId()).getTimeToEachAddrMap().get(customerLocationList.get(i).getId());
          				} else {
-         					travelDistance = distanceMatrix.get(customerLocationList.get(i).getId()).getDistToEachAddrMap().get(customerLocationList.get(j).getId());
+         					travelDistance = distanceMatrix.get(customerLocationList.get(i).getId()).getTimeToEachAddrMap().get(customerLocationList.get(j).getId());
          				}
                     	 
                     	 System.out.print(travelDistance + "-");
@@ -218,7 +218,7 @@ public class VehicleRoutingImporter extends AbstractTxtSolutionImporter {
         	 List<Customer> customerList = new ArrayList<Customer>();
         	 for (int i = 0; i < customerListSize; i++) {
         		 for(int j=0;j < tripSheet.getPickUpPoints().get(i).getNumberOfEmployees();j++) {
-        			 Customer customer = new Customer();
+        			 TimeWindowedCustomer customer = new TimeWindowedCustomer();
                      customer.setId(Long.parseLong(tripSheet.getPickUpPoints().get(i).getAddress().getId() + "" + j));
                      Location location = locationMap.get(tripSheet.getPickUpPoints().get(i).getAddress().getId());
                      if (location == null) {
@@ -227,16 +227,24 @@ public class VehicleRoutingImporter extends AbstractTxtSolutionImporter {
                      }
                      customer.setLocation(location);
                      customer.setDemand(1);
+                     customer.setReadyTime(distanceMatrix.get(customerLocationList.get(i).getId()).getTimeToEachAddrMap().get(0L) * 1000L) ;
+                     customer.setDueTime((distanceMatrix.get(customerLocationList.get(i).getId()).getTimeToEachAddrMap().get(0L) * 1000L)  + (600 * 1000L));
+                     customer.setServiceDuration(60 * 1000L);
+                     
                      customerList.add(customer);
+                     
         		 }
              }
              solution.setCustomerList(customerList);
              
              depotList = new ArrayList<Depot>(customerListSize);
-             Depot depot = new Depot();
+             TimeWindowedDepot depot = new TimeWindowedDepot();
              depot.setId(tripSheet.getPickUpPoints().get(0).getAddress().getId());
              Location location = locationMap.get(tripSheet.getPickUpPoints().get(0).getAddress().getId());
              depot.setLocation(location);
+             depot.setReadyTime(0);
+             depot.setDueTime(14400 * 1000L);
+             
              depotList.add(depot);
              solution.setDepotList(depotList);
              

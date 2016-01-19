@@ -203,7 +203,7 @@ public class TripSheetServiceImpl implements TripSheetService {
 				
 				//if time is more than 5 minutes then provide seperate cab and use next avilable cab
 				long timeInSecond = distanceMatrix.get(vehicleRoute.getCustomerList().get(i).getId()).getTimeToEachAddrMap().get(0L);
-				if(totalTime - timeInSecond > 300) {
+				if(totalTime - timeInSecond > 660) {
 					List<JsonCustomer> sub = new ArrayList<JsonCustomer>(vehicleRoute.getCustomerList().subList(i, vehicleRoute.getCustomerList().size()));
 					boolean isReRouteSuccess = false;
 					for(JsonVehicleRoute route: jsonSol.getVehicleRouteList()) {
@@ -220,6 +220,9 @@ public class TripSheetServiceImpl implements TripSheetService {
 					}
 					if(!isReRouteSuccess) {
 						jsonSol.setIsNotAccurate(true);
+						System.out.println("reroute is not success.");
+					} else {
+						System.out.println("reroute is success.");
 					}
 					System.out.println(timeInSecond + "-->" + totalTime);
 					break;

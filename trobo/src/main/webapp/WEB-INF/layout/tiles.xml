@@ -7,6 +7,13 @@
 		<put-attribute name="header" value="/WEB-INF/layout/header.jsp" />
 		<put-attribute name="menu" value="/WEB-INF/layout/menu.jsp" />
 	</definition>
+	<definition name="common" template="/WEB-INF/layout/common.jsp">
+		<put-attribute name="header" value="/WEB-INF/layout/header.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/layout/commonmenu.jsp" />
+	</definition>
+	<definition name="employeeHome" extends="common">
+		<put-attribute name="body" value="/WEB-INF/views/employeeHome.jsp" />
+	</definition>
 	<definition name="home" extends="base">
 		<put-attribute name="body" value="/WEB-INF/views/home.jsp" />
 	</definition>
