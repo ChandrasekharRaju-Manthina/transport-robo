@@ -1,4 +1,4 @@
-I developed this application as part of my current  company's internal coding competition. We got second prize :)
+We developed this application as part of my current  company's internal coding competition. We got second prize :)
 
 We named it as <b>transport robo</b> as we use it for transport management. Some of the options includes generating trip sheet, 
 submitting pick up and drop requests, shuttle maangement, drivers details etc. And we used <b>Google Maps API</b> for calculating the 
