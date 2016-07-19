@@ -9,7 +9,7 @@ Technologies and tools:
 <li><b><a href="http://www.optaplanner.org/">OptaPlanner</a>:</b>&nbsp;&nbsp;We used it for solving Vehicle Routing Problem (for generating trip sheet)</li>
 <li>Google Maps API</li>
 <li>Spring MVC</li>
-<li>JPA (Hibernate implementations)</li>
+<li>Spring JDBC</li>
 <li>JSP</li>
 <li>MySQL</li>
 <li>BootStrap</li>
