@@ -1,4 +1,4 @@
-package com.allstate.trobo.domain;
+package com.abcc.trobo.domain;
 
 import javax.validation.constraints.NotNull;
 

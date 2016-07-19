@@ -1,4 +1,4 @@
-package com.allstate.trobo.domain;
+package com.abcc.trobo.domain;
 
 public class FieldErrorDTO {
 

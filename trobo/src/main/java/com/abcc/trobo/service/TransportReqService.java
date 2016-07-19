@@ -1,8 +1,8 @@
-package com.allstate.trobo.service;
+package com.abcc.trobo.service;
 
 import java.util.List;
 
-import com.allstate.trobo.domain.TransportReq;
+import com.abcc.trobo.domain.TransportReq;
 
 public interface TransportReqService {
 	public TransportReq addTransportReq(TransportReq transportReq);

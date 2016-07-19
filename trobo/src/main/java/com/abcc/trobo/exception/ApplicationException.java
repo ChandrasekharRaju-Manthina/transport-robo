@@ -1,4 +1,4 @@
-package com.allstate.trobo.exception;
+package com.abcc.trobo.exception;
 
 public class ApplicationException extends RuntimeException {
 

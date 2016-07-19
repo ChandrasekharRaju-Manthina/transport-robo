@@ -1,4 +1,4 @@
-package com.allstate.trobo.controller;
+package com.abcc.trobo.controller;
 
 import java.util.List;
 
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.allstate.trobo.domain.Shift;
-import com.allstate.trobo.service.ShiftService;
+import com.abcc.trobo.domain.Shift;
+import com.abcc.trobo.service.ShiftService;
 
 @RestController
 @RequestMapping("/shifts")

@@ -1,4 +1,4 @@
-package com.allstate.trobo.dao.impl;
+package com.abcc.trobo.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,8 +10,8 @@ import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.allstate.trobo.dao.TransportReqRepository;
-import com.allstate.trobo.domain.TransportReq;
+import com.abcc.trobo.dao.TransportReqRepository;
+import com.abcc.trobo.domain.TransportReq;
 
 @Repository
 public class JdbcTransportReqRepository implements TransportReqRepository {

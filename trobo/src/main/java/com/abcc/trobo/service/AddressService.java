@@ -1,8 +1,8 @@
-package com.allstate.trobo.service;
+package com.abcc.trobo.service;
 
 import java.util.List;
 
-import com.allstate.trobo.domain.Address;
+import com.abcc.trobo.domain.Address;
 
 public interface AddressService {
 	public Address addAddress(Address address);

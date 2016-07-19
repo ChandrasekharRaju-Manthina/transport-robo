@@ -1,4 +1,4 @@
-package com.allstate.trobo.config;
+package com.abcc.trobo.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
 @Import(DataConfig.class)
-@ComponentScan(basePackages = { "com.allstate.trobo" }, excludeFilters = {
+@ComponentScan(basePackages = { "com.abcc.trobo" }, excludeFilters = {
 		@Filter(type = FilterType.ANNOTATION, value = EnableWebMvc.class) })
 public class RootConfig {
 }

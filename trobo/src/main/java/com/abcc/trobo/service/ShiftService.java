@@ -1,8 +1,8 @@
-package com.allstate.trobo.service;
+package com.abcc.trobo.service;
 
 import java.util.List;
 
-import com.allstate.trobo.domain.Shift;
+import com.abcc.trobo.domain.Shift;
 
 public interface ShiftService {
 	public Shift addShift(Shift shift);

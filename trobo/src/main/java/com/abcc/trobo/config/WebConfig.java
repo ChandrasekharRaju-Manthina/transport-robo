@@ -1,4 +1,4 @@
-package com.allstate.trobo.config;
+package com.abcc.trobo.config;
 
 import java.util.List;
 
@@ -20,8 +20,8 @@ import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan({ "com.allstate.trobo.controller",
-		"com.allstate.trobo.exception" })
+@ComponentScan({ "com.abcc.trobo.controller",
+		"com.abcc.trobo.exception" })
 public class WebConfig extends WebMvcConfigurerAdapter {
 
 	@Bean

@@ -1,6 +1,7 @@
-package com.allstate.trobo.service;
+package com.abcc.trobo.service;
 
-import com.allstate.trobo.domain.Employee;
+import com.abcc.trobo.domain.Employee;
+
 
 public interface EmployeeService {
 	public Employee findEmpByName(String empName);

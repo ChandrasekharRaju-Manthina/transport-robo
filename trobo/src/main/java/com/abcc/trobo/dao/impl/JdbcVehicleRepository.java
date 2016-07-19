@@ -1,4 +1,4 @@
-package com.allstate.trobo.dao.impl;
+package com.abcc.trobo.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,8 +9,8 @@ import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.allstate.trobo.dao.VehicleRepository;
-import com.allstate.trobo.domain.Vehicle;
+import com.abcc.trobo.dao.VehicleRepository;
+import com.abcc.trobo.domain.Vehicle;
 
 @Repository
 public class JdbcVehicleRepository implements VehicleRepository {

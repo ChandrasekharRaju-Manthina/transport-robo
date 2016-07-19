@@ -1,8 +1,8 @@
-package com.allstate.trobo.dao;
+package com.abcc.trobo.dao;
 
 import java.util.List;
 
-import com.allstate.trobo.domain.Driver;
+import com.abcc.trobo.domain.Driver;
 
 public interface DriverRepository {
 

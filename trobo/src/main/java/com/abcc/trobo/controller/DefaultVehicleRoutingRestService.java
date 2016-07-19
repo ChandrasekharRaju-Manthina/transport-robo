@@ -14,7 +14,7 @@
 // * limitations under the License.
 // */
 //
-//package com.allstate.trobo.controller;
+//package com.abb.trobo.controller;
 //
 //import java.awt.Color;
 //import java.text.DecimalFormat;
@@ -33,11 +33,11 @@
 //import org.springframework.web.bind.annotation.RequestMapping;
 //import org.springframework.web.bind.annotation.RestController;
 //
-//import com.allstate.trobo.vehiclerouting.VehicleRoutingSolverManager;
-//import com.allstate.trobo.vehiclerouting.domain.JsonCustomer;
-//import com.allstate.trobo.vehiclerouting.domain.JsonMessage;
-//import com.allstate.trobo.vehiclerouting.domain.JsonVehicleRoute;
-//import com.allstate.trobo.vehiclerouting.domain.JsonVehicleRoutingSolution;
+//import com.abb.trobo.vehiclerouting.VehicleRoutingSolverManager;
+//import com.abb.trobo.vehiclerouting.domain.JsonCustomer;
+//import com.abb.trobo.vehiclerouting.domain.JsonMessage;
+//import com.abb.trobo.vehiclerouting.domain.JsonVehicleRoute;
+//import com.abb.trobo.vehiclerouting.domain.JsonVehicleRoutingSolution;
 //
 //@RestController
 //public class DefaultVehicleRoutingRestService  {

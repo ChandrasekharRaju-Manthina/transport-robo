@@ -1,13 +1,13 @@
-package com.allstate.trobo.service.impl;
+package com.abcc.trobo.service.impl;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.allstate.trobo.dao.ShiftRepository;
-import com.allstate.trobo.domain.Shift;
-import com.allstate.trobo.service.ShiftService;
+import com.abcc.trobo.dao.ShiftRepository;
+import com.abcc.trobo.domain.Shift;
+import com.abcc.trobo.service.ShiftService;
 
 @Service
 public class ShiftServiceImpl implements ShiftService {

@@ -1,8 +1,8 @@
-package com.allstate.trobo.util;
+package com.abcc.trobo.util;
 
 import java.math.BigDecimal;
 
-import com.allstate.trobo.domain.Address;
+import com.abcc.trobo.domain.Address;
 
 public class AppConstants {
 

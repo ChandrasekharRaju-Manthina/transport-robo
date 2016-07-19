@@ -1,4 +1,4 @@
-package com.allstate.trobo.controller;
+package com.abcc.trobo.controller;
 
 import java.util.List;
 
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.allstate.trobo.domain.Vehicle;
-import com.allstate.trobo.service.VehicleService;
+import com.abcc.trobo.domain.Vehicle;
+import com.abcc.trobo.service.VehicleService;
 
 @RestController
 @RequestMapping("/vehicles")

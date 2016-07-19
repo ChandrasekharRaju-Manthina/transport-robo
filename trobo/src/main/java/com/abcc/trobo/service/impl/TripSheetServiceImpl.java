@@ -1,4 +1,4 @@
-package com.allstate.trobo.service.impl;
+package com.abcc.trobo.service.impl;
 
 import java.awt.Color;
 import java.math.BigDecimal;
@@ -27,23 +27,23 @@ import org.optaplanner.examples.vehiclerouting.domain.location.Location;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.allstate.trobo.dao.AddressRepository;
-import com.allstate.trobo.dao.ShiftRepository;
-import com.allstate.trobo.dao.TripRouteRepository;
-import com.allstate.trobo.dao.TripSheetRepository;
-import com.allstate.trobo.domain.Address;
-import com.allstate.trobo.domain.Employee;
-import com.allstate.trobo.domain.PickupPoint;
-import com.allstate.trobo.domain.Shift;
-import com.allstate.trobo.domain.TripRoute;
-import com.allstate.trobo.domain.TripSheet;
-import com.allstate.trobo.helper.TripSheetDataMapper;
-import com.allstate.trobo.service.TripSheetService;
-import com.allstate.trobo.util.AppConstants;
-import com.allstate.trobo.vehiclerouting.VehicleRoutingSolverManager;
-import com.allstate.trobo.vehiclerouting.domain.JsonCustomer;
-import com.allstate.trobo.vehiclerouting.domain.JsonVehicleRoute;
-import com.allstate.trobo.vehiclerouting.domain.JsonVehicleRoutingSolution;
+import com.abcc.trobo.dao.AddressRepository;
+import com.abcc.trobo.dao.ShiftRepository;
+import com.abcc.trobo.dao.TripRouteRepository;
+import com.abcc.trobo.dao.TripSheetRepository;
+import com.abcc.trobo.domain.Address;
+import com.abcc.trobo.domain.Employee;
+import com.abcc.trobo.domain.PickupPoint;
+import com.abcc.trobo.domain.Shift;
+import com.abcc.trobo.domain.TripRoute;
+import com.abcc.trobo.domain.TripSheet;
+import com.abcc.trobo.helper.TripSheetDataMapper;
+import com.abcc.trobo.service.TripSheetService;
+import com.abcc.trobo.util.AppConstants;
+import com.abcc.trobo.vehiclerouting.VehicleRoutingSolverManager;
+import com.abcc.trobo.vehiclerouting.domain.JsonCustomer;
+import com.abcc.trobo.vehiclerouting.domain.JsonVehicleRoute;
+import com.abcc.trobo.vehiclerouting.domain.JsonVehicleRoutingSolution;
 
 @Service
 public class TripSheetServiceImpl implements TripSheetService {
@@ -86,7 +86,7 @@ public class TripSheetServiceImpl implements TripSheetService {
         return success;
     }
 	
-	public com.allstate.trobo.domain.Vehicle findCab(TripSheet tripSheet, Long empId) {
+	public com.abcc.trobo.domain.Vehicle findCab(TripSheet tripSheet, Long empId) {
 		String tripSheetId = tripSheet.getDate().toString()
 				+ tripSheet.getShiftId() + (tripSheet.isDrop() ? "D" : "P");
 		return tripRouteRepository.findCab(tripSheetId, empId);
@@ -100,7 +100,7 @@ public class TripSheetServiceImpl implements TripSheetService {
 		
 		Address address = new Address();
 		address.setId(0L);
-		address.setAddressLine("Allstate");
+		address.setAddressLine("Office");
 		address.setLatitude(new BigDecimal(AppConstants.OFFICE_LATITUDE));
 		address.setLongitude(new BigDecimal(AppConstants.OFFICE_LONGITUDE));
 
@@ -170,8 +170,8 @@ public class TripSheetServiceImpl implements TripSheetService {
 //	   	 }
 	   	 
 		
-		Map<Long, com.allstate.trobo.domain.Vehicle> vehicles = new HashMap<Long, com.allstate.trobo.domain.Vehicle>();
-		for(com.allstate.trobo.domain.Vehicle vehicle: tripSheet.getVehicles()) {
+		Map<Long, com.abcc.trobo.domain.Vehicle> vehicles = new HashMap<Long, com.abcc.trobo.domain.Vehicle>();
+		for(com.abcc.trobo.domain.Vehicle vehicle: tripSheet.getVehicles()) {
 			vehicles.put(vehicle.getId(), vehicle);
 		}
 		

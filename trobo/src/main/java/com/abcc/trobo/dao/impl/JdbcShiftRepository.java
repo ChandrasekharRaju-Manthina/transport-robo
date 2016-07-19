@@ -1,4 +1,4 @@
-package com.allstate.trobo.dao.impl;
+package com.abcc.trobo.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,8 +9,8 @@ import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.allstate.trobo.dao.ShiftRepository;
-import com.allstate.trobo.domain.Shift;
+import com.abcc.trobo.dao.ShiftRepository;
+import com.abcc.trobo.domain.Shift;
 
 @Repository
 public class JdbcShiftRepository implements ShiftRepository {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.allstate.trobo.vehiclerouting.domain;
+package com.abcc.trobo.vehiclerouting.domain;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.allstate.trobo.config;
+package com.abcc.trobo.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 

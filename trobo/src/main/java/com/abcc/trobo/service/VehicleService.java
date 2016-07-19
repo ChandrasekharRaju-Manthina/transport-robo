@@ -1,8 +1,8 @@
-package com.allstate.trobo.service;
+package com.abcc.trobo.service;
 
 import java.util.List;
 
-import com.allstate.trobo.domain.Vehicle;
+import com.abcc.trobo.domain.Vehicle;
 
 public interface VehicleService {
 	public Vehicle addVehicle(Vehicle vehicle);

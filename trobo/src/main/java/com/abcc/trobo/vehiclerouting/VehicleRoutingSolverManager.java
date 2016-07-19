@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.allstate.trobo.vehiclerouting;
+package com.abcc.trobo.vehiclerouting;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -32,7 +32,7 @@ import org.optaplanner.core.api.solver.event.SolverEventListener;
 import org.optaplanner.core.config.solver.termination.TerminationConfig;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 
-import com.allstate.trobo.domain.TripSheet;
+import com.abcc.trobo.domain.TripSheet;
 
 public class VehicleRoutingSolverManager implements Serializable {
 

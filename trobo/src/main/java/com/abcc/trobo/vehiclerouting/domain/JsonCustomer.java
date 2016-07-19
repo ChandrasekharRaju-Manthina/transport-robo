@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.allstate.trobo.vehiclerouting.domain;
+package com.abcc.trobo.vehiclerouting.domain;
 
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.allstate.trobo.domain.Employee;
+import com.abcc.trobo.domain.Employee;
 
 @XmlRootElement
 public class JsonCustomer {

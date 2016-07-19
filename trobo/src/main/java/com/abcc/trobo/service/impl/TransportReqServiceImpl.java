@@ -1,13 +1,13 @@
-package com.allstate.trobo.service.impl;
+package com.abcc.trobo.service.impl;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.allstate.trobo.dao.TransportReqRepository;
-import com.allstate.trobo.domain.TransportReq;
-import com.allstate.trobo.service.TransportReqService;
+import com.abcc.trobo.dao.TransportReqRepository;
+import com.abcc.trobo.domain.TransportReq;
+import com.abcc.trobo.service.TransportReqService;
 
 @Service
 public class TransportReqServiceImpl implements TransportReqService {

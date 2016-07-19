@@ -1,9 +1,9 @@
-package com.allstate.trobo.dao;
+package com.abcc.trobo.dao;
 
 import java.util.List;
 import java.util.Map;
 
-import com.allstate.trobo.domain.Address;
+import com.abcc.trobo.domain.Address;
 
 public interface AddressRepository {
 

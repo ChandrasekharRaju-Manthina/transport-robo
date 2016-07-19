@@ -1,4 +1,4 @@
-package com.allstate.trobo.dao.impl;
+package com.abcc.trobo.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,8 +11,8 @@ import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.allstate.trobo.dao.AddressRepository;
-import com.allstate.trobo.domain.Address;
+import com.abcc.trobo.dao.AddressRepository;
+import com.abcc.trobo.domain.Address;
 
 @Repository
 public class JdbcAddressRepository implements AddressRepository {

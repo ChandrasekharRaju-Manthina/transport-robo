@@ -1,6 +1,7 @@
-package com.allstate.trobo.dao;
+package com.abcc.trobo.dao;
 
-import com.allstate.trobo.domain.Employee;
+import com.abcc.trobo.domain.Employee;
+
 
 public interface EmployeeRepository {
 

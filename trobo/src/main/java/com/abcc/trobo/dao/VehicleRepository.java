@@ -1,8 +1,8 @@
-package com.allstate.trobo.dao;
+package com.abcc.trobo.dao;
 
 import java.util.List;
 
-import com.allstate.trobo.domain.Vehicle;
+import com.abcc.trobo.domain.Vehicle;
 
 public interface VehicleRepository {
 

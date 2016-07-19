@@ -1,11 +1,11 @@
-package com.allstate.trobo.dao;
+package com.abcc.trobo.dao;
 
 import java.util.List;
 
-import com.allstate.trobo.domain.Address;
-import com.allstate.trobo.domain.Employee;
-import com.allstate.trobo.domain.PickupPoint;
-import com.allstate.trobo.domain.TripSheet;
+import com.abcc.trobo.domain.Address;
+import com.abcc.trobo.domain.Employee;
+import com.abcc.trobo.domain.PickupPoint;
+import com.abcc.trobo.domain.TripSheet;
 
 
 public interface TripSheetRepository {
